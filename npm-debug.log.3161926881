@@ -1,0 +1,39 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'G:\\Laravel\\laragon\\bin\\nodejs\\node-v6.11.3-x64\\node.exe',
+1 verbose cli   'G:\\Laravel\\laragon\\bin\\nodejs\\node-v6.11.3-x64\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'run',
+1 verbose cli   'development',
+1 verbose cli   '--',
+1 verbose cli   '--watch' ]
+2 info using npm@3.10.10
+3 info using node@v6.11.3
+4 verbose run-script [ 'predevelopment', 'development', 'postdevelopment' ]
+5 info lifecycle @~predevelopment: @
+6 silly lifecycle @~predevelopment: no script for predevelopment, continuing
+7 info lifecycle @~development: @
+8 verbose lifecycle @~development: unsafe-perm in lifecycle true
+9 verbose lifecycle @~development: PATH: G:\Laravel\laragon\bin\nodejs\node-v6.11.3-x64\node_modules\npm\bin\node-gyp-bin;C:\xampp\htdocs\timesheet_attendance_management\node_modules\.bin;G:\Laravel\laragon\bin\nodejs\node-v6.11.3-x64\node_modules\npm\bin\node-gyp-bin;C:\xampp\htdocs\timesheet_attendance_management\node_modules\.bin;C:\Users\Mahbubul Alam\AppData\Local\Yarn\config\global\node_modules\.bin;C:\Users\Mahbubul Alam\AppData\Roaming\npm;C:\Users\Mahbubul Alam\AppData\Roaming\Composer\vendor\bin;;G:\Laravel\laragon\bin\laragon\utils;G:\Laravel\laragon\bin\mysql\mysql-5.7.19-winx64\bin;G:\Laravel\laragon\bin\php\php-7.1.7-Win32-VC14-x64;G:\Laravel\laragon\bin\composer;G:\Laravel\laragon\bin\apache\httpd-2.4.27-win64-VC14\bin;G:\Laravel\laragon\bin\redis\redis-x64-3.2.100;G:\Laravel\laragon\bin\nodejs\node-v6.11.3-x64;G:\Laravel\laragon\bin\yarn\bin;G:\Laravel\laragon\bin\nginx\nginx-1.12.0;G:\Laravel\laragon\bin\notepad++;G:\Laravel\laragon\bin\telnet;G:\Laravel\laragon\bin\ngrok;G:\Laravel\laragon\bin\git\bin;G:\Laravel\laragon\bin\git\cmd;G:\Laravel\laragon\bin\git\usr\bin;G:\Laravel\laragon\bin\git\mingw64\bin;G:\Laravel\laragon\bin;G:\Laravel\laragon\usr\bin;G:\Laravel\laragon\bin\putty;G:\Laravel\laragon\bin\cmder\bin;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\xampp\php;C:\Program Files\nodejs\;C:\WINDOWS\System32\OpenSSH\;C:\ProgramData\ComposerSetup\bin;C:\Users\Mahbubul Alam\AppData\Local\Microsoft\WindowsApps;C:\Users\Mahbubul Alam\AppData\Roaming\npm;C:\Users\Mahbubul Alam\AppData\Roaming\Composer\vendor\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\share\vim\vim74;G:\Laravel\laragon\bin\cmder\;
+10 verbose lifecycle @~development: CWD: C:\xampp\htdocs\timesheet_attendance_management
+11 silly lifecycle @~development: Args: [ '/d /s /c',
+11 silly lifecycle   'cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js "--watch"' ]
+12 verbose stack Error: kill ENOSYS
+12 verbose stack     at exports._errnoException (util.js:1020:11)
+12 verbose stack     at process.kill (internal/process.js:190:13)
+12 verbose stack     at process.listener (G:\Laravel\laragon\bin\nodejs\node-v6.11.3-x64\node_modules\npm\node_modules\npmlog\node_modules\gauge\node_modules\signal-exit\index.js:86:15)
+12 verbose stack     at emitNone (events.js:91:20)
+12 verbose stack     at process.emit (events.js:185:7)
+12 verbose stack     at processEmit (G:\Laravel\laragon\bin\nodejs\node-v6.11.3-x64\node_modules\npm\node_modules\npmlog\node_modules\gauge\node_modules\signal-exit\index.js:146:32)
+12 verbose stack     at processEmit (G:\Laravel\laragon\bin\nodejs\node-v6.11.3-x64\node_modules\npm\node_modules\npm-registry-client\node_modules\npmlog\node_modules\gauge\node_modules\signal-exit\index.js:146:32)
+12 verbose stack     at Signal.wrap.onsignal (internal/process.js:217:44)
+13 verbose cwd C:\xampp\htdocs\timesheet_attendance_management
+14 error Windows_NT 10.0.17134
+15 error argv "G:\\Laravel\\laragon\\bin\\nodejs\\node-v6.11.3-x64\\node.exe" "G:\\Laravel\\laragon\\bin\\nodejs\\node-v6.11.3-x64\\node_modules\\npm\\bin\\npm-cli.js" "run" "development" "--" "--watch"
+16 error node v6.11.3
+17 error npm  v3.10.10
+18 error code ENOSYS
+19 error errno ENOSYS
+20 error syscall kill
+21 error kill ENOSYS
+22 error If you need help, you may report this error at:
+22 error     <https://github.com/npm/npm/issues>
+23 verbose exit [ 1, true ]

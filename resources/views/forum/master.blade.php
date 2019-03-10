@@ -46,7 +46,9 @@
                             </div>
                         </div>
                         <div class="col-lg-4 col-xs-4 col-sm-4 col-md-4 avt">
-                            <a href="{{url('/discuss/post/create')}}" class="btn btn-primary">Ask Question</a>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#questionModal">
+                                        Ask a question!
+                                </button>
                         </div>
                     </div>
                 </div>
@@ -149,43 +151,65 @@
                 </div>
             </footer>
         </div>
-
+        <!-- Modal -->
+        <div class="modal fade" id="questionModal" tabindex="-1" role="dialog" aria-labelledby="questionLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="questionLabel" style="font-size:20px;font-weight:600;">Question Information</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{url('/discuss/post')}}" id='postCreate'>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="name" class="col-form-label">Name:</label>
+                                <input type="text" name="name" class="form-control" id="name">
+                                <span class="error">
+                                    <strong style="color: red;" id="nameErrorMsg"></strong>
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="col-form-label">E-mail:</label>
+                                <input type="email" name="email" class="form-control" id="email">
+                                <span class="error">
+                                    <strong style="color: red;" id="emailErrorMsg"></strong>
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label for="degree" class="col-form-label">Category:</label>
+                                <select name="category_id" class="form-control">
+                                    <option>Select a category</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{$category->id}}">{{$category->name}}</option>
+                                    @endforeach
+                                </select>
+                                <span class="error">
+                                    <strong style="color: red;" id="categoryErrorMsg"></strong>
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label for="description" class="col-form-label">Question</label>
+                                <textarea type="text" name="description" class="form-control" id="description" rows="6"></textarea>
+                                <span class="error">
+                                    <strong style="color: red;" id="descriptionErrorMsg"></strong>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Create</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- End form modal -->
         <!-- get jQuery from the google apis -->
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.js"></script>
- 
-
-        <!-- SLIDER REVOLUTION 4.x SCRIPTS  -->
-        <!-- SLIDER REVOLUTION 4.x SCRIPTS  -->
-        <script type="text/javascript" src="js/jquery.themepunch.plugins.min.js"></script>
-        <script type="text/javascript" src="js/jquery.themepunch.revolution.min.js"></script>
-
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="{{asset('forum/js/bootstrap.min.js')}}"></script>
-
-
-        <!-- LOOK THE DOCUMENTATION FOR MORE INFORMATIONS -->
-        <script type="text/javascript">
-            $('.alert').delay(5000).slideUp(1500,function () {
-                                $(this).alert('close');
-                            });
-            var revapi;
-
-            jQuery(document).ready(function() {
-                "use strict";
-                revapi = jQuery('.tp-banner').revolution(
-                        {
-                            delay: 15000,
-                            startwidth: 1200,
-                            startheight: 278,
-                            hideThumbs: 10,
-                            fullWidth: "on"
-                        });
-
-            });	//ready
-
-        </script>
-
-        <!-- END REVOLUTION SLIDER -->
-
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         @yield('script')
         <script>
                 $.ajaxSetup({
@@ -204,44 +228,24 @@
                         dataTy:'json',
                         success:function (data) {
                             $('#postCreate').trigger('reset');
-                            $('#successMessage').text(data);
-                            $('.alert').delay(5000).slideUp(1500,function () {
-                                $(this).alert('close');
+                            swal({
+                            title: "Good job!",
+                            text: "You have successfully added you question, we will review it quickly and after then we will publish it in public and send you a confirmation email!, Thank you.",
+                            icon: "success",
                             });
+                            $('#questionModal').modal('hide');
                         },
                         error:function (errorData) {
                             var error = errorData.responseJSON.message;
-                            var nameErrors = error['name'];
-                            var emailErrors = error['email'];
-                            var titleErrors = error['title'];
-                            var descriptionErrors = error['description'];
-                            var categoryErrors = error['category_id'];
+                            $('#nameErrorMsg').html('');
+                            $('#emailErrorMsg').html('');
+                            $('#descriptionErrorMsg').html('');
+                            $('#categoryErrorMsg').html('');
+
                             $('#nameErrorMsg').append(error['name']);
-                            for(var i in nameErrors)
-                            {
-                                $nameError = nameErrors[i];
-                                $('#nameErrorMsg').append($nameError);
-                            }
-                            for(var i in emailErrors)
-                            {
-                                $emailError = emailErrors[i];
-                                $('#emailErrorMsg').append($emailError);
-                            }
-                            for(var i in titleErrors)
-                            {
-                                $titleError = titleErrors[i];
-                                $('#titleErrorMsg').append($titleError);
-                            }
-                            for(var i in descriptionErrors)
-                            {
-                                $descriptionError = descriptionErrors[i];
-                                $('#descriptionErrorMsg').append($descriptionError);
-                            }
-                            for(var i in categoryErrors)
-                            {
-                                $categoryError = categoryErrors[i];
-                                $('#categoryErrorMsg').append($categoryError);
-                            }
+                            $('#emailErrorMsg').append(error['email']);
+                            $('#descriptionErrorMsg').append(error['description']);
+                            $('#categoryErrorMsg').append(error['email']);
                         }
                     });
                 });

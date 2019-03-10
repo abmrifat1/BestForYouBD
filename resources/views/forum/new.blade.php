@@ -19,20 +19,14 @@ Add New Discuss - BestInBd
                             <input type="text" name="name" placeholder="Your Name *" class="form-control" autocomplete="on" required/>
                             <span class="error">
                                     <strong style="color: red;" id="nameErrorMsg"></strong>
-                                </span>
-                        </div>
-                        <div>
-                            <input type="text" name="title" placeholder="Enter Topic Title *" class="form-control"autocomplete="on" required/>
-                            <span class="error">
-                                    <strong style="color: red;" id="titleErrorMsg"></strong>
-                                </span>
+                            </span>
                         </div>
                         <div>
                             <small>(Optional) We will send you an email that will say your post is published or not</small>
                             <input type="text" name="email" placeholder="Your Email" class="form-control" />
                             <span class="error">
                                     <strong style="color: red;" id="emailErrorMsg"></strong>
-                                </span>
+                            </span>
                         </div>
 
                         <div class="row">

@@ -29,10 +29,9 @@ class ForumController extends Controller
         {
             $validator = Validator::make($request->all(),[
                 'name'=>'required|string|max:100',
-                'email'=>'nullable|email|max:100',
-                'title'=>'required||string',
+                'email'=>'required|email|max:100',
+                'category_id'=>'required',
                 'description'=>'required|string',
-                'category_id'=>'required'
             ]);
             if($validator->fails())
             {
@@ -44,21 +43,16 @@ class ForumController extends Controller
                     ],400);
             };
 
-
-            $slug = str_replace(' ', '-', $request->title);
-            $slug = strtolower($slug);
             //$unique_id = time().rand(100000,10000000);
 
             DB::table('forums')->insert([
-                'slug'=>$slug,
                 'name'=>$request->name,
-                'title'=>$request->title,
                 'category_id'=>$request->category_id,
                 'description'=>$request->description,
                 'email'=>$request->email
             ]);
             //return redirect('/discuss/post/create')->with('message','You have successfully uploaded you post, we will review it and after then we publish it in public!');
-            return response("You have successfully uploaded you post, we will review it and after then we publish it in public!, Thank you.");
+            return ['success'=> "You question submitted"];
         }
     }
     public function storeComment(Request $request)

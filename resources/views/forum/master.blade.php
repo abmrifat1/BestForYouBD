@@ -6,6 +6,7 @@
         <title>@yield('title')</title>
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <link href="{{asset('img/favicon.ico')}}" rel="icon" type="image/x-icon" />
         <!-- Bootstrap -->
         <link href="{{asset('forum/css/bootstrap.min.css')}}" rel="stylesheet">
 

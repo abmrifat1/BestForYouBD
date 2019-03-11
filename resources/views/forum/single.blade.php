@@ -41,24 +41,30 @@
 
         <!--Replay POST -->
         <div class="post">
-            <form action="{{url('/discuss/comment')}}" class="form" method="post">
-                {{ csrf_field() }}
+            <form action="{{url('/discuss/comment')}}" class="form" method="post" id="commentForm">
                 <div class="topwrap">
                     <div class="posttext pull-left">
-                        <div class="textwraper">
                             <h2>Post a Reply</h2>
-                            <input type="text" name="name" placeholder="Your Name *" class="form-control" autocomplete="on" required/>
-                            <input type="hidden" name="post_id" value="{{$post->id}}"/>
-                            
-                            <textarea name="reply" class="form-control" id="reply" placeholder="Type your message here *" style='margin-top:10px;border:1px solid #ccc;background-color: #fff;' required></textarea>
-                        </div>
+                            <div class="form-group">
+                                <input type="text" name="name" placeholder="Your Name *" class="form-control" autocomplete="on"/>
+                                <input type="hidden" name="forum_id" value="{{$post->id}}"/>
+                                <span class="error">
+                                    <strong style="color: red;" id="nameErrorMssg"></strong>
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <textarea name="reply" class="form-control" id="reply" placeholder="Type your message here *"></textarea>
+                                <span class="error">
+                                    <strong style="color: red;" id="replyErrorMsg"></strong>
+                                </span>
+                            </div>
                     </div>
                     <div class="clearfix"></div>
                 </div>                              
                 <div class="postinfobot">
 
                     <div class="notechbox pull-left">
-                        <input type="checkbox" name="note" id="note" class="form-control" />
+                        <!--<input type="checkbox" name="note" id="note" class="form-control" />-->
                     </div>
 
                     <div class="pull-left">
@@ -96,7 +102,7 @@
                     <a href="#"><i class="fa fa-reply"></i></a>
                 </div>
 
-                <div class="posted pull-left"><i class="fa fa-clock-o"></i> Posted on : {{$comment->created_at->toDayDateTimeString()}}</div>
+                <div class="posted pull-left"><i class="fa fa-clock-o"></i> Posted on : <?php if(!empty($comment->created_at)) echo $comment->created_at->toDayDateTimeString()?></div>
 
                 <div class="next pull-right">                                        
                     <a href="#"><i class="fa fa-share"></i></a>
@@ -110,4 +116,42 @@
         @endforeach
         {{ $comments->links() }}
     </div>
+@endsection
+@section('script')
+
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $('#commentForm').on('submit',function (e) {
+        e.preventDefault();
+        var data = $(this).serialize();
+        var url = $(this).attr('action');
+        $.ajax({
+            type:'post',
+            url:url,
+            data:data,
+            dataTy:'json',
+            success:function (data) {
+                $('#commentForm').trigger('reset');
+                swal({
+                title: "Great job!",
+                text: "You have successfully added your reply, we will review it quickly and after then we will publish it in public and send you a confirmation email!, Thank you.",
+                icon: "success",
+                });
+                $('#questionModal').modal('hide');
+            },
+            error:function (errorData) {
+                var error = errorData.responseJSON.message;
+                $('#nameErrorMssg').html('');
+                $('#replyErrorMsg').html('');
+
+                $('#nameErrorMssg').append(error['name']);
+                $('#replyErrorMsg').append(error['reply']);
+            }
+        });
+    });
+</script>
 @endsection

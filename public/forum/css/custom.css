@@ -691,20 +691,6 @@ a.down:hover {
     font-family: 'Open Sans Regular', sans-serif; 
 }
 
-.textwraper textarea {
-    border: none;
-    box-shadow: none;
-    background-color: #f1f1f1;
-    /*    width: 610px;*/
-    width: 100%;
-}
-
-.textwraper {
-    background-color: #f1f1f1;
-    border-radius: 2px;
-    padding:18px;
-}
-
 .notechbox {
     width: 20px;
 }
@@ -1107,10 +1093,6 @@ a.down:hover {
         margin: 0;
     }
 
-    .textwraper textarea {
-        width: 175px;
-    }
-
     footer ul.socialicons {
         margin: 0;
         padding: 0;
@@ -1241,12 +1223,6 @@ a.down:hover {
     }
     ul.socialicons {
         margin-bottom: 0;
-    }
-
-    /* 2 */
-    .textwraper textarea {
-
-        width: 100%;
     }
     /* end 2 */
 }

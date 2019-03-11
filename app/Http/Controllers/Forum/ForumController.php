@@ -2,7 +2,7 @@
 namespace App\Http\Controllers\Forum;
 use App\Category;
 use App\Forum;
-use App\Forumcomment;
+use App\ForumComments;
 use Validator;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
@@ -12,10 +12,8 @@ class ForumController extends Controller
 {
     public function index()
     {
-        //$categories = Category::where('isActive','=','Active')->orderby('name','asc')->get();
-        //return view('forum.home',compact($categories));
-        $forumPosts = Forum::where('isActive','Active')->latest()->paginate(10);
-        $commentCount = Forumcomment::count();
+        $forumPosts = Forum::with('comments')->where('isActive','Active')->latest()->paginate(10);
+        $commentCount = 5;
         return view('forum.home',['forumPosts'=>$forumPosts,'commentCount'=>$commentCount]);
     }
     public function create()
@@ -57,29 +55,30 @@ class ForumController extends Controller
     }
     public function storeComment(Request $request)
     {
-        $validator = Validator::make($request->all(),[
-            'name'=>'required|string|max:100',
-            'reply'=>'required|string',
-        ]);
-        if($validator->fails())
+        if($request->ajax())
         {
-            return response()->json(
-                [
-                    'error'=>true,
-                    'message'=>$validator->messages(),
-                    'code'=>400
-                ],400);
-        };
-        //$unique_id = time().rand(100000,10000000);
-
-        DB::table('forumcomments')->insert([
-            'name'=>$request->name,
-            'post_id'=>$request->post_id,
-            'reply'=>$request->reply
-        ]);
-        //return redirect('/discuss/post/create')->with('message','You have successfully uploaded you post, we will review it and after then we publish it in public!');
-        //return Redirect::back()->with('message','Thanks for your reply !');
-        return redirect()->back()->with('message','Thanks for your reply !');
+            $validator = Validator::make($request->all(),[
+                'name'=>'required|string|max:100',
+                'reply'=>'required|string',
+            ]);
+            if($validator->fails())
+            {
+                return response()->json(
+                    [
+                        'error'=>true,
+                        'message'=>$validator->messages(),
+                        'code'=>400
+                    ],400);
+            };
+            //$unique_id = time().rand(100000,10000000);
+            //ForumComments::insert($request->all());
+            DB::table('forum_comments')->insert([
+                'name'=>$request->name,
+                'forum_id'=>$request->forum_id,
+                'reply'=>$request->reply
+            ]);
+            return ['message'=>'Thanks for your reply !'];
+        }
         
     }
     public function show($id)
@@ -90,7 +89,7 @@ class ForumController extends Controller
         DB::table('forums')
             ->where('id', $id)
             ->update(['views' => $views]);
-        $comments = Forumcomment::where('post_id',$id)->latest()->paginate(8);
+        $comments = ForumComments::where('forum_id',$id)->latest()->paginate(8);
         return view('forum.single',['post'=>$post,'comments'=>$comments]);
     }
     public function category_posts($catId)

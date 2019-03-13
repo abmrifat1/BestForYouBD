@@ -12,7 +12,7 @@ Discussion Forum - BestInBd
                 @if($post->id % 2 == 0)
                     <img src="{{asset('forum/images/avatar.png')}}" alt="" style="margin-right:20px;margin-top:-10px;"/>
                 @else
-                    <img src="{{asset('forum/images/avatar2.png')}}" alt="" style="margin-right:20px;margin-top:-10px;"/>
+                    <img src="{{asset('forum/images/avatar3.png')}}" alt="" style="margin-right:20px;margin-top:-10px;"/>
                 @endif
                     <h2 class="questioner_name"><a href="{{ url('/discuss/post/'.$post->id)}}" style="text-decoration:none">{{$post->name}}</a></h2>
                     <a href="{{ url('/discuss/post/'.$post->id)}}" class="post_description">{{str_limit($post->description,250)}}</a>
@@ -22,7 +22,7 @@ Discussion Forum - BestInBd
             <div class="postinfo pull-left" title="Answer of peoples">
                 <div class="comments">
                     <div class="commentbg">
-                        {{$commentCount}}
+                        {{$post->comments_count}}
                         <div class="mark"></div>
                     </div>
                 </div>

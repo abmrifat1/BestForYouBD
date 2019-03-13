@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     protected $fillable = [
-        'name', 'slug','isActive',
+        'id','name', 'slug','isActive',
     ];
+    public function forumPosts()
+    {
+        return $this->hasMany(Forum::class);
+    }
 }

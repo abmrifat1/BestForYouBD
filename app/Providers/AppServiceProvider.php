@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         View::composer('forum.master',function ($view){
-            $view->with('categories',Category::where('isActive','Active')->orderby('name','asc')->get());
+            $view->with('categories',Category::withCount('forumPosts')->where('isActive','Active')->orderby('name','asc')->get());
          });
     }
 

@@ -67,7 +67,7 @@
                                 <div class="blocktxt">
                                     <ul class="cats">
                                         @foreach ($categories as $category)
-                                            <li><a href="{{ url('/discuss/category-post/'.$category->id)}}">{{ $category->name }} <span class="badge pull-right">5</span></a></li>
+                                            <li><a href="{{ url('/discuss/category-post/'.$category->id)}}">{{ $category->name }} <span class="badge pull-right">{{$category->forum_posts_count}}</span></a></li>
                     
                                         @endforeach
                                     </ul>

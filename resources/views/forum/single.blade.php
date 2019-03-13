@@ -1,14 +1,15 @@
 @extends('forum.master')
 @section('content')
     <div class="col-lg-8 col-md-8">
-        @if($message = Session::get('message'))
-            <p class="alert" style="font-weight: 500;font-size: 16px;background-color: #61d864;padding:12px;color:#fff;margin-top: 1px;position:fixed;left: 50px;z-index: 1">{{ $message }}</p>
-        @endif
         <!-- POST -->
         <div class="post beforepagination">
             <div class="topwrap">
                 <div class="posttext pull-left">
-                    <img src="{{asset('forum/images/avatar.png')}}" alt="" style="margin-right:20px;margin-top:-10px;"/>
+                    @if($post->id % 2 == 0)
+                        <img src="{{asset('forum/images/avatar.png')}}" alt="" style="margin-right:20px;margin-top:-10px;"/>
+                    @else
+                        <img src="{{asset('forum/images/avatar3.png')}}" alt="" style="margin-right:20px;margin-top:-10px;"/>
+                    @endif
                     <h3 style="display:inline-block;">{{$post->name}}</h3>
                     <h2>{{$post->title}}</h2>
                     <p>{{$post->description}}</p>
@@ -85,7 +86,11 @@
         <div class="post">
             <div class="topwrap">
                 <div class="posttext pull-left">
-                    <img src="{{asset('forum/images/avatar.png')}}" alt="" style="margin-right:20px;margin-top:-10px;"/>
+                    @if($comment->id % 2 == 0)
+                        <img src="{{asset('forum/images/avatar4.png')}}" alt="" style="margin-right:20px;margin-top:-10px;"/>
+                    @else
+                        <img src="{{asset('forum/images/avatar6.png')}}" alt="" style="margin-right:20px;margin-top:-10px;"/>
+                    @endif
                     <h3 style="display:inline-block;">{{$comment->name}}</h3>
                     <p>{{$comment->reply}}</p>
                 </div>

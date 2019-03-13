@@ -12,9 +12,8 @@ class ForumController extends Controller
 {
     public function index()
     {
-        $forumPosts = Forum::with('comments')->where('isActive','Active')->latest()->paginate(10);
-        $commentCount = 5;
-        return view('forum.home',['forumPosts'=>$forumPosts,'commentCount'=>$commentCount]);
+        $forumPosts = Forum::withCount('comments')->where('isActive','=','Active')->latest()->paginate(8);
+        return view('forum.home',['forumPosts'=>$forumPosts]);
     }
     public function create()
     {
@@ -77,26 +76,19 @@ class ForumController extends Controller
                 'forum_id'=>$request->forum_id,
                 'reply'=>$request->reply
             ]);
-            return ['message'=>'Thanks for your reply !'];
+            return ['message','Thanks for your reply !'];
         }
-        
     }
     public function show($id)
     {
         $post = Forum::findOrfail($id);
-        $views = $post->views;
-        ++$views;
-        DB::table('forums')
-            ->where('id', $id)
-            ->update(['views' => $views]);
+        DB::table('forums')->increment('views');
         $comments = ForumComments::where('forum_id',$id)->latest()->paginate(8);
         return view('forum.single',['post'=>$post,'comments'=>$comments]);
     }
     public function category_posts($catId)
     {
-        $posts = Forum::where('category_id', $catId)
-           ->orderBy('created_at', 'desc')
-           ->paginate(10);
+        $posts = Forum::where('category_id', $catId)->where('isActive','=','Active')->latest()->paginate(6);
         return view('forum.category_posts',['forumPosts'=> $posts]);
     }
 }

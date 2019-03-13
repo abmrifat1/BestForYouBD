@@ -13,4 +13,8 @@ class Forum extends Model
     {
         return $this->hasMany('App\ForumComments');
     }
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

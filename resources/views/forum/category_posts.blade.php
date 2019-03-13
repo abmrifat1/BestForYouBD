@@ -5,6 +5,7 @@ Discussion Forum - BestInBd
 @section('content')
     <div class="col-lg-8 col-md-8">
         <!-- POST -->
+        <h2></h2>
         @foreach($forumPosts as $post)
         <div class="post">
             <div class="wrap-ut pull-left">

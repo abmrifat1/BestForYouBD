@@ -16,7 +16,7 @@
                         <table class="table table-hover">
                             <tbody>
                             <tr>
-                                <th>ID</th>
+                                <th>S.N</th>
                                 <th>Name</th>
                                 <th>Title</th>
                                 <th>Description</th>
@@ -24,22 +24,22 @@
                                 <th>Modify</th>
                             </tr>
 
-                            <tr v-for="discuss in discuss.data" :key="discuss.id">
+                            <tr v-for="(discuss,index) in discuss.data" :key="discuss.id">
 
-                                <td>{{discuss.id}}</td>
+                                <td>{{index+1}}</td>
                                 <td>{{discuss.name}}</td>
                                 <td>{{discuss.title}}</td>
                                 <td>{{discuss.description}}</td>
                                 <td>{{discuss.isActive | upText}}</td>
                                 <td>
-                                    <a href="#" @click="editModal(discuss)">
+                                    <a href="javascript:void(0)" @click="editModal(discuss)">
                                         <i class="fa fa-edit blue"></i>
                                     </a>
 
-                                    <a href="#" @click="deletediscuss(discuss.id)">
+                                    <a href="javascript:void(0)" @click="deletediscuss(discuss.id)">
                                         <i class="fa fa-trash red"></i>
                                     </a>
-                                    <a href="#" @click="deletediscuss(discuss.id)" title="Send Email to Questioner">
+                                    <a href="javascript:void(0)" @click="deletediscuss(discuss.id)" title="Send Email to Questioner">
                                         <i class="fa fa-arrow-right green"></i>
                                     </a>
 
@@ -148,9 +148,11 @@
                 });
             },
             loaddiscuss(){
+                this.$Progress.start();
                 if(this.$gate.isAdminOrAuthor()){
                     axios.get("api/discuss").then(({ data }) => (this.discuss = data));
                 }
+                this.$Progress.finish();
             },
             creatediscuss(){
                 this.$Progress.start();

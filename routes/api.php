@@ -32,8 +32,14 @@ Route::put('education-departments','API\InstituteController@updateEducationDepar
 Route::post('institute-departments/{institute_id}','API\InstituteController@addInstituteDepartment');
 //Start Department
 Route::apiResources(['admin-department'=>'API\DepartmentController']);
-//Start Hospital Department
+//Start Hospital & Department Relations
 Route::apiResources(['dashboard/hospital'=>'API\HospitalController']);
+Route::get('hospital/departments','API\HospitalController@getDept');
+Route::put('hospital-departments','API\HospitalController@updateHospitalDepartments');
+Route::delete('delete_hospital_department','API\HospitalController@destroyHospitalDepartment');
+Route::get('hospital-departments/{id}','API\HospitalController@getHosDept');
+Route::put('hospital-departments','API\HospitalController@updateHospitalDepartment');
+Route::post('hospital-departments/{hospital_id}','API\HospitalController@addHospitalDepartment');
 //Start Hospital Department
 Route::apiResources(['dashboard-hospital-departments'=>'API\HospitalDepartmentController']);
 Route::get('findCategory', 'API\CategoryController@search');

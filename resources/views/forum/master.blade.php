@@ -36,7 +36,7 @@
             <div class="headernav">
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-2 col-xs-2 col-sm-2 col-md-2 logo "><a href="{{url('/discuss')}}" style="text-decoration:none;font-weight:600;font-size:18px;"><img src="{{asset('forum/images/logo.jpg')}}" alt=""  />  BestInBD</a></div>
+                        <div class="col-lg-2 col-xs-2 col-sm-2 col-md-2 logo "><a href="{{url('/discuss')}}" style="text-decoration:none;font-weight:600;font-size:18px;"><img src="{{asset('forum/images/bestforyoubd.png')}}" alt=""  />  BestInBD</a></div>
                         <div class="col-lg-6 col-xs-6 col-sm-6 search col-md-6">
                             <div class="wrap">
                                 <form action="#" method="post" class="form searchForm">

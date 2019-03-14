@@ -123,10 +123,12 @@
                 this.form.fill(category);
             },
             getResults(page = 1) {
+                this.$Progress.start();
                 axios.get('api/category?page=' + page)
                     .then(response => {
                         this.categories = response.data;
                     });
+                this.$Progress.finish();
             },
             updateCategory(){
                 this.$Progress.start();
@@ -146,9 +148,11 @@
                 });
             },
             loadCategories(){
+                this.$Progress.start();
                 if(this.$gate.isAdminOrAuthor()){
                     axios.get("api/category").then(({ data }) => (this.categories = data));
                 }
+                this.$Progress.finish();
             },
             createCategory(){
                 this.$Progress.start();

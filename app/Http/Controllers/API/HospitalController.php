@@ -28,7 +28,7 @@ class HospitalController extends Controller
     public function index()
     {
         if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
-            return Hospital::with('departments')->latest()->paginate(5);
+            return Hospital::with('departments')->orderBy('name','asc')->paginate(10);
         }
     }
     public function getDept()
@@ -75,7 +75,7 @@ class HospitalController extends Controller
             'main_img' => $request['main_img'],
             'gallery_img_1' => $request['gallery_img_1'],
             'gallery_img_2' => $request['gallery_img_2'],
-            'type' => $request['type'],
+            'ownership_type' => $request['ownership_type'],
             'isActive' => $request['isActive'],
         ]);
         $hospital->departments()->sync($request->department);
@@ -89,29 +89,29 @@ class HospitalController extends Controller
      */
     public function getHosDept($id)
     {
-        $hospital = HospitalDepartmentRelation::where('institute_id',$id)
-        ->leftJoin('departments','hospital_department_relations.department_id','=','departments.id')
+        $hospital = HospitalDepartmentRelation::where('hospital_id',$id)
+        ->leftJoin('hospital_departments','hospital_department_relations.hospital_department_id','=','hospital_departments.id')
         ->select('hospital_department_relations.*',
-                'departments.name')
-        ->orderBy('departments.name', 'ASC')
+                'hospital_departments.name')
+        ->orderBy('hospital_departments.name', 'ASC')
         ->get();
         return $hospital;
     }
-    public function updateEducationDepartment(Request $request)
+    public function updateHospitalDepartment(Request $request)
     {
-        $eduDept = InstituteDepartments::where('institute_id', $request->institute_id)
-           ->where('department_id', $request->department_id)
+        $hosDept = HospitalDepartmentRelation::where('hospital_id', $request->hospital_id)
+           ->where('hospital_department_id', $request->hospital_department_id)
            ->update($request->all());
            return ['update' => "Hospital Department information stored"];
     }
-    public function addInstituteDepartment(Request $request,$institude_id)
+    public function addHospitalDepartment(Request $request,$hospital_id)
     {
-        $request->merge(['institute_id' => $institude_id]);
-        $insDept = InstituteDepartments::where('institute_id', $request->institute_id)
-        ->where('department_id', $request->department_id)
+        $request->merge(['hospital_id' => $hospital_id]);
+        $hosDept = HospitalDepartmentRelation::where('hospital_id', $request->hospital_id)
+        ->where('hospital_department_id', $request->department_id)
         ->first();
-        if (!$insDept) {
-            InstituteDepartments::create($request->all());
+        if (!$hosDept) {
+            HospitalDepartmentRelation::create($request->all());
             return ['success' => "Hospital Department information updated"];
         }else{
             return redirect()->back()->withErrors("Hospital Department Already Stored");
@@ -134,41 +134,41 @@ class HospitalController extends Controller
         
         if($request->main_img != $currentPhoto){
             $name = time().rand(50,5000).'.' . explode('/', explode(':', substr($request->main_img, 0, strpos($request->main_img, ';')))[1])[1];
-            \Image::make($request->main_img)->save(public_path('img/institutes/').$name);
+            \Image::make($request->main_img)->save(public_path('img/hospitals/').$name);
             $request->merge(['main_img' => $name]);
-            $institudePhoto = public_path('img/institutes/').$currentPhoto;
-            if(file_exists($institudePhoto)){
-                @unlink($institudePhoto);
+            $hospitalPhoto = public_path('img/hospitals/').$currentPhoto;
+            if(file_exists($hospitalPhoto)){
+                @unlink($hospitalPhoto);
             }
         }
         $currentPhoto = $hospital->gallery_img_1;
         if($request->gallery_img_1 != $currentPhoto){
             $name = time().rand(50,5000).'.' . explode('/', explode(':', substr($request->gallery_img_1, 0, strpos($request->gallery_img_1, ';')))[1])[1];
 
-            \Image::make($request->gallery_img_1)->save(public_path('img/institutes/').$name);
+            \Image::make($request->gallery_img_1)->save(public_path('img/hospitals/').$name);
             $request->merge(['gallery_img_1' => $name]);
-            $institudePhoto = public_path('img/institutes/').$currentPhoto;
-            if(file_exists($institudePhoto)){
-                @unlink($institudePhoto);
+            $hospitalPhoto = public_path('img/hospitals/').$currentPhoto;
+            if(file_exists($hospitalPhoto)){
+                @unlink($hospitalPhoto);
             }
         }
         $currentPhoto = $hospital->gallery_img_2;
         if($request->gallery_img_2 != $currentPhoto){
             $name = time().rand(50,5000).'.' . explode('/', explode(':', substr($request->gallery_img_2, 0, strpos($request->gallery_img_2, ';')))[1])[1];
 
-            \Image::make($request->gallery_img_2)->save(public_path('img/institutes/').$name);
+            \Image::make($request->gallery_img_2)->save(public_path('img/hospitals/').$name);
             $request->merge(['gallery_img_2' => $name]);
 
-            $institudePhoto = public_path('img/institutes/').$currentPhoto;
-            if(file_exists($institudePhoto)){
-                @unlink($institudePhoto);
+            $hospitalPhoto = public_path('img/hospitals/').$currentPhoto;
+            if(file_exists($hospitalPhoto)){
+                @unlink($hospitalPhoto);
             }
         }
         $hospital->update($request->all());
         if(!empty($request->department)){
             $hospital->departments()->sync($request->department);
         }
-        return ['update' => "Institude information updated"];
+        return ['update' => "Hospital information updated"];
     }
 
     /**
@@ -177,33 +177,33 @@ class HospitalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroyEducationDepartment(Request $request)
+    public function destroyHospitalDepartment(Request $request)
     {
-        DB::table('institute_departments')->where('institute_id', $request->institute_id)->where('department_id',$request->department_id)->delete();
-        return ['Message' => "Institude department information updated"];
+        DB::table('hospital_department_relations')->where('hospital_id', $request->hospital_id)->where('hospital_department_id',$request->hospital_department_id)->delete();
+        return ['Message' => "Hospital department information updated"];
     }
     public function destroy($id)
     {
-        $user = Hospital::findOrFail($id);
-        if($user->main_img != 'default.jpg'){
-            $institudePhoto = public_path('img/institutes/').$user->main_img;
-            if(file_exists($institudePhoto)){
-                @unlink($institudePhoto);
+        $hospital = Hospital::findOrFail($id);
+        if($hospital->main_img != 'default.jpg'){
+            $hospitalPhoto = public_path('img/hospitals/').$hospital->main_img;
+            if(file_exists($hospitalPhoto)){
+                @unlink($hospitalPhoto);
             }
         }
-        if($user->gallery_img_1 != 'default.jpg'){
-            $institudePhoto = public_path('img/institutes/').$user->gallery_img_1;
-            if(file_exists($institudePhoto)){
-                @unlink($institudePhoto);
+        if($hospital->gallery_img_1 != 'default.jpg'){
+            $hospitalPhoto = public_path('img/hospitals/').$hospital->gallery_img_1;
+            if(file_exists($hospitalPhoto)){
+                @unlink($hospitalPhoto);
             }
         }
-        if($user->gallery_img_2 != 'default.jpg'){
-            $institudePhoto = public_path('img/institutes/').$user->gallery_img_2;
-            if(file_exists($institudePhoto)){
-                @unlink($institudePhoto);
+        if($hospital->gallery_img_2 != 'default.jpg'){
+            $hospitalPhoto = public_path('img/hospitals/').$hospital->gallery_img_2;
+            if(file_exists($hospitalPhoto)){
+                @unlink($hospitalPhoto);
             }
         }
-        $user->delete();
+        $hospital->delete();
         return ['delete'=>"Deleted successfully"];
     }
     public function search(){
@@ -214,7 +214,7 @@ class HospitalController extends Controller
                     ->orWhere('email','LIKE',"%$search%");
             })->paginate(20);
         }else{
-            $users = User::latest()->paginate(5);
+            $users = Hospital::latest()->paginate(5);
         }
 
         return $users;

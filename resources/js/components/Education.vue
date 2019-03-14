@@ -17,21 +17,21 @@
                         <table class="table table-hover">
                             <tbody>
                             <tr>
-                                <th>ID</th>
+                                <th>S.N</th>
                                 <th>institute Name</th>
-                                <th>type</th>
+                                <th>Type</th>
                                 <th>Status</th>
-                                <th>Registered At</th>
+                                <th>Established At</th>
                                 <th>Modify</th>
                             </tr>
 
-                            <tr v-for="institute in institutes.data" :key="institute.id">
+                            <tr v-for="(institute,index) in institutes.data" :key="institute.id">
 
-                                <td>{{institute.id}}</td>
+                                <td>{{index+1}}</td>
                                 <td>{{institute.name}}</td>
                                 <td>{{institute.type}}</td>
                                 <td>{{institute.isActive}}</td>
-                                <td>{{institute.created_at | myDate}}</td>
+                                <td>{{institute.estDate | myDate}}</td>
 
                                 <td>
                                     <a href="javascript:void(0)" @click="settingInstituteDepartments(institute)">
@@ -551,10 +551,12 @@
                     reader.readAsDataURL(file);
             },
             load(){
+                this.$Progress.start();
                 if(this.$gate.isAdminOrAuthor()){
                     axios.get("api/education").then(({ data }) => (this.institutes = data));
                 }
                 axios.get("api/departments").then(({ data }) => (this.departments = data));
+                this.$Progress.finish();
             },
             getResults(page = 1) {
                 axios.get('api/education?page=' + page)

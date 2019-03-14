@@ -12,7 +12,7 @@ class ForumController extends Controller
 {
     public function index()
     {
-        $forumPosts = Forum::withCount('comments')->where('isActive','=','Active')->latest()->paginate(8);
+        $forumPosts = Forum::withCount('comments')->where('isActive','=','Active')->latest()->paginate(15);
         return view('forum.home',['forumPosts'=>$forumPosts]);
     }
     public function create()
@@ -88,7 +88,7 @@ class ForumController extends Controller
     }
     public function category_posts($catId)
     {
-        $posts = Forum::where('category_id', $catId)->where('isActive','=','Active')->latest()->paginate(6);
+        $posts = Forum::where('category_id', $catId)->where('isActive','=','Active')->latest()->paginate(15);
         return view('forum.category_posts',['forumPosts'=> $posts]);
     }
 }

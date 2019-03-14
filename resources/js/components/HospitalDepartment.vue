@@ -18,13 +18,15 @@
                         <table class="table table-hover">
                             <tbody>
                             <tr>
+                                <th>S.N</th>
                                 <th>Name</th>
                                 <th>slug</th>
                                 <th>isActive</th>
                                 <th>Modify</th>
                             </tr>
 
-                            <tr v-for="department in departments.data" :key="department.id">
+                            <tr v-for="(department,index) in departments.data" :key="department.id">
+                                <td>{{index}}</td>
                                 <td>{{department.name}}</td>
                                 <td>{{department.slug}}</td>
                                 <td>{{department.isActive | upText}}</td>
@@ -146,9 +148,11 @@
                 });
             },
             load(){
+                this.$Progress.start();
                 if(this.$gate.isAdminOrAuthor()){
                     axios.get("api/dashboard-hospital-departments").then(({ data }) => (this.departments = data));
                 }
+                this.$Progress.finish();
             },
             create(){
                 this.$Progress.start();

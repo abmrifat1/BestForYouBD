@@ -146,9 +146,11 @@
                 });
             },
             load(){
+                this.$Progress.start();
                 if(this.$gate.isAdminOrAuthor()){
                     axios.get("api/admin-department").then(({ data }) => (this.departments = data));
                 }
+                this.$Progress.finish();
             },
             create(){
                 this.$Progress.start();

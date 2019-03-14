@@ -10,6 +10,6 @@ class HospitalDepartment extends Model
         'name', 'slug','isActive','created_at','updated_at'
     ];
     public function hospitals(){
-        return $this->belongsToMany('App\Hospital', 'hospital_department_relations')->latest()->paginate(5);
+        return $this->belongsToMany('App\Hospital', 'hospital_department_relations');
     }
 }

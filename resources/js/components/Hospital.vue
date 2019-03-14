@@ -4,7 +4,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Institutes Table</h3>
+                        <h3 class="card-title">Hospitals Table</h3>
 
                         <div class="card-tools">
                             <button class="btn btn-success" @click="newModal">Add New <i
@@ -18,29 +18,25 @@
                             <tbody>
                             <tr>
                                 <th>ID</th>
-                                <th>institute Name</th>
-                                <th>type</th>
+                                <th>Hospital Name</th>
                                 <th>Status</th>
-                                <th>Registered At</th>
                                 <th>Modify</th>
                             </tr>
 
-                            <tr v-for="institute in institutes.data" :key="institute.id">
+                            <tr v-for="(hospital,index) in hospitals.data" :key="hospital.id">
 
-                                <td>{{institute.id}}</td>
-                                <td>{{institute.name}}</td>
-                                <td>{{institute.type}}</td>
-                                <td>{{institute.isActive}}</td>
-                                <td>{{institute.created_at | myDate}}</td>
+                                <td>{{index+1}}</td>
+                                <td>{{hospital.name}}</td>
+                                <td>{{hospital.isActive}}</td>
 
                                 <td>
-                                    <a href="javascript:void(0)" @click="settingInstituteDepartments(institute)">
+                                    <a href="javascript:void(0)" @click="settingInstituteDepartments(hospital)">
                                         <i class="fas fa-cog blue" data-toggle="tooltip" data-placement="top" title="Add Department Variation"></i>
                                     </a>
-                                    <a href="javascript:void(0)" @click="editModal(institute)">
+                                    <a href="javascript:void(0)" @click="editModal(hospital)">
                                         <i class="fa fa-edit blue"></i>
                                     </a>
-                                    <a href="javascript:void(0)" @click="deleted(institute.id)">
+                                    <a href="javascript:void(0)" @click="deleted(hospital.id)">
                                         <i class="fa fa-trash red"></i>
                                     </a>
 
@@ -51,7 +47,7 @@
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
-                        <pagination :data="institutes" @pagination-change-page="getResults"></pagination>
+                        <pagination :data="hospitals" @pagination-change-page="getResults"></pagination>
                     </div>
                 </div>
                 <!-- /.card -->
@@ -66,7 +62,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" v-show="!editMode" id="addNewLabel">Add New</h5>
-                        <h5 class="modal-title" v-show="editMode" id="addNewLabel">Update institutes's Info</h5>
+                        <h5 class="modal-title" v-show="editMode" id="addNewLabel">Update Hospitals Info</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -74,7 +70,7 @@
                     <form @submit.prevent="editMode ? update() : create()">
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="name">Institution Name</label>
+                                <label for="name">Hospital Name</label>
                                 <input v-model="form.name" type="text" id="name" name="name"
                                        placeholder="Name"
                                        class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
@@ -90,7 +86,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="address">Institution Address</label>
+                                <label for="address">Hospital Address</label>
                                 <textarea v-model="form.address" name="address" id="address"
                                   placeholder="Address"
                                   class="form-control" :class="{ 'is-invalid': form.errors.has('address') }"></textarea>
@@ -116,7 +112,7 @@
                             </div>
                             
                             <div class="widget-user-image" v-if="McreateMode">
-                                <label for="main_img"><img class="mt-1" src="img/institutes/default.jpg" style="width:80%;height:25%;" alt="Main Image"></label>
+                                <label for="main_img"><img class="mt-1" src="img/hospitals/default.jpg" style="width:80%;height:25%;" alt="Main Image"></label>
                             </div>
                             <div class="widget-user-image" v-else>
                                 <label for="main_img"><img class="mt-1" :src="getMainPhoto()" style="width:80%;height:25%;" alt="Main Image"></label>
@@ -132,7 +128,7 @@
                                 <has-error :form="form" field="main_img"></has-error>
                             </div>
                             <div class="widget-user-image" v-if="Mg1createMode">
-                                <label for="gallery_img_1"><img class="mt-1" src="img/institutes/default.jpg" style="width:80%;height:25%;" alt="Gallery Image:1"></label>
+                                <label for="gallery_img_1"><img class="mt-1" src="img/hospitals/default.jpg" style="width:80%;height:25%;" alt="Gallery Image:1"></label>
                             </div>
                             <div class="widget-user-image" v-else>
                                 <label for="gallery_img_1"><img class="mt-1" :src="getGalleryPhoto1()" style="width:80%;height:25%;" for="gallery_img_1" alt="Gallery Image:1"></label>
@@ -148,7 +144,7 @@
                                 <has-error :form="form" field="gallery_img_1"></has-error>
                             </div>
                             <div class="widget-user-image" v-if="Mg2createMode">
-                                <label for="gallery_img_2"><img class="mt-1" src="img/institutes/default.jpg" style="width:80%;height:25%;" alt="Gallery Image:2"></label>
+                                <label for="gallery_img_2"><img class="mt-1" src="img/hospitals/default.jpg" style="width:80%;height:25%;" alt="Gallery Image:2"></label>
                             </div>
                             <div class="widget-user-image" v-else>
                                 <label for="gallery_img_2"><img class="mt-1" :src="getGalleryPhoto2()" style="width:80%;height:25%;" alt="Gallery Image:2"></label>
@@ -171,17 +167,6 @@
                                     <option value="Private">Private</option>
                                 </select>
                                 <has-error :form="form" field="ownership_type"></has-error>
-                            </div>
-                            <div class="form-group">
-                                <label>Select the Institution Type</label>
-                                <select v-model="form.type" class="form-control" :class="{ 'is-invalid': form.errors.has('type') }">
-                                    <option value="" disabled>Institute Type</option>
-                                    <option value="School">School</option>
-                                    <option value="College">College</option>
-                                    <option value="University">University</option>
-                                    <option value="Medical College">Medical College</option>
-                                </select>
-                                <has-error :form="form" field="type"></has-error>
                             </div>
                             <div class="form-group" v-show="!editMode">
                                 <label>Select departments</label><br/>
@@ -215,11 +200,11 @@
         
     
         <!-- Modal -->
-        <div class="modal fade bd-example-modal-lg" id="instututeDepartments" tabindex="-1" role="dialog" aria-labelledby="instituteDepartmentsLabel" aria-hidden="true">
+        <div class="modal fade bd-example-modal-lg" id="hospitalDepartments" tabindex="-1" role="dialog" aria-labelledby="instituteDepartmentsLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="instituteDepartmentsLabel">Institute Department Information</h5>
+                        <h5 class="modal-title" id="instituteDepartmentsLabel">Hospital Department Information</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -230,21 +215,15 @@
                                 <tbody>
                                 <tr>
                                     <th>Department Name</th>
-                                    <th>Credit</th>
-                                    <th>Cost</th>
-                                    <th>Faculty Members</th>
-                                    <th>Students</th>
-                                    <th>Degree</th>
+                                    <th>Doctors</th>
+                                    <th>Foreign Degree Doctors</th>
                                     <th>Modify</th>
                                 </tr>
 
-                                <tr v-for="department in institute_departments.data" :key="department.institute_id">
+                                <tr v-for="department in hospital_departments.data" :key="department.hospital_id">
                                     <td>{{department.name}}</td>
-                                    <td>{{department.credit}}</td>
-                                    <td>{{department.cost}}</td>
-                                    <td>{{department.faculty_members}}</td>
-                                    <td>{{department.students}}</td>
-                                    <td>{{department.IEEB}}</td>
+                                    <td>{{department.doctors}}</td>
+                                    <td>{{department.foreign_degree_doctors}}</td>
 
                                     <td>
                                         <a href="javascript:void(0)" @click="editDepartment(department)">
@@ -274,45 +253,30 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="instituteDepartmentsLabel">Institute Deparment Information</h5>
+                        <h5 class="modal-title" id="instituteDepartmentsLabel">Hospital Deparment Information</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form  @submit.prevent="departmentEditMode ? DepartmentUpdate() : addInstituteDepartment()">
+                    <form  @submit.prevent="departmentEditMode ? DepartmentUpdate() : addHospitalDepartment()">
                         <div class="modal-body">
                             <div class="form-group" v-show="!departmentEditMode">
                                 <label for="degree" class="col-form-label">Department:</label>
-                                <select v-model="departmentForm.department_id" class="form-control">
+                                <select v-model="departmentForm.hospital_department_id" class="form-control">
                                     <option v-for="department in departments" :key="department.id" :value="department.id">{{department.name}}</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="credit" class="col-form-label">Credit:</label>
-                                <input type="number" v-model="departmentForm.credit" class="form-control" id="credit">
+                                <label for="credit" class="col-form-label">Total Doctors:</label>
+                                <input type="number" v-model="departmentForm.doctors" class="form-control" id="credit">
                             </div>
                             <div class="form-group">
-                                <label for="faculty_members" class="col-form-label">Faculty Members:</label>
-                                <input type="number" v-model="departmentForm.faculty_members" class="form-control" id="faculty_members">
+                                <label for="faculty_members" class="col-form-label">Total PHD or foreign degree doctors:</label>
+                                <input type="number" v-model="departmentForm.foreign_degree_doctors" class="form-control" id="faculty_members">
                             </div>
                             <div class="form-group">
-                                <label for="students" class="col-form-label">Students:</label>
-                                <input type="number" v-model="departmentForm.students" class="form-control" id="students">
-                            </div>
-                            <div class="form-group">
-                                <label for="cost" class="col-form-label">Cost:</label>
-                                <input type="number" v-model="departmentForm.cost" class="form-control" id="cost">
-                            </div>
-                            <div class="form-group">
-                                <label for="computer" class="col-form-label">Computer:</label>
-                                <input type="number" v-model="departmentForm.computer" class="form-control" id="computer">
-                            </div>
-                            <div class="form-group">
-                                <label for="degree" class="col-form-label">Degree:</label>
-                                <select v-model="departmentForm.IEEB" class="form-control">
-                                    <option value="IEEB">IEEB</option>
-                                    <option value="Farmachiest">Farmachiest</option>
-                                </select>
+                                <label for="students" class="col-form-label">Staff:</label>
+                                <input type="number" v-model="departmentForm.staff" class="form-control" id="students">
                             </div>
                             <!--<div class="form-group"><input type="hidden" v-model="departmentForm.department_id" class="form-control"></div>
                             <div class="form-group"><input type="hidden" v-model="departmentForm.institute_id" class="form-control"></div>-->
@@ -339,10 +303,10 @@
                 McreateMode:false,
                 Mg1createMode:false,
                 Mg2createMode:false,
-                institutes: {},
+                hospitals: {},
                 departments:{},
-                institute_id:'',
-                institute_departments:{},
+                hospital_id:'',
+                hospital_departments:{},
                 form: new Form({
                     id:'',
                     name : '',
@@ -351,38 +315,34 @@
                     gallery_img_1: '',
                     gallery_img_2: '',
                     ownership_type: '',
-                    vice_chancellor: '',
+                    chancellor: '',
                     address: '',
                     city: '',
-                    type: '',
                     isActive: '',
                     department: []
                 }),
                 departmentForm: new Form({
-                    institute_id:'',
-                    department_id:'',
-                    cost:'',
-                    students:'',
-                    faculty_members:'',
-                    IEEB:'',
-                    credit:'',
-                    computer:'',
+                    hospital_id:'',
+                    hospital_department_id:'',
+                    doctors:'',
+                    foreign_degree_doctors:'',
+                    staff:'',
                 })
             }
         },
         methods: {
             getMainPhoto(){
-                let main_img_pic = (this.form.main_img.length > 200) ? this.form.main_img : "img/institutes/"+ this.form.main_img ;
+                let main_img_pic = (this.form.main_img.length > 200) ? this.form.main_img : "img/hospitals/"+ this.form.main_img ;
                 return main_img_pic;
                     
             },
             getGalleryPhoto1(){
-                let gallery_img_1_pic = (this.form.gallery_img_1.length > 200) ? this.form.gallery_img_1 : "img/institutes/"+ this.form.gallery_img_1 ;
+                let gallery_img_1_pic = (this.form.gallery_img_1.length > 200) ? this.form.gallery_img_1 : "img/hospitals/"+ this.form.gallery_img_1 ;
                 return gallery_img_1_pic;
                 
             },
             getGalleryPhoto2(){
-                let gallery_img_2_pic = (this.form.gallery_img_2.length > 200) ? this.form.gallery_img_2 : "img/institutes/"+ this.form.gallery_img_2 ;
+                let gallery_img_2_pic = (this.form.gallery_img_2.length > 200) ? this.form.gallery_img_2 : "img/hospitals/"+ this.form.gallery_img_2 ;
                 return gallery_img_2_pic;
             },
             
@@ -396,21 +356,21 @@
                 
                 $('#addNew').modal('show');
             },
-            editModal(institute){
+            editModal(hospital){
                 this.McreateMode = false;
                 this.Mg1createMode = false;
                 this.Mg2createMode = false;
                 this.editMode = true;
                 this.form.reset();
                 $('#addNew').modal('show');
-                this.form.fill(institute);
+                this.form.fill(hospital);
             },
-            settingInstituteDepartments(institute){
-                axios.get("api/education-departments/"+institute.id).then( 
-                    data => {this.institute_departments = data;
+            settingInstituteDepartments(hospital){
+                axios.get("api/hospital-departments/"+hospital.id).then( 
+                    data => {this.hospital_departments = data;
                 });
-                this.institute_id = institute.id;
-                $('#instututeDepartments').modal('show');
+                this.hospital_id = hospital.id;
+                $('#hospitalDepartments').modal('show');
             },
             departmentNewModal()
             {
@@ -418,21 +378,21 @@
                 this.departmentForm.reset();
                 $('#departmentFormModal').modal('show');
             },
-            addInstituteDepartment(){
+            addHospitalDepartment(){
                 this.$Progress.start();
-                this.departmentForm.post('api/institute-departments/'+this.institute_id)
+                this.departmentForm.post('api/hospital-departments/'+this.hospital_id)
                 .then(()=>{
                     $('#departmentFormModal').modal('hide');
-                    $('#instututeDepartments').modal('hide');
+                    $('#hospitalDepartments').modal('hide');
                     Fire.$emit('takePageLoad');
                     swal(
                             'Inserted!',
-                            'Your institute department information has been stored.',
+                            'Your hospital department information has been stored.',
                             'success'
                         )
                     this.$Progress.finish();
                 }).catch(()=>{
-                    swal("Failed","Institute Department Already Stored","warning");
+                    swal("Failed","Hospital Department Already Stored","warning");
                     this.$Progress.fail();
                 })
             },
@@ -444,7 +404,7 @@
             },
             DepartmentUpdate(){
                 this.$Progress.start();
-                this.departmentForm.put('api/education-departments/')
+                this.departmentForm.put('api/hospital-departments/')
                     .then(() => {
                         swal(
                             'Updated!',
@@ -452,7 +412,7 @@
                             'success'
                         )
                         $('#departmentFormModal').modal('hide');
-                        $('#instututeDepartments').modal('hide');
+                        $('#hospitalDepartments').modal('hide');
                         this.$Progress.finish();
                         Fire.$emit('takePageLoad');
                     })
@@ -476,13 +436,13 @@
                     if(result.value){
 
                         this.departmentForm.fill(department);
-                        this.departmentForm.delete('api/delete_institute_department').then(()=>{
+                        this.departmentForm.delete('api/delete_hospital_department').then(()=>{
                             swal(
                                 'Deleted!',
-                                'Institute Deparment has been deleted.',
+                                'Hospital Deparment has been deleted.',
                                 'success'
                             )
-                            $('#instututeDepartments').modal('hide');
+                            $('#hospitalDepartments').modal('hide');
                             Fire.$emit('takePageLoad');
                         }).catch(()=>{
                             this.$Progress.fail();
@@ -496,7 +456,7 @@
             },
             update(){
                 this.$Progress.start();
-                this.form.put('api/education/'+this.form.id)
+                this.form.put('api/dashboard/hospital/'+this.form.id)
                     .then(() => {
                         $('#addNew').modal('hide');
                         swal(
@@ -551,26 +511,28 @@
                     reader.readAsDataURL(file);
             },
             load(){
+                this.$Progress.start();
                 if(this.$gate.isAdminOrAuthor()){
-                    axios.get("api/education").then(({ data }) => (this.institutes = data));
+                    axios.get("api/dashboard/hospital").then(({ data }) => (this.hospitals = data));
                 }
-                axios.get("api/departments").then(({ data }) => (this.departments = data));
+                axios.get("api/hospital/departments").then(({ data }) => (this.departments = data));
+                this.$Progress.finish();
             },
             getResults(page = 1) {
-                axios.get('api/education?page=' + page)
+                axios.get('api/dashboard/hospital?page=' + page)
                     .then(response => {
-                        this.institutes = response.data;
+                        this.hospitals = response.data;
                     });
             },
             create(){
                 this.$Progress.start();
-                this.form.post('api/education')
+                this.form.post('api/dashboard/hospital')
                 .then(()=>{
                     Fire.$emit('takePageLoad');
                     $('#addNew').modal('hide');
                     toast({
                         type: 'success',
-                        title: 'institute created successfully'
+                        title: 'Hospital created successfully'
                     })
                     this.$Progress.finish();
                 }).catch(()=>{
@@ -589,7 +551,7 @@
                     confirmButtonText: 'Yes, delete it!'
                 }).then((result) => {
                     if(result.value){
-                        this.form.delete('api/education/'+id).then(()=>{
+                        this.form.delete('api/dashboard/hospital/'+id).then(()=>{
                             swal(
                                 'Deleted!',
                                 'Your file has been deleted.',
@@ -607,16 +569,16 @@
 
             },
             getMainPhoto(){
-                let photo = (this.form.main_img.length > 200) ? this.form.main_img : "img/institutes/"+ this.form.main_img ;
+                let photo = (this.form.main_img.length > 200) ? this.form.main_img : "img/hospitals/"+ this.form.main_img ;
                 return photo;
             }
         },
         created() {
             Fire.$on('searching',() => {
                 let query = this.$parent.search;
-                axios.get('api/findeducation?q=' + query)
+                axios.get('api/findhospital?q=' + query)
                     .then((data) => {
-                        this.institutes = data.data
+                        this.hospitals = data.data
                     })
                     .catch(() => {
 

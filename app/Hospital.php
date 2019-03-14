@@ -11,6 +11,6 @@ class Hospital extends Model
     ];
     public function departments()
     {
-        return $this->belongsToMany('App\HospitalDepartment', 'hospital_department_relation')->withTimestamps();
+        return $this->belongsToMany('App\HospitalDepartment', 'hospital_department_relations')->withTimestamps();
     }
 }

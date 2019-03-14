@@ -75430,6 +75430,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         load: function load() {
             var _this9 = this;
 
+            this.$Progress.start();
             if (this.$gate.isAdminOrAuthor()) {
                 axios.get("api/education").then(function (_ref) {
                     var data = _ref.data;
@@ -75440,6 +75441,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 var data = _ref2.data;
                 return _this9.departments = data;
             });
+            this.$Progress.finish();
         },
         getResults: function getResults() {
             var _this10 = this;
@@ -75553,9 +75555,9 @@ var render = function() {
                     [
                       _vm._m(0),
                       _vm._v(" "),
-                      _vm._l(_vm.institutes.data, function(institute) {
+                      _vm._l(_vm.institutes.data, function(institute, index) {
                         return _c("tr", { key: institute.id }, [
-                          _c("td", [_vm._v(_vm._s(institute.id))]),
+                          _c("td", [_vm._v(_vm._s(index + 1))]),
                           _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(institute.name))]),
                           _vm._v(" "),
@@ -75564,9 +75566,7 @@ var render = function() {
                           _c("td", [_vm._v(_vm._s(institute.isActive))]),
                           _vm._v(" "),
                           _c("td", [
-                            _vm._v(
-                              _vm._s(_vm._f("myDate")(institute.created_at))
-                            )
+                            _vm._v(_vm._s(_vm._f("myDate")(institute.estDate)))
                           ]),
                           _vm._v(" "),
                           _c("td", [
@@ -76974,15 +76974,15 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("tr", [
-      _c("th", [_vm._v("ID")]),
+      _c("th", [_vm._v("S.N")]),
       _vm._v(" "),
       _c("th", [_vm._v("institute Name")]),
       _vm._v(" "),
-      _c("th", [_vm._v("type")]),
+      _c("th", [_vm._v("Type")]),
       _vm._v(" "),
       _c("th", [_vm._v("Status")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Registered At")]),
+      _c("th", [_vm._v("Established At")]),
       _vm._v(" "),
       _c("th", [_vm._v("Modify")])
     ])
@@ -77329,12 +77329,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         load: function load() {
             var _this3 = this;
 
+            this.$Progress.start();
             if (this.$gate.isAdminOrAuthor()) {
                 axios.get("api/admin-department").then(function (_ref) {
                     var data = _ref.data;
                     return _this3.departments = data;
                 });
             }
+            this.$Progress.finish();
         },
         create: function create() {
             var _this4 = this;
@@ -78120,42 +78122,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -78165,10 +78131,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             McreateMode: false,
             Mg1createMode: false,
             Mg2createMode: false,
-            institutes: {},
+            hospitals: {},
             departments: {},
-            institute_id: '',
-            institute_departments: {},
+            hospital_id: '',
+            hospital_departments: {},
             form: new Form({
                 id: '',
                 name: '',
@@ -78177,37 +78143,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 gallery_img_1: '',
                 gallery_img_2: '',
                 ownership_type: '',
-                vice_chancellor: '',
+                chancellor: '',
                 address: '',
                 city: '',
-                type: '',
                 isActive: '',
                 department: []
             }),
             departmentForm: new Form({
-                institute_id: '',
-                department_id: '',
-                cost: '',
-                students: '',
-                faculty_members: '',
-                IEEB: '',
-                credit: '',
-                computer: ''
+                hospital_id: '',
+                hospital_department_id: '',
+                doctors: '',
+                foreign_degree_doctors: '',
+                staff: ''
             })
         };
     },
 
     methods: _defineProperty({
         getMainPhoto: function getMainPhoto() {
-            var main_img_pic = this.form.main_img.length > 200 ? this.form.main_img : "img/institutes/" + this.form.main_img;
+            var main_img_pic = this.form.main_img.length > 200 ? this.form.main_img : "img/hospitals/" + this.form.main_img;
             return main_img_pic;
         },
         getGalleryPhoto1: function getGalleryPhoto1() {
-            var gallery_img_1_pic = this.form.gallery_img_1.length > 200 ? this.form.gallery_img_1 : "img/institutes/" + this.form.gallery_img_1;
+            var gallery_img_1_pic = this.form.gallery_img_1.length > 200 ? this.form.gallery_img_1 : "img/hospitals/" + this.form.gallery_img_1;
             return gallery_img_1_pic;
         },
         getGalleryPhoto2: function getGalleryPhoto2() {
-            var gallery_img_2_pic = this.form.gallery_img_2.length > 200 ? this.form.gallery_img_2 : "img/institutes/" + this.form.gallery_img_2;
+            var gallery_img_2_pic = this.form.gallery_img_2.length > 200 ? this.form.gallery_img_2 : "img/hospitals/" + this.form.gallery_img_2;
             return gallery_img_2_pic;
         },
         newModal: function newModal() {
@@ -78220,41 +78182,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             $('#addNew').modal('show');
         },
-        editModal: function editModal(institute) {
+        editModal: function editModal(hospital) {
             this.McreateMode = false;
             this.Mg1createMode = false;
             this.Mg2createMode = false;
             this.editMode = true;
             this.form.reset();
             $('#addNew').modal('show');
-            this.form.fill(institute);
+            this.form.fill(hospital);
         },
-        settingInstituteDepartments: function settingInstituteDepartments(institute) {
+        settingInstituteDepartments: function settingInstituteDepartments(hospital) {
             var _this = this;
 
-            axios.get("api/education-departments/" + institute.id).then(function (data) {
-                _this.institute_departments = data;
+            axios.get("api/hospital-departments/" + hospital.id).then(function (data) {
+                _this.hospital_departments = data;
             });
-            this.institute_id = institute.id;
-            $('#instututeDepartments').modal('show');
+            this.hospital_id = hospital.id;
+            $('#hospitalDepartments').modal('show');
         },
         departmentNewModal: function departmentNewModal() {
             this.departmentEditMode = false;
             this.departmentForm.reset();
             $('#departmentFormModal').modal('show');
         },
-        addInstituteDepartment: function addInstituteDepartment() {
+        addHospitalDepartment: function addHospitalDepartment() {
             var _this2 = this;
 
             this.$Progress.start();
-            this.departmentForm.post('api/institute-departments/' + this.institute_id).then(function () {
+            this.departmentForm.post('api/hospital-departments/' + this.hospital_id).then(function () {
                 $('#departmentFormModal').modal('hide');
-                $('#instututeDepartments').modal('hide');
+                $('#hospitalDepartments').modal('hide');
                 Fire.$emit('takePageLoad');
-                swal('Inserted!', 'Your institute department information has been stored.', 'success');
+                swal('Inserted!', 'Your hospital department information has been stored.', 'success');
                 _this2.$Progress.finish();
             }).catch(function () {
-                swal("Failed", "Institute Department Already Stored", "warning");
+                swal("Failed", "Hospital Department Already Stored", "warning");
                 _this2.$Progress.fail();
             });
         },
@@ -78268,10 +78230,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             var _this3 = this;
 
             this.$Progress.start();
-            this.departmentForm.put('api/education-departments/').then(function () {
+            this.departmentForm.put('api/hospital-departments/').then(function () {
                 swal('Updated!', 'Your information has been updated.', 'success');
                 $('#departmentFormModal').modal('hide');
-                $('#instututeDepartments').modal('hide');
+                $('#hospitalDepartments').modal('hide');
                 _this3.$Progress.finish();
                 Fire.$emit('takePageLoad');
             }).catch(function () {
@@ -78296,9 +78258,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 if (result.value) {
 
                     _this4.departmentForm.fill(department);
-                    _this4.departmentForm.delete('api/delete_institute_department').then(function () {
-                        swal('Deleted!', 'Institute Deparment has been deleted.', 'success');
-                        $('#instututeDepartments').modal('hide');
+                    _this4.departmentForm.delete('api/delete_hospital_department').then(function () {
+                        swal('Deleted!', 'Hospital Deparment has been deleted.', 'success');
+                        $('#hospitalDepartments').modal('hide');
                         Fire.$emit('takePageLoad');
                     }).catch(function () {
                         _this4.$Progress.fail();
@@ -78312,7 +78274,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             var _this5 = this;
 
             this.$Progress.start();
-            this.form.put('api/education/' + this.form.id).then(function () {
+            this.form.put('api/dashboard/hospital/' + this.form.id).then(function () {
                 $('#addNew').modal('hide');
                 swal('Updated!', 'Your information has been updated.', 'success');
                 _this5.$Progress.finish();
@@ -78369,36 +78331,38 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         load: function load() {
             var _this9 = this;
 
+            this.$Progress.start();
             if (this.$gate.isAdminOrAuthor()) {
-                axios.get("api/education").then(function (_ref) {
+                axios.get("api/dashboard/hospital").then(function (_ref) {
                     var data = _ref.data;
-                    return _this9.institutes = data;
+                    return _this9.hospitals = data;
                 });
             }
-            axios.get("api/departments").then(function (_ref2) {
+            axios.get("api/hospital/departments").then(function (_ref2) {
                 var data = _ref2.data;
                 return _this9.departments = data;
             });
+            this.$Progress.finish();
         },
         getResults: function getResults() {
             var _this10 = this;
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-            axios.get('api/education?page=' + page).then(function (response) {
-                _this10.institutes = response.data;
+            axios.get('api/dashboard/hospital?page=' + page).then(function (response) {
+                _this10.hospitals = response.data;
             });
         },
         create: function create() {
             var _this11 = this;
 
             this.$Progress.start();
-            this.form.post('api/education').then(function () {
+            this.form.post('api/dashboard/hospital').then(function () {
                 Fire.$emit('takePageLoad');
                 $('#addNew').modal('hide');
                 toast({
                     type: 'success',
-                    title: 'institute created successfully'
+                    title: 'Hospital created successfully'
                 });
                 _this11.$Progress.finish();
             }).catch(function () {
@@ -78419,7 +78383,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 confirmButtonText: 'Yes, delete it!'
             }).then(function (result) {
                 if (result.value) {
-                    _this12.form.delete('api/education/' + id).then(function () {
+                    _this12.form.delete('api/dashboard/hospital/' + id).then(function () {
                         swal('Deleted!', 'Your file has been deleted.', 'success');
                         Fire.$emit('takePageLoad');
                     }).catch(function () {
@@ -78431,7 +78395,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             });
         }
     }, 'getMainPhoto', function getMainPhoto() {
-        var photo = this.form.main_img.length > 200 ? this.form.main_img : "img/institutes/" + this.form.main_img;
+        var photo = this.form.main_img.length > 200 ? this.form.main_img : "img/hospitals/" + this.form.main_img;
         return photo;
     }),
     created: function created() {
@@ -78439,8 +78403,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         Fire.$on('searching', function () {
             var query = _this13.$parent.search;
-            axios.get('api/findeducation?q=' + query).then(function (data) {
-                _this13.institutes = data.data;
+            axios.get('api/findhospital?q=' + query).then(function (data) {
+                _this13.hospitals = data.data;
             }).catch(function () {});
         });
         this.load();
@@ -78467,7 +78431,7 @@ var render = function() {
             _c("div", { staticClass: "card" }, [
               _c("div", { staticClass: "card-header" }, [
                 _c("h3", { staticClass: "card-title" }, [
-                  _vm._v("Institutes Table")
+                  _vm._v("Hospitals Table")
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "card-tools" }, [
@@ -78492,21 +78456,13 @@ var render = function() {
                     [
                       _vm._m(0),
                       _vm._v(" "),
-                      _vm._l(_vm.institutes.data, function(institute) {
-                        return _c("tr", { key: institute.id }, [
-                          _c("td", [_vm._v(_vm._s(institute.id))]),
+                      _vm._l(_vm.hospitals.data, function(hospital, index) {
+                        return _c("tr", { key: hospital.id }, [
+                          _c("td", [_vm._v(_vm._s(index + 1))]),
                           _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(institute.name))]),
+                          _c("td", [_vm._v(_vm._s(hospital.name))]),
                           _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(institute.type))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(institute.isActive))]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              _vm._s(_vm._f("myDate")(institute.created_at))
-                            )
-                          ]),
+                          _c("td", [_vm._v(_vm._s(hospital.isActive))]),
                           _vm._v(" "),
                           _c("td", [
                             _c(
@@ -78515,7 +78471,7 @@ var render = function() {
                                 attrs: { href: "javascript:void(0)" },
                                 on: {
                                   click: function($event) {
-                                    _vm.settingInstituteDepartments(institute)
+                                    _vm.settingInstituteDepartments(hospital)
                                   }
                                 }
                               },
@@ -78537,7 +78493,7 @@ var render = function() {
                                 attrs: { href: "javascript:void(0)" },
                                 on: {
                                   click: function($event) {
-                                    _vm.editModal(institute)
+                                    _vm.editModal(hospital)
                                   }
                                 }
                               },
@@ -78550,7 +78506,7 @@ var render = function() {
                                 attrs: { href: "javascript:void(0)" },
                                 on: {
                                   click: function($event) {
-                                    _vm.deleted(institute.id)
+                                    _vm.deleted(hospital.id)
                                   }
                                 }
                               },
@@ -78570,7 +78526,7 @@ var render = function() {
                 { staticClass: "card-footer" },
                 [
                   _c("pagination", {
-                    attrs: { data: _vm.institutes },
+                    attrs: { data: _vm.hospitals },
                     on: { "pagination-change-page": _vm.getResults }
                   })
                 ],
@@ -78636,7 +78592,7 @@ var render = function() {
                     staticClass: "modal-title",
                     attrs: { id: "addNewLabel" }
                   },
-                  [_vm._v("Update institutes's Info")]
+                  [_vm._v("Update Hospitals Info")]
                 ),
                 _vm._v(" "),
                 _vm._m(1)
@@ -78659,7 +78615,7 @@ var render = function() {
                       { staticClass: "form-group" },
                       [
                         _c("label", { attrs: { for: "name" } }, [
-                          _vm._v("Institution Name")
+                          _vm._v("Hospital Name")
                         ]),
                         _vm._v(" "),
                         _c("input", {
@@ -78746,7 +78702,7 @@ var render = function() {
                       { staticClass: "form-group" },
                       [
                         _c("label", { attrs: { for: "address" } }, [
-                          _vm._v("Institution Address")
+                          _vm._v("Hospital Address")
                         ]),
                         _vm._v(" "),
                         _c("textarea", {
@@ -79128,81 +79084,6 @@ var render = function() {
                     _vm._v(" "),
                     _c(
                       "div",
-                      { staticClass: "form-group" },
-                      [
-                        _c("label", [_vm._v("Select the Institution Type")]),
-                        _vm._v(" "),
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.form.type,
-                                expression: "form.type"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            class: {
-                              "is-invalid": _vm.form.errors.has("type")
-                            },
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.$set(
-                                  _vm.form,
-                                  "type",
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
-                              }
-                            }
-                          },
-                          [
-                            _c(
-                              "option",
-                              { attrs: { value: "", disabled: "" } },
-                              [_vm._v("Institute Type")]
-                            ),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "School" } }, [
-                              _vm._v("School")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "College" } }, [
-                              _vm._v("College")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "University" } }, [
-                              _vm._v("University")
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "option",
-                              { attrs: { value: "Medical College" } },
-                              [_vm._v("Medical College")]
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c("has-error", {
-                          attrs: { form: _vm.form, field: "type" }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
                       {
                         directives: [
                           {
@@ -79401,7 +79282,7 @@ var render = function() {
       {
         staticClass: "modal fade bd-example-modal-lg",
         attrs: {
-          id: "instututeDepartments",
+          id: "hospitalDepartments",
           tabindex: "-1",
           role: "dialog",
           "aria-labelledby": "instituteDepartmentsLabel",
@@ -79424,23 +79305,17 @@ var render = function() {
                       [
                         _vm._m(6),
                         _vm._v(" "),
-                        _vm._l(_vm.institute_departments.data, function(
+                        _vm._l(_vm.hospital_departments.data, function(
                           department
                         ) {
-                          return _c("tr", { key: department.institute_id }, [
+                          return _c("tr", { key: department.hospital_id }, [
                             _c("td", [_vm._v(_vm._s(department.name))]),
                             _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(department.credit))]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(department.cost))]),
+                            _c("td", [_vm._v(_vm._s(department.doctors))]),
                             _vm._v(" "),
                             _c("td", [
-                              _vm._v(_vm._s(department.faculty_members))
+                              _vm._v(_vm._s(department.foreign_degree_doctors))
                             ]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(department.students))]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(department.IEEB))]),
                             _vm._v(" "),
                             _c("td", [
                               _c(
@@ -79539,7 +79414,7 @@ var render = function() {
                       $event.preventDefault()
                       _vm.departmentEditMode
                         ? _vm.DepartmentUpdate()
-                        : _vm.addInstituteDepartment()
+                        : _vm.addHospitalDepartment()
                     }
                   }
                 },
@@ -79575,8 +79450,10 @@ var render = function() {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.departmentForm.department_id,
-                                expression: "departmentForm.department_id"
+                                value:
+                                  _vm.departmentForm.hospital_department_id,
+                                expression:
+                                  "departmentForm.hospital_department_id"
                               }
                             ],
                             staticClass: "form-control",
@@ -79592,7 +79469,7 @@ var render = function() {
                                   })
                                 _vm.$set(
                                   _vm.departmentForm,
-                                  "department_id",
+                                  "hospital_department_id",
                                   $event.target.multiple
                                     ? $$selectedVal
                                     : $$selectedVal[0]
@@ -79621,7 +79498,7 @@ var render = function() {
                           staticClass: "col-form-label",
                           attrs: { for: "credit" }
                         },
-                        [_vm._v("Credit:")]
+                        [_vm._v("Total Doctors:")]
                       ),
                       _vm._v(" "),
                       _c("input", {
@@ -79629,13 +79506,13 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.departmentForm.credit,
-                            expression: "departmentForm.credit"
+                            value: _vm.departmentForm.doctors,
+                            expression: "departmentForm.doctors"
                           }
                         ],
                         staticClass: "form-control",
                         attrs: { type: "number", id: "credit" },
-                        domProps: { value: _vm.departmentForm.credit },
+                        domProps: { value: _vm.departmentForm.doctors },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
@@ -79643,7 +79520,7 @@ var render = function() {
                             }
                             _vm.$set(
                               _vm.departmentForm,
-                              "credit",
+                              "doctors",
                               $event.target.value
                             )
                           }
@@ -79658,7 +79535,7 @@ var render = function() {
                           staticClass: "col-form-label",
                           attrs: { for: "faculty_members" }
                         },
-                        [_vm._v("Faculty Members:")]
+                        [_vm._v("Total PHD or foreign degree doctors:")]
                       ),
                       _vm._v(" "),
                       _c("input", {
@@ -79666,13 +79543,15 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.departmentForm.faculty_members,
-                            expression: "departmentForm.faculty_members"
+                            value: _vm.departmentForm.foreign_degree_doctors,
+                            expression: "departmentForm.foreign_degree_doctors"
                           }
                         ],
                         staticClass: "form-control",
                         attrs: { type: "number", id: "faculty_members" },
-                        domProps: { value: _vm.departmentForm.faculty_members },
+                        domProps: {
+                          value: _vm.departmentForm.foreign_degree_doctors
+                        },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
@@ -79680,7 +79559,7 @@ var render = function() {
                             }
                             _vm.$set(
                               _vm.departmentForm,
-                              "faculty_members",
+                              "foreign_degree_doctors",
                               $event.target.value
                             )
                           }
@@ -79695,7 +79574,7 @@ var render = function() {
                           staticClass: "col-form-label",
                           attrs: { for: "students" }
                         },
-                        [_vm._v("Students:")]
+                        [_vm._v("Staff:")]
                       ),
                       _vm._v(" "),
                       _c("input", {
@@ -79703,13 +79582,13 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.departmentForm.students,
-                            expression: "departmentForm.students"
+                            value: _vm.departmentForm.staff,
+                            expression: "departmentForm.staff"
                           }
                         ],
                         staticClass: "form-control",
                         attrs: { type: "number", id: "students" },
-                        domProps: { value: _vm.departmentForm.students },
+                        domProps: { value: _vm.departmentForm.staff },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
@@ -79717,140 +79596,12 @@ var render = function() {
                             }
                             _vm.$set(
                               _vm.departmentForm,
-                              "students",
+                              "staff",
                               $event.target.value
                             )
                           }
                         }
                       })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-form-label",
-                          attrs: { for: "cost" }
-                        },
-                        [_vm._v("Cost:")]
-                      ),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.departmentForm.cost,
-                            expression: "departmentForm.cost"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { type: "number", id: "cost" },
-                        domProps: { value: _vm.departmentForm.cost },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.departmentForm,
-                              "cost",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-form-label",
-                          attrs: { for: "computer" }
-                        },
-                        [_vm._v("Computer:")]
-                      ),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.departmentForm.computer,
-                            expression: "departmentForm.computer"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { type: "number", id: "computer" },
-                        domProps: { value: _vm.departmentForm.computer },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.departmentForm,
-                              "computer",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-form-label",
-                          attrs: { for: "degree" }
-                        },
-                        [_vm._v("Degree:")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "select",
-                        {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.departmentForm.IEEB,
-                              expression: "departmentForm.IEEB"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          on: {
-                            change: function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.$set(
-                                _vm.departmentForm,
-                                "IEEB",
-                                $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              )
-                            }
-                          }
-                        },
-                        [
-                          _c("option", { attrs: { value: "IEEB" } }, [
-                            _vm._v("IEEB")
-                          ]),
-                          _vm._v(" "),
-                          _c("option", { attrs: { value: "Farmachiest" } }, [
-                            _vm._v("Farmachiest")
-                          ])
-                        ]
-                      )
                     ])
                   ]),
                   _vm._v(" "),
@@ -79915,13 +79666,9 @@ var staticRenderFns = [
     return _c("tr", [
       _c("th", [_vm._v("ID")]),
       _vm._v(" "),
-      _c("th", [_vm._v("institute Name")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("type")]),
+      _c("th", [_vm._v("Hospital Name")]),
       _vm._v(" "),
       _c("th", [_vm._v("Status")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Registered At")]),
       _vm._v(" "),
       _c("th", [_vm._v("Modify")])
     ])
@@ -79951,7 +79698,7 @@ var staticRenderFns = [
       _c("img", {
         staticClass: "mt-1",
         staticStyle: { width: "80%", height: "25%" },
-        attrs: { src: "img/institutes/default.jpg", alt: "Main Image" }
+        attrs: { src: "img/hospitals/default.jpg", alt: "Main Image" }
       })
     ])
   },
@@ -79963,7 +79710,7 @@ var staticRenderFns = [
       _c("img", {
         staticClass: "mt-1",
         staticStyle: { width: "80%", height: "25%" },
-        attrs: { src: "img/institutes/default.jpg", alt: "Gallery Image:1" }
+        attrs: { src: "img/hospitals/default.jpg", alt: "Gallery Image:1" }
       })
     ])
   },
@@ -79975,7 +79722,7 @@ var staticRenderFns = [
       _c("img", {
         staticClass: "mt-1",
         staticStyle: { width: "80%", height: "25%" },
-        attrs: { src: "img/institutes/default.jpg", alt: "Gallery Image:2" }
+        attrs: { src: "img/hospitals/default.jpg", alt: "Gallery Image:2" }
       })
     ])
   },
@@ -79990,7 +79737,7 @@ var staticRenderFns = [
           staticClass: "modal-title",
           attrs: { id: "instituteDepartmentsLabel" }
         },
-        [_vm._v("Institute Department Information")]
+        [_vm._v("Hospital Department Information")]
       ),
       _vm._v(" "),
       _c(
@@ -80014,15 +79761,9 @@ var staticRenderFns = [
     return _c("tr", [
       _c("th", [_vm._v("Department Name")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Credit")]),
+      _c("th", [_vm._v("Doctors")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Cost")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Faculty Members")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Students")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Degree")]),
+      _c("th", [_vm._v("Foreign Degree Doctors")]),
       _vm._v(" "),
       _c("th", [_vm._v("Modify")])
     ])
@@ -80038,7 +79779,7 @@ var staticRenderFns = [
           staticClass: "modal-title",
           attrs: { id: "instituteDepartmentsLabel" }
         },
-        [_vm._v("Institute Deparment Information")]
+        [_vm._v("Hospital Deparment Information")]
       ),
       _vm._v(" "),
       _c(
@@ -80216,6 +79957,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -80268,12 +80011,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         load: function load() {
             var _this3 = this;
 
+            this.$Progress.start();
             if (this.$gate.isAdminOrAuthor()) {
                 axios.get("api/dashboard-hospital-departments").then(function (_ref) {
                     var data = _ref.data;
                     return _this3.departments = data;
                 });
             }
+            this.$Progress.finish();
         },
         create: function create() {
             var _this4 = this;
@@ -80374,8 +80119,10 @@ var render = function() {
                     [
                       _vm._m(0),
                       _vm._v(" "),
-                      _vm._l(_vm.departments.data, function(department) {
+                      _vm._l(_vm.departments.data, function(department, index) {
                         return _c("tr", { key: department.id }, [
+                          _c("td", [_vm._v(_vm._s(index))]),
+                          _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(department.name))]),
                           _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(department.slug))]),
@@ -80672,6 +80419,8 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("tr", [
+      _c("th", [_vm._v("S.N")]),
+      _vm._v(" "),
       _c("th", [_vm._v("Name")]),
       _vm._v(" "),
       _c("th", [_vm._v("slug")]),
@@ -80913,12 +80662,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         loaddiscuss: function loaddiscuss() {
             var _this3 = this;
 
+            this.$Progress.start();
             if (this.$gate.isAdminOrAuthor()) {
                 axios.get("api/discuss").then(function (_ref) {
                     var data = _ref.data;
                     return _this3.discuss = data;
                 });
             }
+            this.$Progress.finish();
         },
         creatediscuss: function creatediscuss() {
             var _this4 = this;
@@ -81001,9 +80752,9 @@ var render = function() {
                     [
                       _vm._m(1),
                       _vm._v(" "),
-                      _vm._l(_vm.discuss.data, function(discuss) {
+                      _vm._l(_vm.discuss.data, function(discuss, index) {
                         return _c("tr", { key: discuss.id }, [
-                          _c("td", [_vm._v(_vm._s(discuss.id))]),
+                          _c("td", [_vm._v(_vm._s(index + 1))]),
                           _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(discuss.name))]),
                           _vm._v(" "),
@@ -81019,7 +80770,7 @@ var render = function() {
                             _c(
                               "a",
                               {
-                                attrs: { href: "#" },
+                                attrs: { href: "javascript:void(0)" },
                                 on: {
                                   click: function($event) {
                                     _vm.editModal(discuss)
@@ -81032,7 +80783,7 @@ var render = function() {
                             _c(
                               "a",
                               {
-                                attrs: { href: "#" },
+                                attrs: { href: "javascript:void(0)" },
                                 on: {
                                   click: function($event) {
                                     _vm.deletediscuss(discuss.id)
@@ -81046,7 +80797,7 @@ var render = function() {
                               "a",
                               {
                                 attrs: {
-                                  href: "#",
+                                  href: "javascript:void(0)",
                                   title: "Send Email to Questioner"
                                 },
                                 on: {
@@ -81295,7 +81046,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("tr", [
-      _c("th", [_vm._v("ID")]),
+      _c("th", [_vm._v("S.N")]),
       _vm._v(" "),
       _c("th", [_vm._v("Name")]),
       _vm._v(" "),
@@ -81518,9 +81269,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
+            this.$Progress.start();
             axios.get('api/category?page=' + page).then(function (response) {
                 _this.categories = response.data;
             });
+            this.$Progress.finish();
         },
         updateCategory: function updateCategory() {
             var _this2 = this;
@@ -81538,12 +81291,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         loadCategories: function loadCategories() {
             var _this3 = this;
 
+            this.$Progress.start();
             if (this.$gate.isAdminOrAuthor()) {
                 axios.get("api/category").then(function (_ref) {
                     var data = _ref.data;
                     return _this3.categories = data;
                 });
             }
+            this.$Progress.finish();
         },
         createCategory: function createCategory() {
             var _this4 = this;

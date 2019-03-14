@@ -193,9 +193,11 @@
                 });
             },
             load(){
+                this.$Progress.start();
                 if(this.$gate.isAdminOrAuthor()){
                     axios.get("api/education-departments").then(({ data }) => (this.institutes = data));
                 }
+                this.$Progress.finish();
             },
             create(){
                 this.$Progress.start();

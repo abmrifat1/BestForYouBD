@@ -134,9 +134,9 @@
                                 </router-link>
                             </li>
                             <li class="nav-item">
-                                <router-link to="/dashboard-hospital-departments" class="nav-link">
+                                <router-link to="/dashboard-hotel-rooms" class="nav-link">
                                     <i class="fas fa-angle-double-right nav-icon yellow"></i>
-                                    <p>Department</p>
+                                    <p>Rooms</p>
                                 </router-link>
                             </li>
                         </ul>

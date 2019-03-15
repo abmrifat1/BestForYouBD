@@ -67,7 +67,7 @@ class InstituteController extends Controller
         }else{
             $request->merge(['gallery_img_2' => 'default.jpg']);
         }
-        $institude = Institute::create([
+        $institute = Institute::create([
             'name' => $request['name'],
             'estDate' => $request['estDate'],
             'address' => $request['address'],
@@ -78,7 +78,7 @@ class InstituteController extends Controller
             'type' => $request['type'],
             'isActive' => $request['isActive'],
         ]);
-        $institude->departments()->sync($request->department);
+        $institute->departments()->sync($request->department);
         return ['update' => "Institute information stored"];
     }
     /**
@@ -89,13 +89,13 @@ class InstituteController extends Controller
      */
     public function getEduDept($id)
     {
-        $institude = InstituteDepartments::where('institute_id',$id)
+        $institute = InstituteDepartments::where('institute_id',$id)
         ->leftJoin('departments','institute_departments.department_id','=','departments.id')
         ->select('institute_departments.*',
                 'departments.name')
         ->orderBy('departments.name', 'ASC')
         ->get();
-        return $institude;
+        return $institute;
     }
     public function updateEducationDepartment(Request $request)
     {
@@ -126,11 +126,11 @@ class InstituteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $institude = Institute::findOrFail($id);
+        $institute = Institute::findOrFail($id);
         $this->validate($request,[
             'name'=>'required|string|max:191'
         ]);
-        $currentPhoto = $institude->main_img;
+        $currentPhoto = $institute->main_img;
         
         if($request->main_img != $currentPhoto){
             $name = time().rand(50,5000).'.' . explode('/', explode(':', substr($request->main_img, 0, strpos($request->main_img, ';')))[1])[1];
@@ -141,7 +141,7 @@ class InstituteController extends Controller
                 @unlink($institudePhoto);
             }
         }
-        $currentPhoto = $institude->gallery_img_1;
+        $currentPhoto = $institute->gallery_img_1;
         if($request->gallery_img_1 != $currentPhoto){
             $name = time().rand(50,5000).'.' . explode('/', explode(':', substr($request->gallery_img_1, 0, strpos($request->gallery_img_1, ';')))[1])[1];
 
@@ -152,7 +152,7 @@ class InstituteController extends Controller
                 @unlink($institudePhoto);
             }
         }
-        $currentPhoto = $institude->gallery_img_2;
+        $currentPhoto = $institute->gallery_img_2;
         if($request->gallery_img_2 != $currentPhoto){
             $name = time().rand(50,5000).'.' . explode('/', explode(':', substr($request->gallery_img_2, 0, strpos($request->gallery_img_2, ';')))[1])[1];
 
@@ -164,11 +164,11 @@ class InstituteController extends Controller
                 @unlink($institudePhoto);
             }
         }
-        $institude->update($request->all());
+        $institute->update($request->all());
         if(!empty($request->department)){
-            $institude->departments()->sync($request->department);
+            $institute->departments()->sync($request->department);
         }
-        return ['update' => "Institude information updated"];
+        return ['update' => "institute information updated"];
     }
 
     /**
@@ -180,7 +180,7 @@ class InstituteController extends Controller
     public function destroyEducationDepartment(Request $request)
     {
         DB::table('institute_departments')->where('institute_id', $request->institute_id)->where('department_id',$request->department_id)->delete();
-        return ['Message' => "Institude department information updated"];
+        return ['Message' => "institute department information updated"];
     }
     public function destroy($id)
     {
@@ -209,14 +209,14 @@ class InstituteController extends Controller
     public function search(){
 
         if ($search = \Request::get('q')) {
-            $users = Institute::where(function($query) use ($search){
+            $institutes = Institute::where(function($query) use ($search){
                 $query->where('name','LIKE',"%$search%")
                     ->orWhere('email','LIKE',"%$search%");
             })->paginate(20);
         }else{
-            $users = User::latest()->paginate(5);
+            $institutes = User::latest()->paginate(5);
         }
 
-        return $users;
+        return $institutes;
     }
 }

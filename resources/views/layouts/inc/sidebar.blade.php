@@ -117,6 +117,31 @@
                         </ul>
                     </li>
                     @endcan
+                    @can('isAdminOrAuthor')
+                    <li class="nav-item has-treeview">
+                        <a href="javascript:void(0)" class="nav-link">
+                            <i class="fas fa-hotel nav-icon green"></i>
+                            <p>
+                                Hotel
+                                <i class="right fa fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <router-link to="/dashboard-hotels" class="nav-link">
+                                    <i class="fas fa-angle-double-right nav-icon yellow"></i>
+                                    <p>Manage</p>
+                                </router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link to="/dashboard-hospital-departments" class="nav-link">
+                                    <i class="fas fa-angle-double-right nav-icon yellow"></i>
+                                    <p>Department</p>
+                                </router-link>
+                            </li>
+                        </ul>
+                    </li>
+                    @endcan
                     <li class="nav-item">
                         <router-link to="/dashboard-profile" class="nav-link">
                             <i class="nav-icon fas fa-user-cog green"></i>

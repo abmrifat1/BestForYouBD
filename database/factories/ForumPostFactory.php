@@ -5,8 +5,8 @@ use App\Forum;
 use App\Category;
 $factory->define(Forum::class, function (Faker $faker) {
     return [
-        'name'=>$faker->word(3),
-        'description'=>$faker->paragraph(10),
+        'name'=>$faker->name,
+        'description'=>$faker->paragraph(5),
         'category_id'=>function(){
             return factory(Category::class)->create()->id;
         },

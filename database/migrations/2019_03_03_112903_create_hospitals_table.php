@@ -25,6 +25,7 @@ class CreateHospitalsTable extends Migration
             $table->string('address',100)->nullable();
             $table->string('city',50)->nullable();
             $table->string('isActive',50)->default('Active');
+            $table->timestamps();
         });
     }
 

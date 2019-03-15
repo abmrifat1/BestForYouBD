@@ -42,5 +42,8 @@ Route::put('hospital-departments','API\HospitalController@updateHospitalDepartme
 Route::post('hospital-departments/{hospital_id}','API\HospitalController@addHospitalDepartment');
 //Start Hospital Department
 Route::apiResources(['dashboard-hospital-departments'=>'API\HospitalDepartmentController']);
+//Start Hotel
+Route::apiResources(['hotel'=>'API\HospitalController']);
+
 Route::get('findCategory', 'API\CategoryController@search');
 Route::get('findDiscuss', 'API\ForumController@search');

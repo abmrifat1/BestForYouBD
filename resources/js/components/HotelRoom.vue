@@ -29,11 +29,11 @@
                                 <td>{{room.slug}}</td>
                                 <td>{{room.isActive | upText}}</td>
                                 <td>
-                                    <a href="#" @click="editModal(room)">
+                                    <a href="javascript:void(0)" @click="editModal(room)">
                                         <i class="fa fa-edit blue"></i>
                                     </a>
 
-                                    <a href="#" @click="deleted(room.id)">
+                                    <a href="javascript:void(0)" @click="deleted(room.id)">
                                         <i class="fa fa-trash red"></i>
                                     </a>
 

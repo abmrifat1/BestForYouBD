@@ -82606,7 +82606,7 @@ var render = function() {
                             _c(
                               "a",
                               {
-                                attrs: { href: "#" },
+                                attrs: { href: "javascript:void(0)" },
                                 on: {
                                   click: function($event) {
                                     _vm.editModal(room)
@@ -82619,7 +82619,7 @@ var render = function() {
                             _c(
                               "a",
                               {
-                                attrs: { href: "#" },
+                                attrs: { href: "javascript:void(0)" },
                                 on: {
                                   click: function($event) {
                                     _vm.deleted(room.id)

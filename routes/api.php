@@ -43,9 +43,16 @@ Route::post('hospital-departments/{hospital_id}','API\HospitalController@addHosp
 //Start Hospital Department
 Route::apiResources(['dashboard-hospital-departments'=>'API\HospitalDepartmentController']);
 //Start Hotel
-Route::apiResources(['hotel'=>'API\HospitalController']);
-//Start Hotel Rooms
+Route::apiResources(['dashboard/hotel'=>'API\HotelController']);
+//Start Rooms
 Route::apiResources(['dashboard-room'=>'API\HotelRoomController']);
+//Start Hotel Rooms
+Route::get('hotel-rooms','API\HotelController@getRoom');
+Route::put('hotel-rooms','API\HotelController@updateHotelRoom');
+Route::delete('delete-hotel-room','API\HotelController@destroyHotelRoom');
+Route::get('hotel-rooms/{id}','API\HotelController@getHotelRoom');
+Route::put('hotel-rooms','API\HotelController@updateHotelRoom');
+Route::post('hotel-rooms/{hotel_id}','API\HotelController@addHotelRoom');
 
 Route::get('findCategory', 'API\CategoryController@search');
 Route::get('findDiscuss', 'API\ForumController@search');

@@ -4578,6 +4578,115 @@
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports) {
+
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file.
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+module.exports = function normalizeComponent (
+  rawScriptExports,
+  compiledTemplate,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier /* server only */
+) {
+  var esModule
+  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+  // ES6 modules interop
+  var type = typeof rawScriptExports.default
+  if (type === 'object' || type === 'function') {
+    esModule = rawScriptExports
+    scriptExports = rawScriptExports.default
+  }
+
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (compiledTemplate) {
+    options.render = compiledTemplate.render
+    options.staticRenderFns = compiledTemplate.staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = injectStyles
+  }
+
+  if (hook) {
+    var functional = options.functional
+    var existing = functional
+      ? options.render
+      : options.beforeCreate
+
+    if (!functional) {
+      // inject component registration as beforeCreate hook
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    } else {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return existing(h, context)
+      }
+    }
+  }
+
+  return {
+    esModule: esModule,
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4887,115 +4996,6 @@ module.exports = {
 
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file.
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-module.exports = function normalizeComponent (
-  rawScriptExports,
-  compiledTemplate,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier /* server only */
-) {
-  var esModule
-  var scriptExports = rawScriptExports = rawScriptExports || {}
-
-  // ES6 modules interop
-  var type = typeof rawScriptExports.default
-  if (type === 'object' || type === 'function') {
-    esModule = rawScriptExports
-    scriptExports = rawScriptExports.default
-  }
-
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (compiledTemplate) {
-    options.render = compiledTemplate.render
-    options.staticRenderFns = compiledTemplate.staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = injectStyles
-  }
-
-  if (hook) {
-    var functional = options.functional
-    var existing = functional
-      ? options.render
-      : options.beforeCreate
-
-    if (!functional) {
-      // inject component registration as beforeCreate hook
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    } else {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return existing(h, context)
-      }
-    }
-  }
-
-  return {
-    esModule: esModule,
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
 /* 3 */
 /***/ (function(module, exports) {
 
@@ -5029,7 +5029,7 @@ module.exports = g;
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 var normalizeHeaderName = __webpack_require__(148);
 
 var DEFAULT_CONTENT_TYPE = {
@@ -18287,7 +18287,7 @@ process.umask = function() { return 0; };
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 var settle = __webpack_require__(149);
 var buildURL = __webpack_require__(151);
 var parseHeaders = __webpack_require__(152);
@@ -30380,11 +30380,11 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(205)
+var __vue_script__ = __webpack_require__(211)
 /* template */
-var __vue_template__ = __webpack_require__(206)
+var __vue_template__ = __webpack_require__(212)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -30427,7 +30427,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(140);
-module.exports = __webpack_require__(210);
+module.exports = __webpack_require__(216);
 
 
 /***/ }),
@@ -30501,7 +30501,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_5_vue_progressbar___default.a, options);
 /*End progress bar*/
 
 /*Vue routes*/
-var routes = [{ path: '/dashboard', component: __webpack_require__(173) }, { path: '/dashboard-users', component: __webpack_require__(176) }, { path: '/dashboard-profile', component: __webpack_require__(179) }, { path: '/dashboard-institutions', component: __webpack_require__(187) }, { path: '/dashboard-institute-departments', component: __webpack_require__(190) }, { path: '/dashboard-hospitals', component: __webpack_require__(193) }, { path: '/dashboard-hospital-departments', component: __webpack_require__(196) }, { path: '/dashboard-hotel-rooms', component: __webpack_require__(229) }, { path: '/dashboard-forum-posts', component: __webpack_require__(199) }, { path: '/dashboard-forum-categories', component: __webpack_require__(202) }, { path: '*', component: __webpack_require__(138) }];
+var routes = [{ path: '/dashboard', component: __webpack_require__(173) }, { path: '/dashboard-users', component: __webpack_require__(176) }, { path: '/dashboard-profile', component: __webpack_require__(179) }, { path: '/dashboard-institutions', component: __webpack_require__(187) }, { path: '/dashboard-institute-departments', component: __webpack_require__(190) }, { path: '/dashboard-hospitals', component: __webpack_require__(193) }, { path: '/dashboard-hospital-departments', component: __webpack_require__(196) }, { path: '/dashboard-hotels', component: __webpack_require__(199) }, { path: '/dashboard-hotel-rooms', component: __webpack_require__(202) }, { path: '/dashboard-forum-posts', component: __webpack_require__(205) }, { path: '/dashboard-forum-categories', component: __webpack_require__(208) }, { path: '*', component: __webpack_require__(138) }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_4_vue_router__["a" /* default */]({
     mode: 'history',
@@ -30519,7 +30519,7 @@ Vue.filter('myDate', function (created) {
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 Vue.component('not-found', __webpack_require__(138));
-Vue.component('example-component', __webpack_require__(207));
+Vue.component('example-component', __webpack_require__(213));
 
 var app = new Vue({
     el: '#app',
@@ -51681,7 +51681,7 @@ if (token) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 var bind = __webpack_require__(9);
 var Axios = __webpack_require__(147);
 var defaults = __webpack_require__(4);
@@ -51768,7 +51768,7 @@ function isSlowBuffer (obj) {
 
 
 var defaults = __webpack_require__(4);
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 var InterceptorManager = __webpack_require__(156);
 var dispatchRequest = __webpack_require__(157);
 
@@ -51853,7 +51853,7 @@ module.exports = Axios;
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 module.exports = function normalizeHeaderName(headers, normalizedName) {
   utils.forEach(headers, function processHeader(value, name) {
@@ -51933,7 +51933,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 function encode(val) {
   return encodeURIComponent(val).
@@ -52006,7 +52006,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 // Headers whose duplicates are ignored by node
 // c.f. https://nodejs.org/api/http.html#http_message_headers
@@ -52066,7 +52066,7 @@ module.exports = function parseHeaders(headers) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -52184,7 +52184,7 @@ module.exports = btoa;
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -52244,7 +52244,7 @@ module.exports = (
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 function InterceptorManager() {
   this.handlers = [];
@@ -52303,7 +52303,7 @@ module.exports = InterceptorManager;
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 var transformData = __webpack_require__(158);
 var isCancel = __webpack_require__(13);
 var defaults = __webpack_require__(4);
@@ -52396,7 +52396,7 @@ module.exports = function dispatchRequest(config) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 /**
  * Transform the data for a request or a response
@@ -72835,7 +72835,7 @@ if (inBrowser && window.Vue) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(174)
 /* template */
@@ -72952,7 +72952,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(177)
 /* template */
@@ -73761,7 +73761,7 @@ function injectStyle (ssrContext) {
   if (disposed) return
   __webpack_require__(180)
 }
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(185)
 /* template */
@@ -74835,7 +74835,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(188)
 /* template */
@@ -77131,7 +77131,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(191)
 /* template */
@@ -77776,7 +77776,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(194)
 /* template */
@@ -79811,7 +79811,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(197)
 /* template */
@@ -80462,11 +80462,3033 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(200)
 /* template */
 var __vue_template__ = __webpack_require__(201)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/Hotel.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-78e77f4e", Component.options)
+  } else {
+    hotAPI.reload("data-v-78e77f4e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 200 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            editMode: false,
+            roomEditMode: false,
+            McreateMode: false,
+            Mg1createMode: false,
+            Mg2createMode: false,
+            hotels: {},
+            rooms: {},
+            hotel_id: '',
+            hotel_rooms: {},
+            form: new Form({
+                id: '',
+                name: '',
+                estDate: '',
+                star: '',
+                rating: '',
+                main_img: '',
+                gallery_img_1: '',
+                gallery_img_2: '',
+                owner: '',
+                address: '',
+                description: '',
+                district: '',
+                sub_district: '',
+                isActive: 'Active',
+                restaurant: 'Yes',
+                cafe: 'Yes',
+                room: []
+            }),
+            roomForm: new Form({
+                hotel_id: '',
+                room_type_id: '',
+                total_room: '',
+                bedNumber: '',
+                bedtype: '',
+                price: ''
+            })
+        };
+    },
+
+    methods: _defineProperty({
+        getMainPhoto: function getMainPhoto() {
+            var main_img_pic = this.form.main_img.length > 200 ? this.form.main_img : "img/hotels/" + this.form.main_img;
+            return main_img_pic;
+        },
+        getGalleryPhoto1: function getGalleryPhoto1() {
+            var gallery_img_1_pic = this.form.gallery_img_1.length > 200 ? this.form.gallery_img_1 : "img/hotels/" + this.form.gallery_img_1;
+            return gallery_img_1_pic;
+        },
+        getGalleryPhoto2: function getGalleryPhoto2() {
+            var gallery_img_2_pic = this.form.gallery_img_2.length > 200 ? this.form.gallery_img_2 : "img/hotels/" + this.form.gallery_img_2;
+            return gallery_img_2_pic;
+        },
+        newModal: function newModal() {
+            this.editMode = false;
+            this.McreateMode = true;
+            this.Mg1createMode = true;
+            this.Mg2createMode = true;
+            this.form.reset();
+            //axios.get("api/education/create").then( response => (this.departments = response));
+
+            $('#addNew').modal('show');
+        },
+        editModal: function editModal(hotel) {
+            this.McreateMode = false;
+            this.Mg1createMode = false;
+            this.Mg2createMode = false;
+            this.editMode = true;
+            this.form.reset();
+            $('#addNew').modal('show');
+            this.form.fill(hotel);
+        },
+        settingHotelRooms: function settingHotelRooms(hotel) {
+            var _this = this;
+
+            axios.get("api/hotel-rooms/" + hotel.id).then(function (data) {
+                _this.hotel_rooms = data;
+            });
+            this.hotel_id = hotel.id;
+            $('#hotelRoomsModal').modal('show');
+        },
+        roomNewModal: function roomNewModal() {
+            this.roomEditMode = false;
+            this.roomForm.reset();
+            $('#roomFormModal').modal('show');
+        },
+        addHotelRoom: function addHotelRoom() {
+            var _this2 = this;
+
+            this.$Progress.start();
+            this.roomForm.post('api/hotel-rooms/' + this.hotel_id).then(function () {
+                $('#roomFormModal').modal('hide');
+                $('#hotelRoomsModal').modal('hide');
+                Fire.$emit('takePageLoad');
+                swal('Inserted!', 'Your hotel room information has been stored.', 'success');
+                _this2.$Progress.finish();
+            }).catch(function () {
+                swal("Failed", "hotel room Already Stored", "warning");
+                _this2.$Progress.fail();
+            });
+        },
+        editRoom: function editRoom(room) {
+            this.roomEditMode = true;
+            this.roomForm.reset();
+            $('#roomFormModal').modal('show');
+            this.roomForm.fill(room);
+        },
+        roomUpdate: function roomUpdate() {
+            var _this3 = this;
+
+            this.$Progress.start();
+            this.roomForm.put('api/hotel-rooms/').then(function () {
+                swal('Updated!', 'Your information has been updated.', 'success');
+                $('#roomFormModal').modal('hide');
+                $('#hotelRoomsModal').modal('hide');
+                _this3.$Progress.finish();
+                Fire.$emit('takePageLoad');
+            }).catch(function () {
+                swal("Failed", "There was something wrong.", "warning");
+                _this3.$Progress.fail();
+            });
+        },
+        roomDelete: function roomDelete(room) {
+            var _this4 = this;
+
+            this.$Progress.start();
+            this.roomForm.reset();
+            swal({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then(function (result) {
+                if (result.value) {
+
+                    _this4.roomForm.fill(room);
+                    _this4.roomForm.delete('api/delete-hotel-room').then(function () {
+                        swal('Deleted!', 'Hotel Deparment has been deleted.', 'success');
+                        $('#hotelRoomsModal').modal('hide');
+                        Fire.$emit('takePageLoad');
+                    }).catch(function () {
+                        _this4.$Progress.fail();
+                        swal("Failed", "There was something wrong.", "warning");
+                    });
+                }
+                _this4.$Progress.finish();
+            });
+        },
+        update: function update() {
+            var _this5 = this;
+
+            this.$Progress.start();
+            this.form.put('api/dashboard/hotel/' + this.form.id).then(function () {
+                $('#addNew').modal('hide');
+                swal('Updated!', 'Your information has been updated.', 'success');
+                _this5.$Progress.finish();
+                Fire.$emit('takePageLoad');
+            }).catch(function () {
+                _this5.$Progress.fail();
+            });
+        },
+        Main_Image: function Main_Image(e) {
+            var _this6 = this;
+
+            // console.log('uploading');
+            this.McreateMode = false;
+            var file = e.target.files[0];
+            //console.log(file);
+            var reader = new FileReader();
+
+            reader.onloadend = function (file) {
+                // console.log('RESULT', reader.result)
+                _this6.form.main_img = reader.result;
+            };
+            reader.readAsDataURL(file);
+        },
+        Gallery_image_1: function Gallery_image_1(e) {
+            var _this7 = this;
+
+            // console.log('uploading');
+            this.Mg1createMode = false;
+            var file = e.target.files[0];
+            //console.log(file);
+            var reader = new FileReader();
+
+            reader.onloadend = function (file) {
+                // console.log('RESULT', reader.result)
+                _this7.form.gallery_img_1 = reader.result;
+            };
+            reader.readAsDataURL(file);
+        },
+        Gallery_image_2: function Gallery_image_2(e) {
+            var _this8 = this;
+
+            // console.log('uploading');
+            this.Mg2createMode = false;
+            var file = e.target.files[0];
+            //console.log(file);
+            var reader = new FileReader();
+
+            reader.onloadend = function (file) {
+                // console.log('RESULT', reader.result)
+                _this8.form.gallery_img_2 = reader.result;
+            };
+            reader.readAsDataURL(file);
+        },
+        load: function load() {
+            var _this9 = this;
+
+            this.$Progress.start();
+            if (this.$gate.isAdminOrAuthor()) {
+                axios.get("api/dashboard/hotel").then(function (_ref) {
+                    var data = _ref.data;
+                    return _this9.hotels = data;
+                });
+            }
+            axios.get("api/hotel-rooms").then(function (_ref2) {
+                var data = _ref2.data;
+                return _this9.rooms = data;
+            });
+            this.$Progress.finish();
+        },
+        getResults: function getResults() {
+            var _this10 = this;
+
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            axios.get('api/dashboard/hotel?page=' + page).then(function (response) {
+                _this10.hotels = response.data;
+            });
+        },
+        create: function create() {
+            var _this11 = this;
+
+            this.$Progress.start();
+            this.form.post('api/dashboard/hotel').then(function () {
+                Fire.$emit('takePageLoad');
+                $('#addNew').modal('hide');
+                toast({
+                    type: 'success',
+                    title: 'Hotel created successfully'
+                });
+                _this11.$Progress.finish();
+            }).catch(function () {
+                _this11.$Progress.fail();
+            });
+        },
+        deleted: function deleted(id) {
+            var _this12 = this;
+
+            this.$Progress.start();
+            swal({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then(function (result) {
+                if (result.value) {
+                    _this12.form.delete('api/dashboard/hotel/' + id).then(function () {
+                        swal('Deleted!', 'Your file has been deleted.', 'success');
+                        Fire.$emit('takePageLoad');
+                    }).catch(function () {
+                        _this12.$Progress.fail();
+                        swal("Failed", "There was something wrong.", "warning");
+                    });
+                }
+                _this12.$Progress.finish();
+            });
+        }
+    }, 'getMainPhoto', function getMainPhoto() {
+        var photo = this.form.main_img.length > 200 ? this.form.main_img : "img/hotels/" + this.form.main_img;
+        return photo;
+    }),
+    created: function created() {
+        var _this13 = this;
+
+        Fire.$on('searching', function () {
+            var query = _this13.$parent.search;
+            axios.get('api/findhospital?q=' + query).then(function (data) {
+                _this13.hotels = data.data;
+            }).catch(function () {});
+        });
+        this.load();
+        Fire.$on('takePageLoad', function () {
+            _this13.load();
+        });
+
+        //    setInterval(() => this.loadinstitutes(), 3000);
+    }
+});
+
+/***/ }),
+/* 201 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _vm.$gate.isAdminOrAuthor()
+      ? _c("div", { staticClass: "row mt-5 justify-content-center" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _c("h3", { staticClass: "card-title" }, [
+                  _vm._v("Hotels Table")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-tools" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      on: { click: _vm.newModal }
+                    },
+                    [
+                      _vm._v("Add New "),
+                      _c("i", { staticClass: "fas fa-user-plus fa-fw" })
+                    ]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-body table-responsive p-0" }, [
+                _c("table", { staticClass: "table table-hover" }, [
+                  _c(
+                    "tbody",
+                    [
+                      _vm._m(0),
+                      _vm._v(" "),
+                      _vm._l(_vm.hotels.data, function(hotel, index) {
+                        return _c("tr", { key: hotel.id }, [
+                          _c("td", [_vm._v(_vm._s(index + 1))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(hotel.name))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(hotel.isActive))]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "a",
+                              {
+                                attrs: { href: "javascript:void(0)" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.settingHotelRooms(hotel)
+                                  }
+                                }
+                              },
+                              [
+                                _c("i", {
+                                  staticClass: "fas fa-cog blue",
+                                  attrs: {
+                                    "data-toggle": "tooltip",
+                                    "data-placement": "top",
+                                    title: "Add Room Variation"
+                                  }
+                                })
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "a",
+                              {
+                                attrs: { href: "javascript:void(0)" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.editModal(hotel)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-edit blue" })]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "a",
+                              {
+                                attrs: { href: "javascript:void(0)" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.deleted(hotel.id)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-trash red" })]
+                            )
+                          ])
+                        ])
+                      })
+                    ],
+                    2
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "card-footer" },
+                [
+                  _c("pagination", {
+                    attrs: { data: _vm.hotels },
+                    on: { "pagination-change-page": _vm.getResults }
+                  })
+                ],
+                1
+              )
+            ])
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    !_vm.$gate.isAdminOrAuthor() ? _c("div", [_c("not-found")], 1) : _vm._e(),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "addNew",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "addNewLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-dialog-centered",
+            attrs: { role: "document" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c(
+                  "h5",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: !_vm.editMode,
+                        expression: "!editMode"
+                      }
+                    ],
+                    staticClass: "modal-title",
+                    attrs: { id: "addNewLabel" }
+                  },
+                  [_vm._v("Add New")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "h5",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.editMode,
+                        expression: "editMode"
+                      }
+                    ],
+                    staticClass: "modal-title",
+                    attrs: { id: "addNewLabel" }
+                  },
+                  [_vm._v("Update Hotels Info")]
+                ),
+                _vm._v(" "),
+                _vm._m(1)
+              ]),
+              _vm._v(" "),
+              _c(
+                "form",
+                {
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      _vm.editMode ? _vm.update() : _vm.create()
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "modal-body" }, [
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", { attrs: { for: "name" } }, [
+                          _vm._v("Hotel Name")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.name,
+                              expression: "form.name"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: { "is-invalid": _vm.form.errors.has("name") },
+                          attrs: {
+                            type: "text",
+                            id: "name",
+                            name: "name",
+                            placeholder: "Name"
+                          },
+                          domProps: { value: _vm.form.name },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.form, "name", $event.target.value)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "name" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", { attrs: { for: "date" } }, [
+                          _vm._v("Establish Date")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.estDate,
+                              expression: "form.estDate"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("estDate")
+                          },
+                          attrs: {
+                            type: "date",
+                            name: "estDate",
+                            placeholder: "estDate"
+                          },
+                          domProps: { value: _vm.form.estDate },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.form, "estDate", $event.target.value)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "estDate" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", { attrs: { for: "date" } }, [
+                          _vm._v("Star")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.star,
+                              expression: "form.star"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: { "is-invalid": _vm.form.errors.has("star") },
+                          attrs: {
+                            type: "number",
+                            name: "star",
+                            placeholder: "Star"
+                          },
+                          domProps: { value: _vm.form.star },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.form, "star", $event.target.value)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "star" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", { attrs: { for: "owner" } }, [
+                          _vm._v("Owner Name")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.owner,
+                              expression: "form.owner"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: { "is-invalid": _vm.form.errors.has("owner") },
+                          attrs: {
+                            type: "text",
+                            name: "owner",
+                            placeholder: "Owner"
+                          },
+                          domProps: { value: _vm.form.owner },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.form, "owner", $event.target.value)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "owner" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", { attrs: { for: "address" } }, [
+                          _vm._v("Hotel Address")
+                        ]),
+                        _vm._v(" "),
+                        _c("textarea", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.address,
+                              expression: "form.address"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("address")
+                          },
+                          attrs: {
+                            name: "address",
+                            id: "address",
+                            placeholder: "Address"
+                          },
+                          domProps: { value: _vm.form.address },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.form, "address", $event.target.value)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "address" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", [_vm._v("Select a District")]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.district,
+                                expression: "form.district"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            staticStyle: { width: "100%" },
+                            attrs: { name: "district" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.form,
+                                  "district",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "option",
+                              { attrs: { value: "", disabled: "" } },
+                              [_vm._v("Select a district")]
+                            ),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "Dhaka" } }, [
+                              _vm._v("Dhaka")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "Chittagong" } }, [
+                              _vm._v("Chittagong")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "Sylhet" } }, [
+                              _vm._v("Sylhet")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "Rajshahi" } }, [
+                              _vm._v("Rajshahi")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "Khulna" } }, [
+                              _vm._v("Khulna")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "Comilla" } }, [
+                              _vm._v("Comilla")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "Rangpur" } }, [
+                              _vm._v("Rangpur")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "Barishal" } }, [
+                              _vm._v("Barishal")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "Mymansing" } }, [
+                              _vm._v("Mymansing")
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "district" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", [_vm._v("Select a Sub District")]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.sub_district,
+                                expression: "form.sub_district"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            staticStyle: { width: "100%" },
+                            attrs: { name: "sub_district" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.form,
+                                  "sub_district",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "option",
+                              { attrs: { value: "", disabled: "" } },
+                              [_vm._v("Select a sub district")]
+                            ),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "Dhanmondi" } }, [
+                              _vm._v("Dhanmondi")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "Shaymoli" } }, [
+                              _vm._v("Shaymoli")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "Mohammodpur" } }, [
+                              _vm._v("Mohammodpur")
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "option",
+                              { attrs: { value: "Sher-e-bangla" } },
+                              [_vm._v("Sher-e-bangla")]
+                            ),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "Badda" } }, [
+                              _vm._v("Badda")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "New Market" } }, [
+                              _vm._v("New Market")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "Gulshan" } }, [
+                              _vm._v("Gulshan")
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "sub_district" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _vm.McreateMode
+                      ? _c("div", { staticClass: "widget-user-image" }, [
+                          _vm._m(2)
+                        ])
+                      : _c("div", { staticClass: "widget-user-image" }, [
+                          _c("label", { attrs: { for: "main_img" } }, [
+                            _c("img", {
+                              staticClass: "mt-1",
+                              staticStyle: { width: "80%", height: "25%" },
+                              attrs: {
+                                src: _vm.getMainPhoto(),
+                                alt: "Main Image"
+                              }
+                            })
+                          ])
+                        ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", { attrs: { for: "main_img" } }, [
+                          _vm._v("Main Image")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group" }, [
+                          _c("div", { staticClass: "custom-file" }, [
+                            _c("input", {
+                              staticClass: "custom-file-input",
+                              class: {
+                                "is-invalid": _vm.form.errors.has("main_img")
+                              },
+                              attrs: {
+                                type: "file",
+                                name: "main_img",
+                                id: "main_img",
+                                accept: "image/*"
+                              },
+                              on: { change: _vm.Main_Image }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "label",
+                              {
+                                staticClass: "custom-file-label",
+                                attrs: { for: "main_img" }
+                              },
+                              [_vm._v("Choose file")]
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "main_img" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _vm.Mg1createMode
+                      ? _c("div", { staticClass: "widget-user-image" }, [
+                          _vm._m(3)
+                        ])
+                      : _c("div", { staticClass: "widget-user-image" }, [
+                          _c("label", { attrs: { for: "gallery_img_1" } }, [
+                            _c("img", {
+                              staticClass: "mt-1",
+                              staticStyle: { width: "80%", height: "25%" },
+                              attrs: {
+                                src: _vm.getGalleryPhoto1(),
+                                for: "gallery_img_1",
+                                alt: "Gallery Image:1"
+                              }
+                            })
+                          ])
+                        ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", { attrs: { for: "gallery_img_1" } }, [
+                          _vm._v("Gallery Image:1")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group" }, [
+                          _c("div", { staticClass: "custom-file" }, [
+                            _c("input", {
+                              staticClass: "custom-file-input",
+                              class: {
+                                "is-invalid": _vm.form.errors.has(
+                                  "gallery_img_1"
+                                )
+                              },
+                              attrs: {
+                                type: "file",
+                                name: "gallery_img_1",
+                                id: "gallery_img_1",
+                                accept: "image/*"
+                              },
+                              on: { change: _vm.Gallery_image_1 }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "label",
+                              {
+                                staticClass: "custom-file-label",
+                                attrs: { for: "main_img" }
+                              },
+                              [_vm._v("Choose file")]
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "gallery_img_1" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _vm.Mg2createMode
+                      ? _c("div", { staticClass: "widget-user-image" }, [
+                          _vm._m(4)
+                        ])
+                      : _c("div", { staticClass: "widget-user-image" }, [
+                          _c("label", { attrs: { for: "gallery_img_2" } }, [
+                            _c("img", {
+                              staticClass: "mt-1",
+                              staticStyle: { width: "80%", height: "25%" },
+                              attrs: {
+                                src: _vm.getGalleryPhoto2(),
+                                alt: "Gallery Image:2"
+                              }
+                            })
+                          ])
+                        ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", { attrs: { for: "gallery_img_2" } }, [
+                          _vm._v("Gallery Image:2")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group" }, [
+                          _c("div", { staticClass: "custom-file" }, [
+                            _c("input", {
+                              staticClass: "custom-file-input",
+                              class: {
+                                "is-invalid": _vm.form.errors.has(
+                                  "gallery_img_2"
+                                )
+                              },
+                              attrs: {
+                                type: "file",
+                                name: "gallery_img_2",
+                                id: "gallery_img_2",
+                                accept: "image/*"
+                              },
+                              on: { change: _vm.Gallery_image_2 }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "label",
+                              {
+                                staticClass: "custom-file-label",
+                                attrs: { for: "main_img" }
+                              },
+                              [_vm._v("Choose file")]
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "gallery_img_2" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", { attrs: { for: "address" } }, [
+                          _vm._v("Hotel Description")
+                        ]),
+                        _vm._v(" "),
+                        _c("textarea", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.description,
+                              expression: "form.description"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("description")
+                          },
+                          attrs: {
+                            name: "description",
+                            id: "description",
+                            placeholder: "Description"
+                          },
+                          domProps: { value: _vm.form.description },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.form,
+                                "description",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "description" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: !_vm.editMode,
+                            expression: "!editMode"
+                          }
+                        ],
+                        staticClass: "form-group"
+                      },
+                      [
+                        _c("label", [_vm._v("Select Room Types")]),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c(
+                          "ul",
+                          { staticClass: "list-group" },
+                          _vm._l(_vm.rooms, function(room) {
+                            return _c(
+                              "li",
+                              { key: room.id, staticClass: "list-group-item" },
+                              [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.form.room,
+                                      expression: "form.room"
+                                    }
+                                  ],
+                                  attrs: { type: "checkbox" },
+                                  domProps: {
+                                    value: room.id,
+                                    checked: Array.isArray(_vm.form.room)
+                                      ? _vm._i(_vm.form.room, room.id) > -1
+                                      : _vm.form.room
+                                  },
+                                  on: {
+                                    change: function($event) {
+                                      var $$a = _vm.form.room,
+                                        $$el = $event.target,
+                                        $$c = $$el.checked ? true : false
+                                      if (Array.isArray($$a)) {
+                                        var $$v = room.id,
+                                          $$i = _vm._i($$a, $$v)
+                                        if ($$el.checked) {
+                                          $$i < 0 &&
+                                            _vm.$set(
+                                              _vm.form,
+                                              "room",
+                                              $$a.concat([$$v])
+                                            )
+                                        } else {
+                                          $$i > -1 &&
+                                            _vm.$set(
+                                              _vm.form,
+                                              "room",
+                                              $$a
+                                                .slice(0, $$i)
+                                                .concat($$a.slice($$i + 1))
+                                            )
+                                        }
+                                      } else {
+                                        _vm.$set(_vm.form, "room", $$c)
+                                      }
+                                    }
+                                  }
+                                }),
+                                _vm._v(
+                                  " " +
+                                    _vm._s(room.name) +
+                                    "\n                                "
+                                )
+                              ]
+                            )
+                          })
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", [_vm._v("Restaurant")]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.restaurant,
+                              expression: "form.restaurant"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "restaurant" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.form,
+                                "restaurant",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "Yes" } }, [
+                            _vm._v("Yes")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "No" } }, [
+                            _vm._v("No")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", [_vm._v("Cafe")]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.cafe,
+                              expression: "form.cafe"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "cafe" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.form,
+                                "cafe",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "Yes" } }, [
+                            _vm._v("Yes")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "No" } }, [
+                            _vm._v("No")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", [_vm._v("Publication Status")]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.isActive,
+                              expression: "form.isActive"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "isActive" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.form,
+                                "isActive",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "Active" } }, [
+                            _vm._v("Publish")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "Draft" } }, [
+                            _vm._v("Draft")
+                          ])
+                        ]
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _c(
+                      "button",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.editMode,
+                            expression: "editMode"
+                          }
+                        ],
+                        staticClass: "btn btn-success",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Update")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: !_vm.editMode,
+                            expression: "!editMode"
+                          }
+                        ],
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Create")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger",
+                        attrs: { type: "button", "data-dismiss": "modal" }
+                      },
+                      [_vm._v("Close")]
+                    )
+                  ])
+                ]
+              )
+            ])
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade bd-example-modal-lg",
+        attrs: {
+          id: "hotelRoomsModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "instituteDepartmentsLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog modal-lg", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(5),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("div", { staticClass: "card-body table-responsive p-0" }, [
+                  _c("table", { staticClass: "table table-hover" }, [
+                    _c(
+                      "tbody",
+                      [
+                        _vm._m(6),
+                        _vm._v(" "),
+                        _vm._l(_vm.hotel_rooms.data, function(room) {
+                          return _c("tr", { key: room.hotel_id }, [
+                            _c("td", [_vm._v(_vm._s(room.name))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(room.total_room))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(room.bedNumber))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(room.bedtype))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(room.price))]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _c(
+                                "a",
+                                {
+                                  attrs: { href: "javascript:void(0)" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.editRoom(room)
+                                    }
+                                  }
+                                },
+                                [_c("i", { staticClass: "fa fa-edit blue" })]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "a",
+                                {
+                                  attrs: { href: "javascript:void(0)" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.roomDelete(room)
+                                    }
+                                  }
+                                },
+                                [_c("i", { staticClass: "fa fa-trash red" })]
+                              )
+                            ])
+                          ])
+                        })
+                      ],
+                      2
+                    )
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        _vm.roomNewModal()
+                      }
+                    }
+                  },
+                  [
+                    _vm._v("Add Room "),
+                    _c("i", { staticClass: "fas fa-plus fa-fw" })
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Close")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "roomFormModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "instituteDepartmentsLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(7),
+              _vm._v(" "),
+              _c(
+                "form",
+                {
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      _vm.roomEditMode ? _vm.roomUpdate() : _vm.addHotelRoom()
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "modal-body" }, [
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: !_vm.roomEditMode,
+                            expression: "!roomEditMode"
+                          }
+                        ],
+                        staticClass: "form-group"
+                      },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-form-label",
+                            attrs: { for: "degree" }
+                          },
+                          [_vm._v("Room:")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.roomForm.room_type_id,
+                                expression: "roomForm.room_type_id"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.roomForm,
+                                  "room_type_id",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          _vm._l(_vm.rooms, function(room) {
+                            return _c(
+                              "option",
+                              { key: room.id, domProps: { value: room.id } },
+                              [_vm._v(_vm._s(room.name))]
+                            )
+                          })
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-form-label",
+                          attrs: { for: "faculty_members" }
+                        },
+                        [_vm._v("Total Bed Number:")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.roomForm.bedNumber,
+                            expression: "roomForm.bedNumber"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "number", id: "faculty_members" },
+                        domProps: { value: _vm.roomForm.bedNumber },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.roomForm,
+                              "bedNumber",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-form-label",
+                          attrs: { for: "students" }
+                        },
+                        [_vm._v("Bed Type:")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.roomForm.bedtype,
+                              expression: "roomForm.bedtype"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.roomForm,
+                                "bedtype",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "Single bed" } }, [
+                            _vm._v("Single bed")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "Double bed" } }, [
+                            _vm._v("Double bed")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "option",
+                            { attrs: { value: "Queen Double bed" } },
+                            [_vm._v("Queen Double bed")]
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-form-label",
+                          attrs: { for: "faculty_members" }
+                        },
+                        [_vm._v("Price per day:")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.roomForm.price,
+                            expression: "roomForm.price"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", id: "faculty_members" },
+                        domProps: { value: _vm.roomForm.price },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.roomForm, "price", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-form-label",
+                          attrs: { for: "credit" }
+                        },
+                        [_vm._v("Total rooms in this hotel:")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.roomForm.total_room,
+                            expression: "roomForm.total_room"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "number", id: "credit" },
+                        domProps: { value: _vm.roomForm.total_room },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.roomForm,
+                              "total_room",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _c(
+                      "button",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.roomEditMode,
+                            expression: "roomEditMode"
+                          }
+                        ],
+                        staticClass: "btn btn-success",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Update")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: !_vm.roomEditMode,
+                            expression: "!roomEditMode"
+                          }
+                        ],
+                        staticClass: "btn btn-success",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Create")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger",
+                        attrs: { type: "button", "data-dismiss": "modal" }
+                      },
+                      [_vm._v("Close")]
+                    )
+                  ])
+                ]
+              )
+            ])
+          ]
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("ID")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Hotel Name")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Status")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Modify")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "main_img" } }, [
+      _c("img", {
+        staticClass: "mt-1",
+        staticStyle: { width: "80%", height: "25%" },
+        attrs: { src: "img/hotels/default.jpg", alt: "Main Image" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "gallery_img_1" } }, [
+      _c("img", {
+        staticClass: "mt-1",
+        staticStyle: { width: "80%", height: "25%" },
+        attrs: { src: "img/hotels/default.jpg", alt: "Gallery Image:1" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "gallery_img_2" } }, [
+      _c("img", {
+        staticClass: "mt-1",
+        staticStyle: { width: "80%", height: "25%" },
+        attrs: { src: "img/hotels/default.jpg", alt: "Gallery Image:2" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        {
+          staticClass: "modal-title",
+          attrs: { id: "instituteDepartmentsLabel" }
+        },
+        [_vm._v("Hotel Room Information")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Room Name")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Total Room")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Number of Bed")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Bed Type")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Price")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Modify")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        {
+          staticClass: "modal-title",
+          attrs: { id: "instituteDepartmentsLabel" }
+        },
+        [_vm._v("Hotel Deparment Information")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-78e77f4e", module.exports)
+  }
+}
+
+/***/ }),
+/* 202 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(203)
+/* template */
+var __vue_template__ = __webpack_require__(204)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/HotelRoom.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-70091158", Component.options)
+  } else {
+    hotAPI.reload("data-v-70091158", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 203 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            editMode: false,
+            rooms: {},
+            form: new Form({
+                id: '',
+                name: '',
+                slug: '',
+                isActive: ''
+            })
+        };
+    },
+
+    methods: {
+        newModal: function newModal() {
+            this.editMode = false;
+            this.form.reset();
+            $('#addNew').modal('show');
+        },
+        editModal: function editModal(room) {
+            this.editMode = true;
+            this.form.reset();
+            $('#addNew').modal('show');
+            this.form.fill(room);
+        },
+        getResults: function getResults() {
+            var _this = this;
+
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            axios.get('api/dashboard-room?page=' + page).then(function (response) {
+                _this.rooms = response.data;
+            });
+        },
+        update: function update() {
+            var _this2 = this;
+
+            this.$Progress.start();
+            this.form.put('api/dashboard-room/' + this.form.id).then(function () {
+                $('#addNew').modal('hide');
+                swal('Updated!', 'Your information has been updated.', 'success');
+                _this2.$Progress.finish();
+                Fire.$emit('takePageLoad');
+            }).catch(function () {
+                _this2.$Progress.fail();
+            });
+        },
+        load: function load() {
+            var _this3 = this;
+
+            this.$Progress.start();
+            if (this.$gate.isAdminOrAuthor()) {
+                axios.get("api/dashboard-room").then(function (_ref) {
+                    var data = _ref.data;
+                    return _this3.rooms = data;
+                });
+            }
+            this.$Progress.finish();
+        },
+        create: function create() {
+            var _this4 = this;
+
+            this.$Progress.start();
+            this.form.post('api/dashboard-room').then(function () {
+                Fire.$emit('takePageLoad');
+                $('#addNew').modal('hide');
+                toast({
+                    type: 'success',
+                    title: 'Room created successfully'
+                });
+                _this4.$Progress.finish();
+            }).catch(function () {
+                _this4.$Progress.fail();
+            });
+        },
+        deleted: function deleted(id) {
+            var _this5 = this;
+
+            this.$Progress.start();
+            swal({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then(function (result) {
+                if (result.value) {
+                    _this5.form.delete('api/dashboard-room/' + id).then(function () {
+                        swal('Deleted!', 'Your file has been deleted.', 'success');
+                        Fire.$emit('takePageLoad');
+                    }).catch(function () {
+                        _this5.$Progress.fail();
+                        swal("Failed", "There was something wrong.", "warning");
+                    });
+                }
+                _this5.$Progress.finish();
+            });
+        }
+    },
+    created: function created() {
+        var _this6 = this;
+
+        Fire.$on('searching', function () {
+            var query = _this6.$parent.search;
+            axios.get('api/finddepartment?q=' + query).then(function (data) {
+                _this6.rooms = data.data;
+            }).catch(function () {});
+        });
+        this.load();
+        Fire.$on('takePageLoad', function () {
+            _this6.load();
+        });
+        //    setInterval(() => this.loadUsers(), 3000);
+    }
+});
+
+/***/ }),
+/* 204 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _vm.$gate.isAdminOrAuthor()
+      ? _c("div", { staticClass: "row mt-5 justify-content-center" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _c("h3", { staticClass: "card-title" }, [_vm._v("Room Table")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-tools" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      on: { click: _vm.newModal }
+                    },
+                    [
+                      _vm._v("Add New "),
+                      _c("i", { staticClass: "fas fa-user-plus fa-fw" })
+                    ]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-body table-responsive p-0" }, [
+                _c("table", { staticClass: "table table-hover" }, [
+                  _c(
+                    "tbody",
+                    [
+                      _vm._m(0),
+                      _vm._v(" "),
+                      _vm._l(_vm.rooms.data, function(room) {
+                        return _c("tr", { key: room.id }, [
+                          _c("td", [_vm._v(_vm._s(room.name))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(room.slug))]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(_vm._s(_vm._f("upText")(room.isActive)))
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "a",
+                              {
+                                attrs: { href: "javascript:void(0)" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.editModal(room)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-edit blue" })]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "a",
+                              {
+                                attrs: { href: "javascript:void(0)" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.deleted(room.id)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-trash red" })]
+                            )
+                          ])
+                        ])
+                      })
+                    ],
+                    2
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "card-footer" },
+                [
+                  _c("pagination", {
+                    attrs: { data: _vm.rooms },
+                    on: { "pagination-change-page": _vm.getResults }
+                  })
+                ],
+                1
+              )
+            ])
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    !_vm.$gate.isAdminOrAuthor() ? _c("div", [_c("not-found")], 1) : _vm._e(),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "addNew",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "addNewLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-dialog-centered",
+            attrs: { role: "document" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c(
+                  "h5",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: !_vm.editMode,
+                        expression: "!editMode"
+                      }
+                    ],
+                    staticClass: "modal-title",
+                    attrs: { id: "addNewLabel" }
+                  },
+                  [_vm._v("Add New")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "h5",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.editMode,
+                        expression: "editMode"
+                      }
+                    ],
+                    staticClass: "modal-title",
+                    attrs: { id: "addNewLabel" }
+                  },
+                  [_vm._v("Update Room Info")]
+                ),
+                _vm._v(" "),
+                _vm._m(1)
+              ]),
+              _vm._v(" "),
+              _c(
+                "form",
+                {
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      _vm.editMode ? _vm.update() : _vm.create()
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "modal-body" }, [
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.name,
+                              expression: "form.name"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: { "is-invalid": _vm.form.errors.has("name") },
+                          attrs: {
+                            type: "text",
+                            name: "name",
+                            placeholder: "Name"
+                          },
+                          domProps: { value: _vm.form.name },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.form, "name", $event.target.value)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "name" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.isActive,
+                                expression: "form.isActive"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("isActive")
+                            },
+                            attrs: { name: "isActive", id: "isActive" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.form,
+                                  "isActive",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "option",
+                              { attrs: { value: "", disabled: "" } },
+                              [_vm._v("Select Activation Type")]
+                            ),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "Active" } }, [
+                              _vm._v("Active")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "Draft" } }, [
+                              _vm._v("Draft")
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "isActive" }
+                        })
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _c(
+                      "button",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.editMode,
+                            expression: "editMode"
+                          }
+                        ],
+                        staticClass: "btn btn-success",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Update")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: !_vm.editMode,
+                            expression: "!editMode"
+                          }
+                        ],
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Create")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger",
+                        attrs: { type: "button", "data-dismiss": "modal" }
+                      },
+                      [_vm._v("Close")]
+                    )
+                  ])
+                ]
+              )
+            ])
+          ]
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Name")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("slug")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("isActive")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Modify")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-70091158", module.exports)
+  }
+}
+
+/***/ }),
+/* 205 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(206)
+/* template */
+var __vue_template__ = __webpack_require__(207)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -80505,7 +83527,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 200 */
+/* 206 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -80731,7 +83753,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 201 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -81087,15 +84109,15 @@ if (false) {
 }
 
 /***/ }),
-/* 202 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(203)
+var __vue_script__ = __webpack_require__(209)
 /* template */
-var __vue_template__ = __webpack_require__(204)
+var __vue_template__ = __webpack_require__(210)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -81134,7 +84156,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 203 */
+/* 209 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -81362,7 +84384,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 204 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -81732,7 +84754,7 @@ if (false) {
 }
 
 /***/ }),
-/* 205 */
+/* 211 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -81754,7 +84776,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 206 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -82141,15 +85163,15 @@ if (false) {
 }
 
 /***/ }),
-/* 207 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(208)
+var __vue_script__ = __webpack_require__(214)
 /* template */
-var __vue_template__ = __webpack_require__(209)
+var __vue_template__ = __webpack_require__(215)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -82188,7 +85210,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 208 */
+/* 214 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -82217,7 +85239,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 209 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -82260,669 +85282,10 @@ if (false) {
 }
 
 /***/ }),
-/* 210 */
+/* 216 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 211 */,
-/* 212 */,
-/* 213 */,
-/* 214 */,
-/* 215 */,
-/* 216 */,
-/* 217 */,
-/* 218 */,
-/* 219 */,
-/* 220 */,
-/* 221 */,
-/* 222 */,
-/* 223 */,
-/* 224 */,
-/* 225 */,
-/* 226 */,
-/* 227 */,
-/* 228 */,
-/* 229 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(2)
-/* script */
-var __vue_script__ = __webpack_require__(230)
-/* template */
-var __vue_template__ = __webpack_require__(231)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/js/components/HotelRoom.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-70091158", Component.options)
-  } else {
-    hotAPI.reload("data-v-70091158", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 230 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            editMode: false,
-            rooms: {},
-            form: new Form({
-                id: '',
-                name: '',
-                slug: '',
-                isActive: ''
-            })
-        };
-    },
-
-    methods: {
-        newModal: function newModal() {
-            this.editMode = false;
-            this.form.reset();
-            $('#addNew').modal('show');
-        },
-        editModal: function editModal(room) {
-            this.editMode = true;
-            this.form.reset();
-            $('#addNew').modal('show');
-            this.form.fill(room);
-        },
-        getResults: function getResults() {
-            var _this = this;
-
-            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-
-            axios.get('api/dashboard-room?page=' + page).then(function (response) {
-                _this.rooms = response.data;
-            });
-        },
-        update: function update() {
-            var _this2 = this;
-
-            this.$Progress.start();
-            this.form.put('api/dashboard-room/' + this.form.id).then(function () {
-                $('#addNew').modal('hide');
-                swal('Updated!', 'Your information has been updated.', 'success');
-                _this2.$Progress.finish();
-                Fire.$emit('takePageLoad');
-            }).catch(function () {
-                _this2.$Progress.fail();
-            });
-        },
-        load: function load() {
-            var _this3 = this;
-
-            this.$Progress.start();
-            if (this.$gate.isAdminOrAuthor()) {
-                axios.get("api/dashboard-room").then(function (_ref) {
-                    var data = _ref.data;
-                    return _this3.rooms = data;
-                });
-            }
-            this.$Progress.finish();
-        },
-        create: function create() {
-            var _this4 = this;
-
-            this.$Progress.start();
-            this.form.post('api/dashboard-room').then(function () {
-                Fire.$emit('takePageLoad');
-                $('#addNew').modal('hide');
-                toast({
-                    type: 'success',
-                    title: 'Room created successfully'
-                });
-                _this4.$Progress.finish();
-            }).catch(function () {
-                _this4.$Progress.fail();
-            });
-        },
-        deleted: function deleted(id) {
-            var _this5 = this;
-
-            this.$Progress.start();
-            swal({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then(function (result) {
-                if (result.value) {
-                    _this5.form.delete('api/dashboard-room/' + id).then(function () {
-                        swal('Deleted!', 'Your file has been deleted.', 'success');
-                        Fire.$emit('takePageLoad');
-                    }).catch(function () {
-                        _this5.$Progress.fail();
-                        swal("Failed", "There was something wrong.", "warning");
-                    });
-                }
-                _this5.$Progress.finish();
-            });
-        }
-    },
-    created: function created() {
-        var _this6 = this;
-
-        Fire.$on('searching', function () {
-            var query = _this6.$parent.search;
-            axios.get('api/finddepartment?q=' + query).then(function (data) {
-                _this6.rooms = data.data;
-            }).catch(function () {});
-        });
-        this.load();
-        Fire.$on('takePageLoad', function () {
-            _this6.load();
-        });
-        //    setInterval(() => this.loadUsers(), 3000);
-    }
-});
-
-/***/ }),
-/* 231 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _vm.$gate.isAdminOrAuthor()
-      ? _c("div", { staticClass: "row mt-5 justify-content-center" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("div", { staticClass: "card" }, [
-              _c("div", { staticClass: "card-header" }, [
-                _c("h3", { staticClass: "card-title" }, [_vm._v("Room Table")]),
-                _vm._v(" "),
-                _c("div", { staticClass: "card-tools" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-success",
-                      on: { click: _vm.newModal }
-                    },
-                    [
-                      _vm._v("Add New "),
-                      _c("i", { staticClass: "fas fa-user-plus fa-fw" })
-                    ]
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-body table-responsive p-0" }, [
-                _c("table", { staticClass: "table table-hover" }, [
-                  _c(
-                    "tbody",
-                    [
-                      _vm._m(0),
-                      _vm._v(" "),
-                      _vm._l(_vm.rooms.data, function(room) {
-                        return _c("tr", { key: room.id }, [
-                          _c("td", [_vm._v(_vm._s(room.name))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(room.slug))]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(_vm._s(_vm._f("upText")(room.isActive)))
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _c(
-                              "a",
-                              {
-                                attrs: { href: "javascript:void(0)" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.editModal(room)
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-edit blue" })]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                attrs: { href: "javascript:void(0)" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.deleted(room.id)
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-trash red" })]
-                            )
-                          ])
-                        ])
-                      })
-                    ],
-                    2
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "card-footer" },
-                [
-                  _c("pagination", {
-                    attrs: { data: _vm.rooms },
-                    on: { "pagination-change-page": _vm.getResults }
-                  })
-                ],
-                1
-              )
-            ])
-          ])
-        ])
-      : _vm._e(),
-    _vm._v(" "),
-    !_vm.$gate.isAdminOrAuthor() ? _c("div", [_c("not-found")], 1) : _vm._e(),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "addNew",
-          tabindex: "-1",
-          role: "dialog",
-          "aria-labelledby": "addNewLabel",
-          "aria-hidden": "true"
-        }
-      },
-      [
-        _c(
-          "div",
-          {
-            staticClass: "modal-dialog modal-dialog-centered",
-            attrs: { role: "document" }
-          },
-          [
-            _c("div", { staticClass: "modal-content" }, [
-              _c("div", { staticClass: "modal-header" }, [
-                _c(
-                  "h5",
-                  {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: !_vm.editMode,
-                        expression: "!editMode"
-                      }
-                    ],
-                    staticClass: "modal-title",
-                    attrs: { id: "addNewLabel" }
-                  },
-                  [_vm._v("Add New")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "h5",
-                  {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: _vm.editMode,
-                        expression: "editMode"
-                      }
-                    ],
-                    staticClass: "modal-title",
-                    attrs: { id: "addNewLabel" }
-                  },
-                  [_vm._v("Update Room Info")]
-                ),
-                _vm._v(" "),
-                _vm._m(1)
-              ]),
-              _vm._v(" "),
-              _c(
-                "form",
-                {
-                  on: {
-                    submit: function($event) {
-                      $event.preventDefault()
-                      _vm.editMode ? _vm.update() : _vm.create()
-                    }
-                  }
-                },
-                [
-                  _c("div", { staticClass: "modal-body" }, [
-                    _c(
-                      "div",
-                      { staticClass: "form-group" },
-                      [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.form.name,
-                              expression: "form.name"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          class: { "is-invalid": _vm.form.errors.has("name") },
-                          attrs: {
-                            type: "text",
-                            name: "name",
-                            placeholder: "Name"
-                          },
-                          domProps: { value: _vm.form.name },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(_vm.form, "name", $event.target.value)
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("has-error", {
-                          attrs: { form: _vm.form, field: "name" }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "form-group" },
-                      [
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.form.isActive,
-                                expression: "form.isActive"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            class: {
-                              "is-invalid": _vm.form.errors.has("isActive")
-                            },
-                            attrs: { name: "isActive", id: "isActive" },
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.$set(
-                                  _vm.form,
-                                  "isActive",
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
-                              }
-                            }
-                          },
-                          [
-                            _c(
-                              "option",
-                              { attrs: { value: "", disabled: "" } },
-                              [_vm._v("Select Activation Type")]
-                            ),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Active" } }, [
-                              _vm._v("Active")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Draft" } }, [
-                              _vm._v("Draft")
-                            ])
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c("has-error", {
-                          attrs: { form: _vm.form, field: "isActive" }
-                        })
-                      ],
-                      1
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "modal-footer" }, [
-                    _c(
-                      "button",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: _vm.editMode,
-                            expression: "editMode"
-                          }
-                        ],
-                        staticClass: "btn btn-success",
-                        attrs: { type: "submit" }
-                      },
-                      [_vm._v("Update")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: !_vm.editMode,
-                            expression: "!editMode"
-                          }
-                        ],
-                        staticClass: "btn btn-primary",
-                        attrs: { type: "submit" }
-                      },
-                      [_vm._v("Create")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-danger",
-                        attrs: { type: "button", "data-dismiss": "modal" }
-                      },
-                      [_vm._v("Close")]
-                    )
-                  ])
-                ]
-              )
-            ])
-          ]
-        )
-      ]
-    )
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("th", [_vm._v("Name")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("slug")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("isActive")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Modify")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "close",
-        attrs: {
-          type: "button",
-          "data-dismiss": "modal",
-          "aria-label": "Close"
-        }
-      },
-      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-    )
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-70091158", module.exports)
-  }
-}
 
 /***/ })
 /******/ ]);

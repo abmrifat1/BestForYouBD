@@ -1,10 +1,3 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Mahbubul Alam
- * Date: 10/12/2018
- * Time: 2:31 AM
- */?>
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -39,9 +32,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <li class="nav-item d-none d-sm-inline-block">
                 <a href="{{ url('/discuss') }}" target="_blank" class="nav-link">Visit Forum</a>
             </li>
-            {{--<li class="nav-item d-none d-sm-inline-block">
-                <a href="#" class="nav-link">Contact</a>
-            </li>--}}
         </ul>
 
         <!-- SEARCH FORM -->
@@ -56,7 +46,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>
         </div>
 
-        <!-- Right navbar links -->
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
             <!-- Messages Dropdown Menu -->

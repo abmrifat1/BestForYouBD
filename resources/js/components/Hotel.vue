@@ -17,7 +17,7 @@
                         <table class="table table-hover">
                             <tbody>
                             <tr>
-                                <th>ID</th>
+                                <th>S.N</th>
                                 <th>Hotel Name</th>
                                 <th>Status</th>
                                 <th>Modify</th>
@@ -204,6 +204,13 @@
                                 </ul>
                             </div>
                             <div class="form-group">
+                                <label>Car Parking</label><br/>
+                                <select v-model="form.car_parking" id="car_parking" class="form-control">
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label>Restaurant</label><br/>
                                 <select v-model="form.restaurant" id="restaurant" class="form-control">
                                     <option value="Yes">Yes</option>
@@ -297,7 +304,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="instituteDepartmentsLabel">Hotel Deparment Information</h5>
+                        <h5 class="modal-title" id="instituteDepartmentsLabel">Hotel Room Information</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -320,6 +327,90 @@
                                     <option value="Single bed">Single bed</option>
                                     <option value="Double bed">Double bed</option>
                                     <option value="Queen Double bed">Queen Double bed</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Self check in</label><br/>
+                                <select v-model="roomForm.self_check_in" id="self_check_in" class="form-control">
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Bedroom Comforts</label><br/>
+                                <select v-model="roomForm.bedroom_comforts" id="bedroom_comforts" class="form-control">
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Bathroom</label><br/>
+                                <select v-model="roomForm.bathroom" id="bathroom" class="form-control">
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>TV</label><br/>
+                                <select v-model="roomForm.tv" id="tv" class="form-control">
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Sofa</label><br/>
+                                <select v-model="roomForm.sofa" id="sofa" class="form-control">
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Coffee Maker</label><br/>
+                                <select v-model="roomForm.coffee_maker" id="coffee_maker" class="form-control">
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Hair Dryer</label><br/>
+                                <select v-model="roomForm.hair_dryer" id="hair_dryer" class="form-control">
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Iron</label><br/>
+                                <select v-model="roomForm.iron" id="iron" class="form-control">
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Heating</label><br/>
+                                <select v-model="roomForm.heating" id="heating" class="form-control">
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Air Conditioning</label><br/>
+                                <select v-model="roomForm.air_conditioning" id="air_conditioning" class="form-control">
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Wifi</label><br/>
+                                <select v-model="roomForm.wifi" id="wifi" class="form-control">
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Smoke Detector</label><br/>
+                                <select v-model="roomForm.smoke_detector" id="smoke_detector" class="form-control">
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -374,6 +465,7 @@
                     isActive: 'Active',
                     restaurant: 'Yes',
                     cafe: 'Yes',
+                    car_parking: 'Yes',
                     room: []
                 }),
                 roomForm: new Form({
@@ -382,6 +474,18 @@
                     total_room:'',
                     bedNumber:'',
                     bedtype:'',
+                    self_check_in:'Yes',
+                    bedroom_comforts:'Yes',
+                    bathroom:'Yes',
+                    tv:'Yes',
+                    sofa:'Yes',
+                    coffee_maker:'Yes',
+                    hair_dryer:'Yes',
+                    iron:'Yes',
+                    heating:'Yes',
+                    air_conditioning:'Yes',
+                    wifi:'Yes',
+                    smoke_detector:'Yes',
                     price:'',
                 })
             }

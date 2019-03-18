@@ -29,8 +29,9 @@ class CreateHotelsTable extends Migration
             $table->string('district',50)->nullable();
             $table->string('sub_district',50)->nullable();
             $table->string('isActive',50)->default('Active');
-            $table->char('restaurant',2)->nullable();
-            $table->char('cafe',2)->nullable();
+            $table->char('restaurant',5)->nullable();
+            $table->char('cafe',5)->nullable();
+            $table->char('car_parking',5)->nullable();
             $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('no action')->onUpdate('no action');
             $table->timestamps();

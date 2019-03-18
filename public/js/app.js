@@ -80858,6 +80858,97 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -80888,6 +80979,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 isActive: 'Active',
                 restaurant: 'Yes',
                 cafe: 'Yes',
+                car_parking: 'Yes',
                 room: []
             }),
             roomForm: new Form({
@@ -80896,6 +80988,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 total_room: '',
                 bedNumber: '',
                 bedtype: '',
+                self_check_in: 'Yes',
+                bedroom_comforts: 'Yes',
+                bathroom: 'Yes',
+                tv: 'Yes',
+                sofa: 'Yes',
+                coffee_maker: 'Yes',
+                hair_dryer: 'Yes',
+                iron: 'Yes',
+                heating: 'Yes',
+                air_conditioning: 'Yes',
+                wifi: 'Yes',
+                smoke_detector: 'Yes',
                 price: ''
             })
         };
@@ -82060,6 +82164,55 @@ var render = function() {
                     ),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
+                      _c("label", [_vm._v("Car Parking")]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.car_parking,
+                              expression: "form.car_parking"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "car_parking" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.form,
+                                "car_parking",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "Yes" } }, [
+                            _vm._v("Yes")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "No" } }, [
+                            _vm._v("No")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
                       _c("label", [_vm._v("Restaurant")]),
                       _c("br"),
                       _vm._v(" "),
@@ -82563,6 +82716,594 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
+                      _c("label", [_vm._v("Self check in")]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.roomForm.self_check_in,
+                              expression: "roomForm.self_check_in"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "self_check_in" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.roomForm,
+                                "self_check_in",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "Yes" } }, [
+                            _vm._v("Yes")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "No" } }, [
+                            _vm._v("No")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", [_vm._v("Bedroom Comforts")]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.roomForm.bedroom_comforts,
+                              expression: "roomForm.bedroom_comforts"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "bedroom_comforts" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.roomForm,
+                                "bedroom_comforts",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "Yes" } }, [
+                            _vm._v("Yes")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "No" } }, [
+                            _vm._v("No")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", [_vm._v("Bathroom")]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.roomForm.bathroom,
+                              expression: "roomForm.bathroom"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "bathroom" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.roomForm,
+                                "bathroom",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "Yes" } }, [
+                            _vm._v("Yes")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "No" } }, [
+                            _vm._v("No")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", [_vm._v("TV")]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.roomForm.tv,
+                              expression: "roomForm.tv"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "tv" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.roomForm,
+                                "tv",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "Yes" } }, [
+                            _vm._v("Yes")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "No" } }, [
+                            _vm._v("No")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", [_vm._v("Sofa")]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.roomForm.sofa,
+                              expression: "roomForm.sofa"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "sofa" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.roomForm,
+                                "sofa",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "Yes" } }, [
+                            _vm._v("Yes")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "No" } }, [
+                            _vm._v("No")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", [_vm._v("Coffee Maker")]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.roomForm.coffee_maker,
+                              expression: "roomForm.coffee_maker"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "coffee_maker" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.roomForm,
+                                "coffee_maker",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "Yes" } }, [
+                            _vm._v("Yes")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "No" } }, [
+                            _vm._v("No")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", [_vm._v("Hair Dryer")]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.roomForm.hair_dryer,
+                              expression: "roomForm.hair_dryer"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "hair_dryer" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.roomForm,
+                                "hair_dryer",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "Yes" } }, [
+                            _vm._v("Yes")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "No" } }, [
+                            _vm._v("No")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", [_vm._v("Iron")]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.roomForm.iron,
+                              expression: "roomForm.iron"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "iron" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.roomForm,
+                                "iron",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "Yes" } }, [
+                            _vm._v("Yes")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "No" } }, [
+                            _vm._v("No")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", [_vm._v("Heating")]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.roomForm.heating,
+                              expression: "roomForm.heating"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "heating" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.roomForm,
+                                "heating",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "Yes" } }, [
+                            _vm._v("Yes")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "No" } }, [
+                            _vm._v("No")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", [_vm._v("Air Conditioning")]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.roomForm.air_conditioning,
+                              expression: "roomForm.air_conditioning"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "air_conditioning" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.roomForm,
+                                "air_conditioning",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "Yes" } }, [
+                            _vm._v("Yes")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "No" } }, [
+                            _vm._v("No")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", [_vm._v("Wifi")]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.roomForm.wifi,
+                              expression: "roomForm.wifi"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "wifi" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.roomForm,
+                                "wifi",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "Yes" } }, [
+                            _vm._v("Yes")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "No" } }, [
+                            _vm._v("No")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", [_vm._v("Smoke Detector")]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.roomForm.smoke_detector,
+                              expression: "roomForm.smoke_detector"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "smoke_detector" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.roomForm,
+                                "smoke_detector",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "Yes" } }, [
+                            _vm._v("Yes")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "No" } }, [
+                            _vm._v("No")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
                       _c(
                         "label",
                         {
@@ -82692,7 +83433,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("tr", [
-      _c("th", [_vm._v("ID")]),
+      _c("th", [_vm._v("S.N")]),
       _vm._v(" "),
       _c("th", [_vm._v("Hotel Name")]),
       _vm._v(" "),
@@ -82811,7 +83552,7 @@ var staticRenderFns = [
           staticClass: "modal-title",
           attrs: { id: "instituteDepartmentsLabel" }
         },
-        [_vm._v("Hotel Deparment Information")]
+        [_vm._v("Hotel Room Information")]
       ),
       _vm._v(" "),
       _c(

@@ -98,6 +98,13 @@
                                        class="form-control" :class="{ 'is-invalid': form.errors.has('owner') }">
                                 <has-error :form="form" field="owner"></has-error>
                             </div>
+                            <div class="form-group">
+                                <label for="owner">Website URL</label>
+                                <input v-model="form.website_url" type="text" name="owner"
+                                       placeholder="Website link"
+                                       class="form-control" :class="{ 'is-invalid': form.errors.has('website_url') }">
+                                <has-error :form="form" field="website_url"></has-error>
+                            </div>
 
                             <div class="form-group">
                                 <label for="address">Hotel Address</label>
@@ -129,6 +136,9 @@
                                 <select name="sub_district" class="form-control" v-model="form.sub_district" style="width:100%;">
                                     <option value="" disabled>Select a sub district</option>
                                     <option value="Dhanmondi">Dhanmondi</option>
+                                    <option value="Karwan Bazar">Karwan Bazar</option>
+                                    <option value="Farmgate">Farmgate</option>
+                                    <option value="Mirpur">Mirpur</option>
                                     <option value="Shaymoli">Shaymoli</option>
                                     <option value="Mohammodpur">Mohammodpur</option>
                                     <option value="Sher-e-bangla">Sher-e-bangla</option>
@@ -458,6 +468,7 @@
                     gallery_img_1: '',
                     gallery_img_2: '',
                     owner: '',
+                    website_url: '',
                     address: '',
                     description: '',
                     district: '',

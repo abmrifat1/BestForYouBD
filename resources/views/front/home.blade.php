@@ -189,9 +189,13 @@
                                         <div class="dir-hli-5">
                                             <div class="dir-hli-1">
                                                 <div class="dir-hli-3"><img src="img/hospitals/{{$hospital->main_img}}" alt=""> </div>
-                                                <div class="dir-hli-4"> </div> <img src="/img/hospitals/{{$hospital->main_img}}" alt=""> </div>
+                                                <div class="dir-hli-4"> </div> <img src="/img/hospitals/{{$hospital->main_img}}" alt=""> 
+                                            </div>
                                             <div class="dir-hli-2">
-                                                <h4>{{ $hospital->name}} <span class="dir-ho-cat">Show All (940)</span></h4> </div>
+                                                <h4>{{ $hospital->name}}</h4> 
+                                                <p>{{ $hospital->address}}</p> 
+                                                <a href="#" class="dir-ho-cat">Show All (940)</a>
+                                            </div>
                                         </div>
                                     </a>
                                 </li>
@@ -233,21 +237,24 @@
 		<div class="container">
 			<div class="row">
 				<div class="com-title">
-					<h2>Explore your <span>City Listings</span></h2>
+					<h2>Check Hotel For Stay At Night <span>in Bangladesh</span></h2>
 					<p>Explore some of the best business from around the world from our partners and friends.</p>
-				</div>
-				<div class="col-md-6">
-					<a href="list-lead.html">
-						<div class="list-mig-like-com">
-							<div class="list-mig-lc-img"> <img src="{{ asset('front/images/listing/home.jpg')}}" alt="" /> </div>
-							<div class="list-mig-lc-con">
-								<div class="list-rat-ch list-room-rati"> <span>4.0</span> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star-o" aria-hidden="true"></i> </div>
-								<h5>United States</h5>
-								<p>21 Cities . 2045 Listings . 3648 Users</p>
-							</div>
-						</div>
-					</a>
-				</div>
+                </div>
+                @foreach ($hotels as $hotel)
+                    <div class="col-md-6">
+                        <a href="list-lead.html">
+                            <div class="list-mig-like-com">
+                                <div class="list-mig-lc-img"> <img src="img/hotels/{{ $hotel->main_img }}" alt="" /> </div>
+                                <div class="list-mig-lc-con">
+                                    <div class="list-rat-ch list-room-rati"> <span>4.0</span> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star-o" aria-hidden="true"></i> </div>
+                                    <h5>{{ $hotel->address }}</h5>
+                                    <p>21 Cities . 2045 Listings . 3648 Users</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+                <!--
 				<div class="col-md-3">
 					<a href="list-lead.html">
 						<div class="list-mig-like-com">
@@ -291,7 +298,8 @@
 							</div>
 						</div>
 					</a>
-				</div>
+                </div>
+                -->
 			</div>
 		</div>
 	</section>

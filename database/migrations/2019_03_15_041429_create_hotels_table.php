@@ -24,6 +24,7 @@ class CreateHotelsTable extends Migration
             $table->string('gallery_img_1',80)->default('default.jpg');
             $table->string('gallery_img_2',80)->default('default.jpg');
             $table->string('owner',60)->nullable();
+            $table->string('website_url',60)->nullable();
             $table->string('address',100)->nullable();
             $table->string('description',300)->nullable();
             $table->string('district',50)->nullable();

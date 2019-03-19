@@ -25,7 +25,7 @@
                          with font-awesome or any other icon font library -->
                     <li class="nav-item">
                         <router-link to="/dashboard" class="nav-link">
-                            <i class="nav-icon fas fa-tachometer-alt blue"></i>
+                            <i class="nav-icon fas fa-tachometer-alt green"></i>
                             <p>
                                 Dashboard
                             </p>
@@ -34,7 +34,7 @@
                     @can('isAdminOrAuthor')
                     <li class="nav-item has-treeview">
                         <router-link to="/dashboard-users" class="nav-link">
-                            <i class="nav-icon fa fa-user purple"></i>
+                            <i class="nav-icon fa fa-user green"></i>
                             <p>
                                 Users
                                 {{--<i class="right fa fa-angle-left"></i>--}}
@@ -137,6 +137,12 @@
                                 <router-link to="/dashboard-hotel-rooms" class="nav-link">
                                     <i class="fas fa-angle-double-right nav-icon yellow"></i>
                                     <p>Rooms</p>
+                                </router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link to="/dashboard-city" class="nav-link">
+                                    <i class="fas fa-angle-double-right nav-icon yellow"></i>
+                                    <p>Manage Location</p>
                                 </router-link>
                             </li>
                         </ul>

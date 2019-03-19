@@ -34,6 +34,7 @@ Route::post('institute-departments/{institute_id}','API\InstituteController@addI
 Route::apiResources(['admin-department'=>'API\DepartmentController']);
 //Start Hospital & Department Relations
 Route::apiResources(['dashboard/hospital'=>'API\HospitalController']);
+Route::apiResources(['dashboard/hospital'=>'API\HospitalController']);
 Route::get('hospital/departments','API\HospitalController@getDept');
 Route::put('hospital-departments','API\HospitalController@updateHospitalDepartments');
 Route::delete('delete_hospital_department','API\HospitalController@destroyHospitalDepartment');
@@ -44,6 +45,8 @@ Route::post('hospital-departments/{hospital_id}','API\HospitalController@addHosp
 Route::apiResources(['dashboard-hospital-departments'=>'API\HospitalDepartmentController']);
 //Start Hotel
 Route::apiResources(['dashboard/hotel'=>'API\HotelController']);
+//City
+Route::apiResources(['admin-city'=>'API\DistrictController']);
 //Start Rooms
 Route::apiResources(['dashboard-room'=>'API\HotelRoomController']);
 //Start Hotel Rooms

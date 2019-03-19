@@ -1585,7 +1585,13 @@
  .dir-hli-5 {
      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
      margin-bottom: 30px;
-     background: #000000;
+     /*background: #000000;*/
+     min-height: 350px;
+}
+ .dir-hli-5:hover {
+     transform: scale(1.02);
+    box-shadow: 0px 11px 9px -10px rgba(0, 0, 0, 0.52);
+    transition: all 0.5s ease;
 }
  .dir-hli-2 {
      padding: 15px;
@@ -3052,6 +3058,7 @@
      transition: all 0.5s ease;
      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.07);
      border: 1px solid #f1f2f3;
+     min-height: 160px;
 }
  .home-list-pop:hover {
      -moz-transform: scale(1.02);
@@ -4340,6 +4347,7 @@
      transition: all 0.5s ease;
 }
  .list-mig-lc-img {
+     height: 310px;
 }
  .list-mig-like-com:hover img {
      -webkit-transition: all 0.5s ease;
@@ -4351,6 +4359,7 @@
  .list-mig-lc-img img {
      width: 100%;
      border-radius: 5px;
+     height: 310px;
 }
  .list-mig-like-com:before {
      content: '';

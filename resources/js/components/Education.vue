@@ -194,9 +194,8 @@
                             <div class="form-group">
                                 <label>Publication Status</label>
                                 <select v-model="form.isActive" id="isActive" class="form-control">
-                                    <option value="" disabled>Select Status</option>
                                     <option value="Active">Publish</option>
-                                    <option value="Pending">Draft</option>
+                                    <option value="Draft">Draft</option>
                                 </select>
                             </div>
                         </div>
@@ -355,7 +354,7 @@
                     address: '',
                     city: '',
                     type: '',
-                    isActive: '',
+                    isActive: 'Active',
                     department: []
                 }),
                 departmentForm: new Form({

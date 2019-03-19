@@ -75216,7 +75216,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -75242,7 +75241,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 address: '',
                 city: '',
                 type: '',
-                isActive: '',
+                isActive: 'Active',
                 department: []
             }),
             departmentForm: new Form({
@@ -76389,15 +76388,11 @@ var render = function() {
                           }
                         },
                         [
-                          _c("option", { attrs: { value: "", disabled: "" } }, [
-                            _vm._v("Select Status")
-                          ]),
-                          _vm._v(" "),
                           _c("option", { attrs: { value: "Active" } }, [
                             _vm._v("Publish")
                           ]),
                           _vm._v(" "),
-                          _c("option", { attrs: { value: "Pending" } }, [
+                          _c("option", { attrs: { value: "Draft" } }, [
                             _vm._v("Draft")
                           ])
                         ]

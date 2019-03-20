@@ -192,6 +192,71 @@
                                 </ul>
                             </div>
                             <div class="form-group">
+                                <label for="address">Institution Description</label>
+                                <textarea v-model="form.description"  id="description"
+                                  placeholder="Description"
+                                  class="form-control" :class="{ 'is-invalid': form.errors.has('description') }"></textarea>
+                                <has-error :form="form" field="description"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Institution phone</label>
+                                <input v-model="form.phone" type="text" id="phone"
+                                       placeholder="phone"
+                                       class="form-control" :class="{ 'is-invalid': form.errors.has('phone') }">
+                                <has-error :form="form" field="phone"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Institution email</label>
+                                <input v-model="form.email" type="email" id="email"
+                                       placeholder="email"
+                                       class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
+                                <has-error :form="form" field="email"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Total Student Bus</label>
+                                <input v-model="form.bus" type="number" id="bus"
+                                       placeholder="Total bus"
+                                       class="form-control" :class="{ 'is-invalid': form.errors.has('bus') }">
+                                <has-error :form="form" field="bus"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Auditorium</label>
+                                <input v-model="form.auditorium" type="number" id="auditorium"
+                                       placeholder="Total auditorium"
+                                       class="form-control" :class="{ 'is-invalid': form.errors.has('auditorium') }">
+                                <has-error :form="form" field="auditorium"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label for="hostel">Hostel</label>
+                                <input v-model="form.hostel" type="number" id="hostel"
+                                       placeholder="Total hostel"
+                                       class="form-control" :class="{ 'is-invalid': form.errors.has('hostel') }">
+                                <has-error :form="form" field="hostel"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label for="play_ground">Play Ground</label>
+                                <input v-model="form.play_ground" type="number" id="play_ground"
+                                       placeholder="Total play ground"
+                                       class="form-control" :class="{ 'is-invalid': form.errors.has('play_ground') }">
+                                <has-error :form="form" field="play_ground"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label for="restaurant">Institute Capeteria</label>
+                                <select v-model="form.restaurant" id="restaurant" class="form-control">
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                                <has-error :form="form" field="restaurant"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label for="events">Yearly Event</label>
+                                <select v-model="form.events" id="events" class="form-control">
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                                <has-error :form="form" field="events"></has-error>
+                            </div>
+                            <div class="form-group">
                                 <label>Publication Status</label>
                                 <select v-model="form.isActive" id="isActive" class="form-control">
                                     <option value="Active">Publish</option>
@@ -354,6 +419,15 @@
                     address: '',
                     city: '',
                     type: '',
+                    phone: '',
+                    email: '',
+                    description: '',
+                    hostel: '',
+                    restaurant: '',
+                    bus: '',
+                    auditorium: '',
+                    play_ground: '',
+                    events: '',
                     isActive: 'Active',
                     department: []
                 }),

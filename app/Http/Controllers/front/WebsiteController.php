@@ -22,4 +22,14 @@ class WebsiteController extends Controller
 
         return view('front.home',['publicInstitutes'=>$publicInstitutes,'privateInstitutes'=>$privateInstitutes,'publicHospitals'=>$publicHospitals,'privateHospitals'=>$privateHospitals,'hotels'=>$hotels]);
     }
+    public function institutes()
+    {
+        $institutes = Institute::withCount('departments')->where('isActive' , 'Active')->latest()->paginate(6);
+        return view('front.institute.home',['institutes'=>$institutes]);
+    }
+    public function showInstitute($id)
+    {
+        $institute = Institute::findOrfail($id);
+        return view('front.institute.show',['institute'=>$institute]);
+    }
 }

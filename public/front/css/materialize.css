@@ -2116,7 +2116,7 @@ video.responsive-video {
     max-width: 100%;
     height: auto;
 }
-.pagination li {
+/*.pagination li {
     display: inline-block;
     border-radius: 2px;
     text-align: center;
@@ -2147,9 +2147,9 @@ video.responsive-video {
 .pagination li.pages ul li {
     display: inline-block;
     float: none;
-}
+}*/
 @media only screen and (max-width: 992px) {
-    .pagination {} .pagination li.prev,
+    /*.pagination {} .pagination li.prev,
     .pagination li.next {
         width: 10%;
     }
@@ -2157,7 +2157,7 @@ video.responsive-video {
         width: 80%;
         overflow: hidden;
         white-space: nowrap;
-    }
+    }*/
 }
 .breadcrumb {
     font-size: 18px;

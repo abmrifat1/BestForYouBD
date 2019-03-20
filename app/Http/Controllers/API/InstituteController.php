@@ -67,7 +67,8 @@ class InstituteController extends Controller
         }else{
             $request->merge(['gallery_img_2' => 'default.jpg']);
         }
-        $institute = Institute::create([
+        $institute = Institute::create($request->all());
+        /*$institute = Institute::create([
             'name' => $request['name'],
             'estDate' => $request['estDate'],
             'address' => $request['address'],
@@ -77,7 +78,7 @@ class InstituteController extends Controller
             'gallery_img_2' => $request['gallery_img_2'],
             'type' => $request['type'],
             'isActive' => $request['isActive'],
-        ]);
+        ]);*/
         $institute->departments()->sync($request->department);
         return ['update' => "Institute information stored"];
     }

@@ -66,6 +66,7 @@ let routes = [
     { path: '/dashboard-hotel-rooms', component: require('./components/HotelRoom.vue') },
     { path: '/dashboard-forum-posts', component: require('./components/Forum.vue') },
     { path: '/dashboard-forum-categories', component: require('./components/Categories.vue') },
+    
     { path: '*', component: require('./components/NotFound.vue') }
 ]
 

@@ -3687,7 +3687,7 @@
 /*-------------------------------------------------------*/
  .pg-list-1 {
      margin-top: 60px;
-     background: url(../images/list-deta/bg.jpg) no-repeat;
+     background: url(../images/list-deta/institute_background.jpg) no-repeat;
      background-size: cover;
      position: relative;
      padding: 250px 0px 70px 0px;
@@ -4406,6 +4406,7 @@
  .list-mig-lc-con p {
      color: #c1c1c1;
      font-size: 13px;
+     margin-top: -5px;
 }
  .list-mi-pr {
      top: 15px;

@@ -17,9 +17,10 @@
 				<div class="col-md-6 col-sm-6">
 					<div class="dir-ho-tr">
 						<ul>
-							<li><a href="register.html">Register</a> </li>
-							<li><a href="login.html">Sign In</a> </li>
-							<li><a href="db-listing-add.html"><i class="fa fa-plus" aria-hidden="true"></i> Add Listing</a> </li>
+							<li><a href="javascript:void(0)"><i class="fa fa-plus" aria-hidden="true"></i> Add Listing</a> </li>
+							<li><a href="{{url('/register')}}">Register</a> </li>
+							<li><a href="{{url('/login')}}">Sign In</a> </li>
+							<li><a href="/discuss">Discussion Forum <i class="fa fa-arrow-right"></i></a> </li>
 						</ul>
 					</div>
 				</div>
@@ -32,7 +33,7 @@
 						<h1>Connect with the right<br>Service Experts</h1> 
 						<p>Find B2B & B2C businesses contact addresses, phone numbers,<br> user ratings and reviews.</p>
 					</div>
-					<form class="cate-search-form">
+					<form class="cate-search-form" action="javascript:void(0)">
 						<div class="input-field">
 							<input type="text" id="select-search" class="autocomplete">
 							<label for="select-search">Search your services</label>
@@ -68,7 +69,7 @@
 						<!--SECTION: SEARCH BOX-->
 						<div class="ts-menu-3">
 							<div class="">
-								<form class="tourz-search-form tourz-top-search-form">
+								<form class="tourz-search-form tourz-top-search-form" action="javascript:void(0)">
 									<div class="input-field">
 										<input type="text" id="top-select-city" class="autocomplete">
 										<label for="top-select-city">Enter city</label>
@@ -86,8 +87,8 @@
 						<div class="ts-menu-4">
 							<div class="v3-top-ri">
 								<ul>
-									<li><a href="login.html" class="v3-menu-sign"><i class="fa fa-sign-in"></i> Sign In</a> </li>
-									<li><a href="db-listing-add.html" class="v3-add-bus"><i class="fa fa-plus" aria-hidden="true"></i> Add Listing</a> </li>
+									<li><a href="{{url('/login')}}" class="v3-menu-sign"><i class="fa fa-sign-in"></i> Sign In</a> </li>
+									<li><a href="javascript:void(0)" class="v3-add-bus"><i class="fa fa-plus" aria-hidden="true"></i> Add Listing</a> </li>
 								</ul>
 							</div>
 						</div>
@@ -99,8 +100,8 @@
 							<h5>Business</h5>
 							<ul class="mob-menu-icon">
 								<li><a href="price.html">Add Business</a> </li>
-								<li><a href="#!" data-toggle="modal" data-target="#register">Register</a> </li>
-								<li><a href="#!" data-toggle="modal" data-target="#sign-in">Sign In</a> </li>
+								<li><a href="{{url('/register')}}" data-toggle="modal" data-target="#register">Register</a> </li>
+								<li><a href="{{url('/login')}}" data-toggle="modal" data-target="#sign-in">Sign In</a> </li>
 							</ul>
 							<h5>All Categories</h5>
 							<ul>
@@ -149,7 +150,7 @@
 							</div>
 							<div class="land-pack-grid-text">
 							<h4>Hospital Listing</h4>
-							<a href="service-booking.html" class="land-pack-grid-btn land-pack-grid-btn-blu">Go Now</a></div>
+							<a href="{{ url('/hospital')}}" class="land-pack-grid-btn land-pack-grid-btn-blu">Go Now</a></div>
 							</div>
 						</li>
 						<li>							
@@ -159,7 +160,7 @@
 							</div>
 							<div class="land-pack-grid-text">
 							<h4>Hotel Listing</h4>
-							<a href="service-booking.html" class="land-pack-grid-btn land-pack-grid-btn-yel">Go Now</a></div>
+							<a href="{{ url('/hotel')}}" class="land-pack-grid-btn land-pack-grid-btn-yel">Go Now</a></div>
 							</div>
 						</li>
 						<li>							
@@ -169,7 +170,7 @@
 							</div>
 							<div class="land-pack-grid-text">
 							<h4>Tour Place Listing</h4>
-							<a href="service-booking.html" class="land-pack-grid-btn land-pack-grid-btn-red">Go Now</a></div>
+							<a href="{{ url('/tour')}}" class="land-pack-grid-btn land-pack-grid-btn-red">Go Now</a></div>
 							</div>
 						</li>
 					</ul>
@@ -177,13 +178,13 @@
 			</div>
 		</div>		
     </section>
-    <!--BEST THINGS-->
+    <!--BEST Institutes-->
 	<section class="com-padd com-padd-redu-bot">
 		<div class="container dir-hom-pre-tit">
 			<div class="row">
 				<div class="com-title">
 					<h2>Top Public & Private Universities in <span>Your Country</span></h2>
-					<p>Explore some of the best tips from around the world from our partners and friends.</p>
+					<p>Explore some of the best institutes from around the Bangladesh for good education.</p>
 				</div>
 				<div class="col-md-6">
 					<div>
@@ -194,7 +195,7 @@
                                     <!--POPULAR LISTINGS IMAGE-->
                                     <div class="col-md-3"> <img src="img/institutes/{{$institute->main_img}}" alt="" /> </div>
                                     <!--POPULAR LISTINGS: CONTENT-->
-                                    <div class="col-md-9 home-list-pop-desc"> <a href="automobile-listing-details.html"><h3>{{ $institute->name }}</h3></a>
+                                    <div class="col-md-9 home-list-pop-desc"> <a href="/institute/{{$institute->id}}"><h3>{{ $institute->name }}</h3></a>
                                         <h4>{{ $institute->departments_count }} Departments</h4>
                                         <p>{{ $institute->address }}</p> <span class="home-list-pop-rat">4.2</span>
                                         <div class="hom-list-share">
@@ -220,7 +221,7 @@
                                     <!--POPULAR LISTINGS IMAGE-->
                                     <div class="col-md-3"> <img src="img/institutes/{{$institute->main_img}}" alt="" /> </div>
                                     <!--POPULAR LISTINGS: CONTENT-->
-                                    <div class="col-md-9 home-list-pop-desc"> <a href="list-lead.html"><h3>{{ $institute->name }}</h3></a>
+                                    <div class="col-md-9 home-list-pop-desc"> <a href="/institute/{{$institute->id}}"><h3>{{ $institute->name }}</h3></a>
                                         <h4>{{ $institute->departments_count }} Departments</h4>
                                         <p>{{ $institute->address }}</p> <span class="home-list-pop-rat">4.2</span>
                                         <div class="hom-list-share">
@@ -240,13 +241,13 @@
 			</div>
 		</div>
 	</section>
-	<!--FIND YOUR SERVICE-->
+	<!--FIND Hospital SERVICE-->
 	<section class="com-padd com-padd-redu-bot1 pad-bot-red-40">
 		<div class="container">
 			<div class="row">
 				<div class="com-title">
 					<h2>Find You Hospital For Best Treatment <span>In Your Contry</span></h2>
-					<p>Explore some of the best business from around the world from our partners and friends.</p>
+					<p>Explore some of the best hospitals for treatment from around the Bangladesh from our partners.</p>
 				</div>
 				<div class="dir-hli">
 					<ul>
@@ -254,7 +255,7 @@
                         @foreach($publicHospitals as $hospital)
                             @if($hospital->ownership_type == 'Public')
                                 <li class="col-md-3 col-sm-6">
-                                    <a href="list.html">
+                                    <a href="/hospital/{{$hospital->id}}">
                                         <div class="dir-hli-5">
                                             <div class="dir-hli-1">
                                                 <div class="dir-hli-3"><img src="img/hospitals/{{$hospital->main_img}}" alt=""> </div>
@@ -274,7 +275,7 @@
                         @foreach($privateHospitals as $hospital)
                             @if($hospital->ownership_type == 'Private')
                                 <li class="col-md-3 col-sm-6">
-                                    <a href="list.html">
+                                    <a href="/hospital/{{$hospital->id}}">
                                         <div class="dir-hli-5">
                                             <div class="dir-hli-1">
                                                 <div class="dir-hli-3">
@@ -301,23 +302,23 @@
 			</div>
 		</div>
 	</section>
-	<!--EXPLORE CITY LISTING-->
+	<!--EXPLORE Hotel LISTING-->
 	<section class="com-padd com-padd-redu-top">
 		<div class="container">
 			<div class="row">
 				<div class="com-title">
 					<h2>Check Hotel For Stay At Night <span>in Bangladesh</span></h2>
-					<p>Explore some of the best business from around the world from our partners and friends.</p>
+					<p>Explore some of the best hotel from around the Bangladesh from our partners and friends.</p>
                 </div>
                 @foreach ($hotels as $hotel)
                     <div class="col-md-6">
-                        <a href="list-lead.html">
+                        <a href="/hotel/{{$hotel->id}}">
                             <div class="list-mig-like-com">
                                 <div class="list-mig-lc-img"> <img src="img/hotels/{{ $hotel->main_img }}" alt="" /> </div>
                                 <div class="list-mig-lc-con">
                                     <div class="list-rat-ch list-room-rati"> <span>4.0</span> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star-o" aria-hidden="true"></i> </div>
-                                    <h5>{{ $hotel->address }}</h5>
-                                    <p>21 Cities . 2045 Listings . 3648 Users</p>
+                                    <h5>{{ $hotel->name }}</h5>
+                                    <p><b>Address:</b> {{$hotel->address}}</p>
                                 </div>
                             </div>
                         </a>

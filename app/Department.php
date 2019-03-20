@@ -10,6 +10,6 @@ class Department extends Model
         'name', 'slug','isActive','created_at','updated_at'
     ];
     public function institutes(){
-        return $this->belongsToMany('App\Institute', 'institute_departments')->latest()->paginate(5);
+        return $this->belongsToMany('App\Institute', 'institute_departments');
     }
 }

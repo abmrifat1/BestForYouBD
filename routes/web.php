@@ -14,6 +14,8 @@
 Route::get('/','front\WebsiteController@index');
 Route::get('/institutes','front\WebsiteController@institutes');
 Route::get('/institute/{id}','front\WebsiteController@showInstitute');
+Route::get('/hospitals','front\WebsiteController@hospitals');
+Route::get('/hospital/{id}','front\WebsiteController@showHospital');
 
 Auth::routes();
 

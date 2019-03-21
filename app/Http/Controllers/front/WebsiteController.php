@@ -4,6 +4,7 @@ namespace App\Http\Controllers\front;
 use App\Institute;
 use App\Hospital;
 use App\Hotel;
+use App\Department;
 use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -27,7 +28,8 @@ class WebsiteController extends Controller
     public function institutes()
     {
         $institutes = Institute::withCount('departments')->where('isActive' , 'Active')->latest()->paginate(6);
-        return view('front.institute.home',['institutes'=>$institutes]);
+        $departments = Department::orderBy('name','asc')->get();
+        return view('front.institute.home',['institutes'=>$institutes,'departments'=>$departments]);
     }
 
     public function showInstitute($id)
@@ -46,14 +48,26 @@ class WebsiteController extends Controller
     public function hospitals()
     {
         $hospitals = Hospital::withCount('departments')->where('isActive' , 'Active')->latest()->paginate(6);
-        return view('front.institute.home',['hospitals'=>$hospitals]);
+        return view('front.hospital.home',['hospitals'=>$hospitals]);
     }
 
     public function showHospital($id)
     {
-        $hospital = Hospital::with('departments')->where('id',$id)->first();
+        $hospital = Institute::findOrfail($id);
         return $hospital;
         return view('front.hospital.show',['hospital'=>$hospital]);
+    }
+    public function hotels()
+    {
+        $hotels = Hotel::where('isActive' , 'Active')->latest()->paginate(6);
+        return view('front.hotel.home',['hotels'=>$hotels]);
+    }
+
+    public function showHotel($id)
+    {
+        $hotel = Hotel::findOrfail($id);
+        return $hotel;
+        return view('front.hospital.show',['hotel'=>$hotel]);
     }
 
 }

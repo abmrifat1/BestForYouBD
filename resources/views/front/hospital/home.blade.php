@@ -72,7 +72,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="dir-alp-tit">
-					<h1>Institute Lists in Bangladesh</h1>
+					<h1>hospital Lists in Bangladesh</h1>
 					<ol class="breadcrumb">
 						<li><a href="/">Home</a> </li>
 						<li class="active">Institutes List</li>
@@ -83,16 +83,33 @@
 				<div class="dir-alp-con">
 					<div class="col-md-3 dir-alp-con-left">
 						<!--==========Sub Category Filter============-->
-						<div class="dir-alp-con-left-1"><h3>Departments</h3> </div>
-						<div class="dir-hom-pre dir-alp-left-ner-notb">
-							<ul>
-								@foreach($departments as $department)
-									<li>
-										<input type="checkbox" id="scf1" value="{{$department->id}}" name=department_id[]/>
-										<label for="scf1">{{$department->name}}</label>
-									</li>
-								@endforeach
-							</ul>
+						<div class="dir-alp-l3 dir-alp-l-com">
+							<h4>Sub Category Filter</h4>
+							<div class="dir-alp-l-com1 dir-alp-p3">
+								<form action="#">
+									<ul>
+										<li>
+											<input type="checkbox" id="scf1" />
+											<label for="scf1">Hortels & Resorts</label>
+										</li>
+										<li>
+											<input type="checkbox" id="scf2" />
+											<label for="scf2">Fitness Care</label>
+										</li>
+										<li>
+											<input type="checkbox" id="scf3" />
+											<label for="scf3">Educations</label>
+										</li>
+										<li>
+											<input type="checkbox" id="scf4" />
+											<label for="scf4">Property</label>
+										</li>
+										<li>
+											<input type="checkbox" id="scf5" />
+											<label for="scf5">Home Services</label>
+										</li>
+									</ul>
+								</form> <a href="#!" class="list-view-more-btn">view more</a> </div>
 						</div>
 						<!--==========End Sub Category Filter============-->
 						<!--==========Sub Category Filter============-->
@@ -165,18 +182,18 @@
 						<div class="dir-alp-con-right-1">
 							<div class="row">
 								<!--LISTINGS-->
-								@foreach($institutes as $institute)
+								@foreach($hospitals as $hospital)
 									<div class="home-list-pop list-spac">
 										<!--LISTINGS IMAGE-->
-										<div class="col-md-3 list-ser-img"> <img src="img/institutes/{{ $institute->main_img }}" alt="" /> </div>
+										<div class="col-md-3 list-ser-img"> <img src="img/hospitals/{{ $hospital->main_img }}" alt="" /> </div>
 										<!--LISTINGS: CONTENT-->
-										<div class="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="{{ url('/institute/'.$institute->id)}}"><h3>{{ $institute->name }}</h3></a>
+										<div class="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="{{ url('/hospital/'.$hospital->id)}}"><h3>{{ $hospital->name }}</h3></a>
 											<h4>Express Avenue Mall, Los Angeles</h4>
-											<p><b>Address:</b> {{ $institute->address }}, Bangladesh.</p>
+											<p><b>Address:</b> {{ $hospital->address }}, Bangladesh.</p>
 											<div class="list-number">
 												<ul>
-													<li><img src="images/icon/phone.png" alt=""> {{ $institute->phone }}</li>
-													<li><img src="images/icon/mail.png" alt=""> {{ $institute->email }}</li>
+													<li><img src="images/icon/phone.png" alt=""> +8801771-711771</li>
+													<li><img src="images/icon/mail.png" alt=""> admin@hospital.bd.com</li>
 												</ul>
 											</div> <span class="home-list-pop-rat">4.2</span>
 											<div class="list-enqu-btn">
@@ -194,7 +211,7 @@
 								<!--LISTINGS END-->
 							</div>
 							<div class="row">
-								{{$institutes->links()}}
+								{{$hospitals->links()}}
 							</div>
 						</div>
 					</div>

@@ -150,7 +150,7 @@
 							</div>
 							<div class="land-pack-grid-text">
 							<h4>Hospital Listing</h4>
-							<a href="{{ url('/hospital')}}" class="land-pack-grid-btn land-pack-grid-btn-blu">Go Now</a></div>
+							<a href="{{ url('/hospitals')}}" class="land-pack-grid-btn land-pack-grid-btn-blu">Go Now</a></div>
 							</div>
 						</li>
 						<li>							
@@ -160,7 +160,7 @@
 							</div>
 							<div class="land-pack-grid-text">
 							<h4>Hotel Listing</h4>
-							<a href="{{ url('/hotel')}}" class="land-pack-grid-btn land-pack-grid-btn-yel">Go Now</a></div>
+							<a href="{{ url('/hotels')}}" class="land-pack-grid-btn land-pack-grid-btn-yel">Go Now</a></div>
 							</div>
 						</li>
 						<li>							
@@ -170,7 +170,7 @@
 							</div>
 							<div class="land-pack-grid-text">
 							<h4>Tour Place Listing</h4>
-							<a href="{{ url('/tour')}}" class="land-pack-grid-btn land-pack-grid-btn-red">Go Now</a></div>
+							<a href="{{ url('/tours')}}" class="land-pack-grid-btn land-pack-grid-btn-red">Go Now</a></div>
 							</div>
 						</li>
 					</ul>

@@ -206,7 +206,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             Anything you want
         </div>--}}
         <!-- Default to the left -->
-        <strong>Copyright &copy; 2014-2018 <a href="https://adminlte.io">MahbubulSoft</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2014-2018 <a href="https://adminlte.io">Best For You BD Team</a>.</strong> All rights reserved.
     </footer>
 </div>
 <!-- ./wrapper -->

@@ -172,13 +172,6 @@
                                 </span>
                             </div>
                             <div class="form-group">
-                                <label for="email" class="col-form-label">E-mail:</label>
-                                <input type="email" name="email" class="form-control" id="email">
-                                <span class="error">
-                                    <strong style="color: red;" id="emailErrorMsg"></strong>
-                                </span>
-                            </div>
-                            <div class="form-group">
                                 <label for="degree" class="col-form-label">Category:</label>
                                 <select name="category_id" class="form-control">
                                     <option>Select a category</option>

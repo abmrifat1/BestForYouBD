@@ -140,9 +140,40 @@
                                 </router-link>
                             </li>
                             <li class="nav-item">
-                                <router-link to="/dashboard-city" class="nav-link">
+                                <router-link to="/dashboard-districts" class="nav-link">
                                     <i class="fas fa-angle-double-right nav-icon yellow"></i>
-                                    <p>Manage Location</p>
+                                    <p>Districts</p>
+                                </router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link to="/dashboard-subdistricts" class="nav-link">
+                                    <i class="fas fa-angle-double-right nav-icon yellow"></i>
+                                    <p>Sub Districts</p>
+                                </router-link>
+                            </li>
+                        </ul>
+                    </li>
+                    @endcan
+                    @can('isAdminOrAuthor')
+                    <li class="nav-item has-treeview">
+                        <a href="javascript:void(0)" class="nav-link">
+                            <i class="fas fa-map-marked-alt nav-icon green"></i>
+                            <p>
+                                Tools
+                                <i class="right fa fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <router-link to="/dashboard-districts" class="nav-link">
+                                    <i class="fas fa-angle-double-right nav-icon yellow"></i>
+                                    <p>Districts</p>
+                                </router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link to="/dashboard-subdistricts" class="nav-link">
+                                    <i class="fas fa-angle-double-right nav-icon yellow"></i>
+                                    <p>Sub Districts</p>
                                 </router-link>
                             </li>
                         </ul>

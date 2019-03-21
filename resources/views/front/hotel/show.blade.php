@@ -2,72 +2,42 @@
 @section('content')
 	<!--TOP SEARCH SECTION-->
 	<section class="bottomMenu dir-il-top-fix">
-			<div class="container top-search-main">
-				<div class="row">
-					<div class="ts-menu">
-						<!--SECTION: LOGO-->
-						<div class="ts-menu-1">
-							<a href="{{ url('/') }}"><img src="images/aff-logo.png" alt=""> </a>
-						</div>
-						<!--SECTION: BROWSE CATEGORY(NOTE:IT'S HIDE ON MOBILE & TABLET VIEW)-->
-						<div class="ts-menu-2"><a href="{{ url('/') }}" class="t-bb">Best4You</a>
-							
-						</div>
-						<div class="ts-menu-3">
-							<div class="">
-								<form class="tourz-search-form tourz-top-search-form">
-									<div class="input-field">
-										<input type="text" id="top-select-city" class="autocomplete">
-										<label for="top-select-city">Enter city</label>
-									</div>
-									<div class="input-field">
-										<input type="text" id="top-select-search" class="autocomplete">
-										<label for="top-select-search" class="search-hotel-type">Search your services like hotel, resorts, events and more</label>
-									</div>
-									<div class="input-field">
-										<input type="submit" value="" class="waves-effect waves-light tourz-top-sear-btn"> </div>
-								</form>
-							</div>
-						</div>
-						<!--SECTION: REGISTER,SIGNIN AND ADD YOUR BUSINESS-->
-						<div class="ts-menu-4">
-							<div class="v3-top-ri">
-								<ul>
-									<li><a href="login.html" class="v3-menu-sign"><i class="fa fa-sign-in"></i> Sign In</a> </li>
-									<li><a href="db-listing-add.html" class="v3-add-bus"><i class="fa fa-plus" aria-hidden="true"></i> Add Listing</a> </li>
-								</ul>
-							</div>
-						</div>
-						<!--MOBILE MENU ICON:IT'S ONLY SHOW ON MOBILE & TABLET VIEW-->
-						<div class="ts-menu-5"><span><i class="fa fa-bars" aria-hidden="true"></i></span> </div>
-						<!--MOBILE MENU CONTAINER:IT'S ONLY SHOW ON MOBILE & TABLET VIEW-->
-						<div class="mob-right-nav" data-wow-duration="0.5s">
-							<div class="mob-right-nav-close"><i class="fa fa-times" aria-hidden="true"></i> </div>
-							<h5>Business</h5>
-							<ul class="mob-menu-icon">
-								<li><a href="#">Add Business</a> </li>
-								<li><a href="#">Register</a> </li>
-								<li><a href="#">Sign In</a> </li>
-							</ul>
-							<h5>All Categories</h5>
+		<div class="container top-search-main">
+			<div class="row">
+				<div class="ts-menu">
+					<!--SECTION: LOGO-->
+					<div class="ts-menu-1">
+						<a href="/"><img src="/img/bestforyoubd2.png" alt=""> </a>
+					</div>
+					<!--SECTION: BROWSE CATEGORY(NOTE:IT'S HIDE ON MOBILE & TABLET VIEW)-->
+					<div class="ts-menu-2"><a href="/" class="t-bb">Best4You</a>
+						
+					</div>
+					<!--SECTION: REGISTER,SIGNIN AND ADD YOUR BUSINESS-->
+					<div class="ts-menu-6">
+						<div class="v3-top-ri">
 							<ul>
-								<li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i> Help Services</a> </li>
-								<li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i> Appliances Repair & Services</a> </li>
-								<li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i> Furniture Dealers</a> </li>
-								<li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i> Packers and Movers</a> </li>
-								<li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i> Pest Control </a> </li>
-								<li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i> Solar Product Dealers</a> </li>
-								<li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i> Interior Designers</a> </li>
-								<li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i> Carpenters</a> </li>
-								<li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i> Plumbing Contractors</a> </li>
-								<li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i> Modular Kitchen</a> </li>
-								<li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i> Internet Service Providers</a> </li>
+								<li><a href="/login" class="v3-menu-sign"><i class="fa fa-sign-in"></i> Sign In</a> </li>
+								<li><a href="/register" class="v3-add-bus"><i class="fa fa-plus" aria-hidden="true"></i> Add Listing</a> </li>
 							</ul>
 						</div>
 					</div>
+					<!--MOBILE MENU ICON:IT'S ONLY SHOW ON MOBILE & TABLET VIEW-->
+					<div class="ts-menu-5"><span><i class="fa fa-bars" aria-hidden="true"></i></span> </div>
+					<!--MOBILE MENU CONTAINER:IT'S ONLY SHOW ON MOBILE & TABLET VIEW-->
+					<div class="mob-right-nav" data-wow-duration="0.5s">
+						<div class="mob-right-nav-close"><i class="fa fa-times" aria-hidden="true"></i> </div>
+						<h5>Business</h5>
+						<ul class="mob-menu-icon">
+							<li><a href="/register">Add Business</a> </li>
+							<li><a href="/register">Register</a> </li>
+							<li><a href="/login">Sign In</a> </li>
+						</ul>
+					</div>
 				</div>
 			</div>
-		</section>
+		</div>
+	</section>
 	<section>
 		<div class="v3-list-ql">
 			<div class="container">
@@ -270,205 +240,6 @@
 							</div>
 						</div>
 						<!--END 360 DEGREE MAP: LEFT PART 8-->
-						<!--LISTING DETAILS: LEFT PART 6-->
-						<div class="pglist-p3 pglist-bg pglist-p-com" id="ld-rew">
-							<div class="pglist-p-com-ti">
-								<h3><span>Write Your</span> Reviews</h3> </div>
-							<div class="list-pg-inn-sp">
-								<div class="list-pg-write-rev">
-									<form class="col">
-										<p>Writing great reviews may help others discover the places that are just apt for them. Here are a few tips to write a good review:</p>
-										<div class="row">
-											<div class="col s12">
-												<fieldset class="rating">
-													<input type="radio" id="star5" name="rating" value="5" />
-													<label class="full" for="star5" title="Awesome - 5 stars"></label>
-													<input type="radio" id="star4half" name="rating" value="4 and a half" />
-													<label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
-													<input type="radio" id="star4" name="rating" value="4" />
-													<label class="full" for="star4" title="Pretty good - 4 stars"></label>
-													<input type="radio" id="star3half" name="rating" value="3 and a half" />
-													<label class="half" for="star3half" title="Meh - 3.5 stars"></label>
-													<input type="radio" id="star3" name="rating" value="3" />
-													<label class="full" for="star3" title="Meh - 3 stars"></label>
-													<input type="radio" id="star2half" name="rating" value="2 and a half" />
-													<label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
-													<input type="radio" id="star2" name="rating" value="2" />
-													<label class="full" for="star2" title="Kinda bad - 2 stars"></label>
-													<input type="radio" id="star1half" name="rating" value="1 and a half" />
-													<label class="half" for="star1half" title="Meh - 1.5 stars"></label>
-													<input type="radio" id="star1" name="rating" value="1" />
-													<label class="full" for="star1" title="Sucks big time - 1 star"></label>
-													<input type="radio" id="starhalf" name="rating" value="half" />
-													<label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
-												</fieldset>
-											</div>
-										</div>
-										<div class="row">
-											<div class="input-field col s6">
-												<input id="re_name" type="text" class="validate">
-												<label for="re_name">Full Name</label>
-											</div>
-											<div class="input-field col s6">
-													<input id="re_mail" type="email" class="validate">
-													<label for="re_mail">Email id</label>
-												</div>
-										</div>
-										<div class="row">
-											<div class="input-field col s12">
-												<textarea id="re_msg" class="materialize-textarea"></textarea>
-												<label for="re_msg">Write review</label>
-											</div>
-										</div>
-										<div class="row">
-											<div class="input-field col s12"> <a class="waves-effect waves-light btn-large full-btn" href="#!">Submit Review</a> </div>
-										</div>
-									</form>
-								</div>
-							</div>
-						</div>
-						<!--END LISTING DETAILS: LEFT PART 6-->
-						<!--LISTING DETAILS: LEFT PART 5-->
-						<div class="pglist-p3 pglist-bg pglist-p-com" id="ld-rer">
-							<div class="pglist-p-com-ti">
-								<h3><span>User</span> Reviews</h3> </div>
-							<div class="list-pg-inn-sp">
-								<div class="lp-ur-all">
-									<div class="lp-ur-all-left">
-										<div class="lp-ur-all-left-1">
-											<div class="lp-ur-all-left-11">Excellent</div>
-											<div class="lp-ur-all-left-12">
-												<div class="lp-ur-all-left-13"></div>
-											</div>
-										</div>
-										<div class="lp-ur-all-left-1">
-											<div class="lp-ur-all-left-11">Good</div>
-											<div class="lp-ur-all-left-12">
-												<div class="lp-ur-all-left-13 lp-ur-all-left-Good"></div>
-											</div>
-										</div>
-										<div class="lp-ur-all-left-1">
-											<div class="lp-ur-all-left-11">Satisfactory</div>
-											<div class="lp-ur-all-left-12">
-												<div class="lp-ur-all-left-13 lp-ur-all-left-satis"></div>
-											</div>
-										</div>
-										<div class="lp-ur-all-left-1">
-											<div class="lp-ur-all-left-11">Below Average</div>
-											<div class="lp-ur-all-left-12">
-												<div class="lp-ur-all-left-13 lp-ur-all-left-below"></div>
-											</div>
-										</div>
-										<div class="lp-ur-all-left-1">
-											<div class="lp-ur-all-left-11">Below Average</div>
-											<div class="lp-ur-all-left-12">
-												<div class="lp-ur-all-left-13 lp-ur-all-left-poor"></div>
-											</div>
-										</div>
-									</div>
-									<div class="lp-ur-all-right">
-										<h5>Overall Ratings</h5>
-										<p><span>4.5 <i class="fa fa-star" aria-hidden="true"></i></span> based on 242 reviews</p>
-									</div>
-								</div>
-								<div class="lp-ur-all-rat">
-									<h5>Reviews</h5>
-									<ul>
-										<li>
-											<div class="lr-user-wr-img"> <img src="/front/images/users/2.png" alt=""> </div>
-											<div class="lr-user-wr-con">
-												<h6>Jacob Michael <span>4.5 <i class="fa fa-star" aria-hidden="true"></i></span></h6> <span class="lr-revi-date">19th January, 2017</span>
-												<p>Good service... nice and clean rooms... very good spread of buffet and friendly staffs. Located in heart of city and easy to reach any places in a short distance. </p>
-												<ul>
-													<li><a href="#!"><span>Like</span><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><span>Dis-Like</span><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><span>Report</span> <i class="fa fa-flag-o" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><span>Comments</span> <i class="fa fa-commenting-o" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><span>Share Now</span>  <i class="fa fa-facebook" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><i class="fa fa-google-plus" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><i class="fa fa-twitter" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><i class="fa fa-linkedin" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><i class="fa fa-youtube" aria-hidden="true"></i></a> </li>
-												</ul>
-											</div>
-										</li>
-										<li>
-											<div class="lr-user-wr-img"> <img src="/front/images/users/3.png" alt=""> </div>
-											<div class="lr-user-wr-con">
-												<h6>Gabriel Elijah <span>5.0 <i class="fa fa-star" aria-hidden="true"></i></span></h6> <span class="lr-revi-date">21th July, 2016</span>
-												<p>The hotel is clean, convenient and good value for money. Staff are courteous and helpful. However, they need more training to be efficient.</p>
-												<ul>
-													<li><a href="#!"><span>Like</span><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><span>Dis-Like</span><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><span>Report</span> <i class="fa fa-flag-o" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><span>Comments</span> <i class="fa fa-commenting-o" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><span>Share Now</span>  <i class="fa fa-facebook" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><i class="fa fa-google-plus" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><i class="fa fa-twitter" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><i class="fa fa-linkedin" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><i class="fa fa-youtube" aria-hidden="true"></i></a> </li>
-												</ul>
-											</div>
-										</li>
-										<li>
-											<div class="lr-user-wr-img"> <img src="/front/images/users/4.png" alt=""> </div>
-											<div class="lr-user-wr-con">
-												<h6>Luke Mason <span>4.2 <i class="fa fa-star" aria-hidden="true"></i></span></h6> <span class="lr-revi-date">21th March, 2018</span>
-												<p>Too much good experience with hospitality, cleanliness, facility and privacy and good value for money... To keep mind relaxing... Keep it up... </p>
-												<ul>
-													<li><a href="#!"><span>Like</span><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><span>Dis-Like</span><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><span>Report</span> <i class="fa fa-flag-o" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><span>Comments</span> <i class="fa fa-commenting-o" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><span>Share Now</span>  <i class="fa fa-facebook" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><i class="fa fa-google-plus" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><i class="fa fa-twitter" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><i class="fa fa-linkedin" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><i class="fa fa-youtube" aria-hidden="true"></i></a> </li>
-												</ul>
-											</div>
-										</li>
-										<li>
-											<div class="lr-user-wr-img"> <img src="/front/images/users/5.png" alt=""> </div>
-											<div class="lr-user-wr-con">
-												<h6>Kevin Jack <span>3.6 <i class="fa fa-star" aria-hidden="true"></i></span></h6> <span class="lr-revi-date">21th Aug, 2018</span>
-												<p>I am deaf. Bar is closed and Restaurant is okay ... It should be more decoration as beautiful. I enjoyed swimming top floor and weather is good</p>
-												<ul>
-													<li><a href="#!"><span>Like</span><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><span>Dis-Like</span><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><span>Report</span> <i class="fa fa-flag-o" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><span>Comments</span> <i class="fa fa-commenting-o" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><span>Share Now</span>  <i class="fa fa-facebook" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><i class="fa fa-google-plus" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><i class="fa fa-twitter" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><i class="fa fa-linkedin" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><i class="fa fa-youtube" aria-hidden="true"></i></a> </li>
-												</ul>
-											</div>
-										</li>
-										<li>
-											<div class="lr-user-wr-img"> <img src="/images/users/6.png" alt=""> </div>
-											<div class="lr-user-wr-con">
-												<h6>Nicholas Tyler <span>4.4 <i class="fa fa-star" aria-hidden="true"></i></span></h6> <span class="lr-revi-date">21th Aug, 2018</span>
-												<p>Overall, it was good experience. Rooms were spacious and they were kept very clean and tidy. Room service was good.</p>
-												<ul>
-													<li><a href="#!"><span>Like</span><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><span>Dis-Like</span><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><span>Report</span> <i class="fa fa-flag-o" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><span>Comments</span> <i class="fa fa-commenting-o" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><span>Share Now</span>  <i class="fa fa-facebook" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><i class="fa fa-google-plus" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><i class="fa fa-twitter" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><i class="fa fa-linkedin" aria-hidden="true"></i></a> </li>
-													<li><a href="#!"><i class="fa fa-youtube" aria-hidden="true"></i></a> </li>
-												</ul>
-											</div>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<!--END LISTING DETAILS: LEFT PART 5-->
 					</div>
 					<div class="list-pg-rt">
 						
@@ -539,53 +310,5 @@
 		</div>
 	</section>
 	<!--QUOTS POPUP-->
-	<section>
-		<!-- GET QUOTES POPUP -->
-		<div class="modal fade dir-pop-com" id="list-quo" role="dialog">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header dir-pop-head">
-						<button type="button" class="close" data-dismiss="modal">×</button>
-						<h4 class="modal-title">Get a Quotes</h4>
-						<!--<i class="fa fa-pencil dir-pop-head-icon" aria-hidden="true"></i>-->
-					</div>
-					<div class="modal-body dir-pop-body">
-						<form method="post" class="form-horizontal">
-							<!--LISTING INFORMATION-->
-							<div class="form-group has-feedback ak-field">
-								<label class="col-md-4 control-label">Full Name *</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" name="fname" placeholder="" required> </div>
-							</div>
-							<!--LISTING INFORMATION-->
-							<div class="form-group has-feedback ak-field">
-								<label class="col-md-4 control-label">Mobile</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" name="mobile" placeholder=""> </div>
-							</div>
-							<!--LISTING INFORMATION-->
-							<div class="form-group has-feedback ak-field">
-								<label class="col-md-4 control-label">Email</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" name="email" placeholder=""> </div>
-							</div>
-							<!--LISTING INFORMATION-->
-							<div class="form-group has-feedback ak-field">
-								<label class="col-md-4 control-label">Message</label>
-								<div class="col-md-8 get-quo">
-									<textarea class="form-control"></textarea>
-								</div>
-							</div>
-							<!--LISTING INFORMATION-->
-							<div class="form-group has-feedback ak-field">
-								<div class="col-md-6 col-md-offset-4">
-									<input type="submit" value="SUBMIT" class="pop-btn"> </div>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- GET QUOTES Popup END -->
-	</section>
+	
 @endsection

@@ -1,10 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\API;
+use App\SubDistrict;  
 use App\District;  
+use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-class DistrictController extends Controller
+
+class SubDistrictController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -15,6 +18,7 @@ class DistrictController extends Controller
     {
         $this->middleware('auth:api');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -23,9 +27,19 @@ class DistrictController extends Controller
     public function index()
     {
         if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
-            return District::orderby('name','asc')->paginate(10);
+            return DB::table('sub_districts')
+            ->join('districts','districts.id','=','sub_districts.district_id')
+            ->orderby('districts.name','asc')
+            ->select('sub_districts.*','districts.name as districtName')
+            ->paginate(10);
         }
+
     }
+    public function getDistrict()
+    {
+        return District::orderby('name','asc')->get();
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -35,12 +49,12 @@ class DistrictController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-           'name'=>'required|string|max:191'
+           'name'=>'required|string|max:191',
+           'district_id'=>'required'
         ]);
-        return District::create([
-            'name' => $request['name']
-        ]);
+        return SubDistrict::create($request->all());
     }
+
     /**
      * Display the specified resource.
      *
@@ -60,15 +74,15 @@ class DistrictController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $district = District::findOrFail($id);
+        $sub_district = SubDistrict::findOrFail($id);
         $this->validate($request,[
-            'name'=>'required|string|max:191'
+            'name'=>'required|string|max:191',
+            'district_id'=>'required'
         ]);
-        $district->update([
-            'name' => $request['name']
-        ]);
+        $sub_district->update($request->all());
         return ['update' => "Information updated"];
     }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -77,8 +91,8 @@ class DistrictController extends Controller
      */
     public function destroy($id)
     {
-        $district = District::findOrFail($id);
-        $district->delete();
+        $sub_district = SubDistrict::findOrFail($id);
+        $sub_district->delete();
         return ['delete'=>"Deleted successfully"];
     }
 }

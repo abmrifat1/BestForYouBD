@@ -28,7 +28,7 @@ class InstituteController extends Controller
     public function index()
     {
         if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
-            return Institute::with('departments')->orderBy('name','asc')->paginate(10);
+            return Institute::with('departments')->orderBy('name','asc')->paginate(7);
         }
     }
     public function getDept()

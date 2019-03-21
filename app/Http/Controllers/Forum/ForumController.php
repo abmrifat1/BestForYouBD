@@ -26,7 +26,6 @@ class ForumController extends Controller
         {
             $validator = Validator::make($request->all(),[
                 'name'=>'required|string|max:100',
-                'email'=>'required|email|max:100',
                 'category_id'=>'required',
                 'description'=>'required|string',
             ]);
@@ -46,7 +45,6 @@ class ForumController extends Controller
                 'name'=>$request->name,
                 'category_id'=>$request->category_id,
                 'description'=>$request->description,
-                'email'=>$request->email
             ]);
             //return redirect('/discuss/post/create')->with('message','You have successfully uploaded you post, we will review it and after then we publish it in public!');
             return ['success'=> "You question submitted"];

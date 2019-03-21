@@ -4,7 +4,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">District Table</h3>
+                        <h3 class="card-title">Sub District Table</h3>
 
                         <div class="card-tools">
                             <button class="btn btn-success" @click="newModal">Add New <i
@@ -19,19 +19,21 @@
                             <tbody>
                             <tr>
                                 <th>Serial Number</th>
-                                <th>Name</th>
+                                <th>Sub District</th>
+                                <th>District</th>
                                 <th>Modify</th>
                             </tr>
 
-                            <tr v-for="(district,index) in districts.data" :key="district.id">
+                            <tr v-for="(subDistrict,index) in subDistricts.data" :key="subDistrict.id">
                                 <td>{{index+1}}</td>
-                                <td>{{district.name}}</td>
+                                <td>{{subDistrict.name}}</td>
+                                <td>{{subDistrict.districtName}}</td>
                                 <td>
-                                    <a href="javascript:void(0)" @click="editModal(district)">
+                                    <a href="javascript:void(0)" @click="editModal(subDistrict)">
                                         <i class="fa fa-edit blue"></i>
                                     </a>
 
-                                    <a href="javascript:void(0)" @click="deleted(district.id)">
+                                    <a href="javascript:void(0)" @click="deleted(subDistrict.id)">
                                         <i class="fa fa-trash red"></i>
                                     </a>
 
@@ -42,7 +44,7 @@
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
-                        <pagination :data="districts" @pagination-change-page="getResults"></pagination>
+                        <pagination :data="cities" @pagination-change-page="getResults"></pagination>
                     </div>
                 </div>
                 <!-- /.card -->
@@ -57,7 +59,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" v-show="!editMode" id="addNewLabel">Add New</h5>
-                        <h5 class="modal-title" v-show="editMode" id="addNewLabel">Update districts Info</h5>
+                        <h5 class="modal-title" v-show="editMode" id="addNewLabel">Update subDistrict Info</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -65,10 +67,17 @@
                     <form @submit.prevent="editMode ? update() : create()">
                         <div class="modal-body">
                             <div class="form-group">
-                                <input v-model="form.name" type="text" name="name"
-                                       placeholder="Name"
-                                       class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
+                                <label for="name" class="col-form-label">Sub District Name:</label>
+                                <input v-model="form.name" type="text" name="name" class="form-control" placeholder="Name" :class="{ 'is-invalid': form.errors.has('name') }">
                                 <has-error :form="form" field="name"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label for="district_id" class="col-form-label">District:</label>
+                                <select v-model="form.district_id" class="form-control" :class="{ 'is-invalid': form.errors.has('district_id') }">
+                                    <option value="">Select One</option>
+                                    <option v-for="district in districts" :key="district.id" :value="district.id">{{district.name}}</option>
+                                </select>
+                                <has-error :form="form" field="district_id"></has-error>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -91,10 +100,12 @@
         data() {
             return {
                 editMode: false,
+                subDistricts: {},
                 districts: {},
                 form: new Form({
                     id:'',
-                    name : ''
+                    name : '',
+                    district_id : ''
                 })
             }
         },
@@ -104,21 +115,21 @@
                 this.form.reset();
                 $('#addNew').modal('show');
             },
-            editModal(district){
+            editModal(city){
                 this.editMode = true;
                 this.form.reset();
                 $('#addNew').modal('show');
-                this.form.fill(district);
+                this.form.fill(city);
             },
             getResults(page = 1) {
-                axios.get('api/admin-district?page=' + page)
+                axios.get('api/admin-subdistrict?page=' + page)
                     .then(response => {
-                        this.districts = response.data;
+                        this.subDistricts = response.data;
                     });
             },
             update(){
                 this.$Progress.start();
-                this.form.put('api/admin-district/'+this.form.id)
+                this.form.put('api/admin-subdistrict/'+this.form.id)
                     .then(() => {
                         $('#addNew').modal('hide');
                         swal(
@@ -136,19 +147,20 @@
             load(){
                 this.$Progress.start();
                 if(this.$gate.isAdminOrAuthor()){
-                    axios.get("api/admin-district").then(({ data }) => (this.districts = data));
+                    axios.get("api/admin-subdistrict").then(({ data }) => (this.subDistricts = data));
+                    axios.get("api/admin-getdistrict").then(({ data }) => (this.districts = data));
                 }
                 this.$Progress.finish();
             },
             create(){
                 this.$Progress.start();
-                this.form.post('api/admin-district')
+                this.form.post('api/admin-subdistrict')
                 .then(()=>{
                     Fire.$emit('takePageLoad');
                     $('#addNew').modal('hide');
                     toast({
                         type: 'success',
-                        title: 'District created successfully'
+                        title: 'Sub district created successfully'
                     })
                     this.$Progress.finish();
                 }).catch(()=>{
@@ -167,7 +179,7 @@
                     confirmButtonText: 'Yes, delete it!'
                 }).then((result) => {
                     if(result.value){
-                        this.form.delete('api/admin-district/'+id).then(()=>{
+                        this.form.delete('api/admin-subdistrict/'+id).then(()=>{
                             swal(
                                 'Deleted!',
                                 'Your file has been deleted.',
@@ -180,7 +192,9 @@
                         })
                     }
                     this.$Progress.finish();
+
                 })
+
             }
         },
         created() {

@@ -30501,7 +30501,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_5_vue_progressbar___default.a, options);
 /*End progress bar*/
 
 /*Vue routes*/
-var routes = [{ path: '/dashboard', component: __webpack_require__(173) }, { path: '/dashboard-users', component: __webpack_require__(176) }, { path: '/dashboard-profile', component: __webpack_require__(179) }, { path: '/dashboard-institutions', component: __webpack_require__(187) }, { path: '/dashboard-institute-departments', component: __webpack_require__(190) }, { path: '/dashboard-hospitals', component: __webpack_require__(193) }, { path: '/dashboard-hospital-departments', component: __webpack_require__(196) }, { path: '/dashboard-hotels', component: __webpack_require__(199) }, { path: '/dashboard-subdistricts', component: __webpack_require__(202) }, { path: '/dashboard-districts', component: __webpack_require__(235) }, { path: '/dashboard-hotel-rooms', component: __webpack_require__(205) }, { path: '/dashboard-forum-posts', component: __webpack_require__(208) }, { path: '/dashboard-forum-categories', component: __webpack_require__(211) }, { path: '*', component: __webpack_require__(138) }];
+var routes = [{ path: '/dashboard', component: __webpack_require__(173) }, { path: '/dashboard-users', component: __webpack_require__(176) }, { path: '/dashboard-profile', component: __webpack_require__(179) }, { path: '/dashboard-institutions', component: __webpack_require__(187) }, { path: '/dashboard-institute-departments', component: __webpack_require__(190) }, { path: '/dashboard-hospitals', component: __webpack_require__(193) }, { path: '/dashboard-hospital-departments', component: __webpack_require__(196) }, { path: '/dashboard-hotels', component: __webpack_require__(199) }, { path: '/dashboard-tour-places', component: __webpack_require__(238) }, { path: '/dashboard-subdistricts', component: __webpack_require__(202) }, { path: '/dashboard-districts', component: __webpack_require__(235) }, { path: '/dashboard-hotel-rooms', component: __webpack_require__(205) }, { path: '/dashboard-forum-posts', component: __webpack_require__(208) }, { path: '/dashboard-forum-categories', component: __webpack_require__(211) }, { path: '*', component: __webpack_require__(138) }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_4_vue_router__["a" /* default */]({
     mode: 'history',
@@ -87824,6 +87824,1561 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-84e05c0e", module.exports)
+  }
+}
+
+/***/ }),
+/* 238 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(239)
+/* template */
+var __vue_template__ = __webpack_require__(240)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/TourPlace.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4e9f8034", Component.options)
+  } else {
+    hotAPI.reload("data-v-4e9f8034", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 239 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            editMode: false,
+            departmentEditMode: false,
+            McreateMode: false,
+            Mg1createMode: false,
+            Mg2createMode: false,
+            tourPlaces: {},
+            districts: {},
+            subDistricts: {},
+            form: new Form({
+                id: '',
+                name: '',
+                user_id: '',
+                star: '',
+                rating: '',
+                main_img: '',
+                gallery_img_1: '',
+                gallery_img_2: '',
+                website_url: '',
+                address: '',
+                description: '',
+                district_id: '',
+                sub_district_id: '',
+                isActive: 'Active',
+                restaurant: 'Yes',
+                cafe: 'Yes',
+                car_parking: 'Yes'
+            })
+        };
+    },
+
+    methods: _defineProperty({
+        getMainPhoto: function getMainPhoto() {
+            var main_img_pic = this.form.main_img.length > 200 ? this.form.main_img : "img/tour_places/" + this.form.main_img;
+            return main_img_pic;
+        },
+        getGalleryPhoto1: function getGalleryPhoto1() {
+            var gallery_img_1_pic = this.form.gallery_img_1.length > 200 ? this.form.gallery_img_1 : "img/tour_places/" + this.form.gallery_img_1;
+            return gallery_img_1_pic;
+        },
+        getGalleryPhoto2: function getGalleryPhoto2() {
+            var gallery_img_2_pic = this.form.gallery_img_2.length > 200 ? this.form.gallery_img_2 : "img/tour_places/" + this.form.gallery_img_2;
+            return gallery_img_2_pic;
+        },
+        getSubDistricts: function getSubDistricts(e) {
+            var _this = this;
+
+            axios.get("api/get-sub-districts/" + this.form.district_id).then(function (_ref) {
+                var data = _ref.data;
+                return _this.subDistricts = data;
+            });
+        },
+        newModal: function newModal() {
+            var _this2 = this;
+
+            this.editMode = false;
+            this.McreateMode = true;
+            this.Mg1createMode = true;
+            this.Mg2createMode = true;
+            this.form.reset();
+            axios.get("api/get-districts").then(function (_ref2) {
+                var data = _ref2.data;
+                return _this2.districts = data;
+            });
+
+            $('#addNew').modal('show');
+        },
+        editModal: function editModal(tourPlace) {
+            var _this3 = this;
+
+            this.McreateMode = false;
+            this.Mg1createMode = false;
+            this.Mg2createMode = false;
+            this.editMode = true;
+            this.form.reset();
+            $('#addNew').modal('show');
+            axios.get("api/get-districts").then(function (_ref3) {
+                var data = _ref3.data;
+                return _this3.districts = data;
+            });
+            this.form.fill(tourPlace);
+        },
+        update: function update() {
+            var _this4 = this;
+
+            this.$Progress.start();
+            this.form.put('api/dashboard/tour-place/' + this.form.id).then(function () {
+                $('#addNew').modal('hide');
+                swal('Updated!', 'Your information has been updated.', 'success');
+                _this4.$Progress.finish();
+                Fire.$emit('takePageLoad');
+            }).catch(function () {
+                _this4.$Progress.fail();
+            });
+        },
+        Main_Image: function Main_Image(e) {
+            var _this5 = this;
+
+            // console.log('uploading');
+            this.McreateMode = false;
+            var file = e.target.files[0];
+            //console.log(file);
+            var reader = new FileReader();
+
+            reader.onloadend = function (file) {
+                // console.log('RESULT', reader.result)
+                _this5.form.main_img = reader.result;
+            };
+            reader.readAsDataURL(file);
+        },
+        Gallery_image_1: function Gallery_image_1(e) {
+            var _this6 = this;
+
+            // console.log('uploading');
+            this.Mg1createMode = false;
+            var file = e.target.files[0];
+            //console.log(file);
+            var reader = new FileReader();
+
+            reader.onloadend = function (file) {
+                // console.log('RESULT', reader.result)
+                _this6.form.gallery_img_1 = reader.result;
+            };
+            reader.readAsDataURL(file);
+        },
+        Gallery_image_2: function Gallery_image_2(e) {
+            var _this7 = this;
+
+            this.Mg2createMode = false;
+            var file = e.target.files[0];
+            //console.log(file);
+            var reader = new FileReader();
+            reader.onloadend = function (file) {
+                _this7.form.gallery_img_2 = reader.result;
+            };
+            reader.readAsDataURL(file);
+        },
+        load: function load() {
+            var _this8 = this;
+
+            this.$Progress.start();
+            if (this.$gate.isAdminOrAuthor()) {
+                axios.get("api/dashboard/tour-place").then(function (_ref4) {
+                    var data = _ref4.data;
+                    return _this8.tourPlaces = data;
+                });
+            }
+            this.$Progress.finish();
+        },
+        getResults: function getResults() {
+            var _this9 = this;
+
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            axios.get('api/dashboard/tour-place?page=' + page).then(function (response) {
+                _this9.tourPlaces = response.data;
+            });
+        },
+        create: function create() {
+            var _this10 = this;
+
+            this.$Progress.start();
+            this.form.post('api/dashboard/tour-place').then(function () {
+                Fire.$emit('takePageLoad');
+                $('#addNew').modal('hide');
+                toast({
+                    type: 'success',
+                    title: 'Tour place created successfully'
+                });
+                _this10.$Progress.finish();
+            }).catch(function () {
+                _this10.$Progress.fail();
+            });
+        },
+        deleted: function deleted(id) {
+            var _this11 = this;
+
+            this.$Progress.start();
+            swal({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then(function (result) {
+                if (result.value) {
+                    _this11.form.delete('api/dashboard/tour-place/' + id).then(function () {
+                        swal('Deleted!', 'Your file has been deleted.', 'success');
+                        Fire.$emit('takePageLoad');
+                    }).catch(function () {
+                        _this11.$Progress.fail();
+                        swal("Failed", "There was something wrong.", "warning");
+                    });
+                }
+                _this11.$Progress.finish();
+            });
+        }
+    }, 'getMainPhoto', function getMainPhoto() {
+        var photo = this.form.main_img.length > 200 ? this.form.main_img : "img/tour_places/" + this.form.main_img;
+        return photo;
+    }),
+    created: function created() {
+        var _this12 = this;
+
+        Fire.$on('searching', function () {
+            var query = _this12.$parent.search;
+            axios.get('api/find-tour-places?q=' + query).then(function (data) {
+                _this12.tourPlaces = data.data;
+            }).catch(function () {});
+        });
+        this.load();
+        Fire.$on('takePageLoad', function () {
+            _this12.load();
+        });
+
+        //    setInterval(() => this.loadinstitutes(), 3000);
+    }
+});
+
+/***/ }),
+/* 240 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _vm.$gate.isAdminOrAuthor()
+      ? _c("div", { staticClass: "row mt-5 justify-content-center" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _c("h3", { staticClass: "card-title" }, [
+                  _vm._v("Tour Places Table")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-tools" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      on: { click: _vm.newModal }
+                    },
+                    [
+                      _vm._v("Add New "),
+                      _c("i", { staticClass: "fas fa-user-plus fa-fw" })
+                    ]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-body table-responsive p-0" }, [
+                _c("table", { staticClass: "table table-hover" }, [
+                  _c(
+                    "tbody",
+                    [
+                      _vm._m(0),
+                      _vm._v(" "),
+                      _vm._l(_vm.tourPlaces.data, function(tourPlace, index) {
+                        return _c("tr", { key: tourPlace.id }, [
+                          _c("td", [_vm._v(_vm._s(index + 1))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(tourPlace.name))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(tourPlace.districtName))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(tourPlace.subDistrictName))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(tourPlace.isActive))]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "a",
+                              {
+                                attrs: { href: "javascript:void(0)" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.editModal(tourPlace)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-edit blue" })]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "a",
+                              {
+                                attrs: { href: "javascript:void(0)" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.deleted(tourPlace.id)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-trash red" })]
+                            )
+                          ])
+                        ])
+                      })
+                    ],
+                    2
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "card-footer" },
+                [
+                  _c("pagination", {
+                    attrs: { data: _vm.tourPlaces },
+                    on: { "pagination-change-page": _vm.getResults }
+                  })
+                ],
+                1
+              )
+            ])
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    !_vm.$gate.isAdminOrAuthor() ? _c("div", [_c("not-found")], 1) : _vm._e(),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "addNew",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "addNewLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-dialog-centered",
+            attrs: { role: "document" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c(
+                  "h5",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: !_vm.editMode,
+                        expression: "!editMode"
+                      }
+                    ],
+                    staticClass: "modal-title",
+                    attrs: { id: "addNewLabel" }
+                  },
+                  [_vm._v("Add New")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "h5",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.editMode,
+                        expression: "editMode"
+                      }
+                    ],
+                    staticClass: "modal-title",
+                    attrs: { id: "addNewLabel" }
+                  },
+                  [_vm._v("Update Tour Places Info")]
+                ),
+                _vm._v(" "),
+                _vm._m(1)
+              ]),
+              _vm._v(" "),
+              _c(
+                "form",
+                {
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      _vm.editMode ? _vm.update() : _vm.create()
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "modal-body" }, [
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", { attrs: { for: "name" } }, [
+                          _vm._v("Tour Place Name")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.name,
+                              expression: "form.name"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: { "is-invalid": _vm.form.errors.has("name") },
+                          attrs: {
+                            type: "text",
+                            id: "name",
+                            name: "name",
+                            placeholder: "Name"
+                          },
+                          domProps: { value: _vm.form.name },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.form, "name", $event.target.value)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "name" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", { attrs: { for: "date" } }, [
+                          _vm._v("Star")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.star,
+                              expression: "form.star"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: { "is-invalid": _vm.form.errors.has("star") },
+                          attrs: {
+                            type: "number",
+                            name: "star",
+                            placeholder: "Star"
+                          },
+                          domProps: { value: _vm.form.star },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.form, "star", $event.target.value)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "star" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", { attrs: { for: "owner" } }, [
+                          _vm._v("Website URL")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.website_url,
+                              expression: "form.website_url"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("website_url")
+                          },
+                          attrs: {
+                            type: "text",
+                            name: "owner",
+                            placeholder: "Website link"
+                          },
+                          domProps: { value: _vm.form.website_url },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.form,
+                                "website_url",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "website_url" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", { attrs: { for: "address" } }, [
+                          _vm._v("Tour Place Address")
+                        ]),
+                        _vm._v(" "),
+                        _c("textarea", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.address,
+                              expression: "form.address"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("address")
+                          },
+                          attrs: {
+                            name: "address",
+                            id: "address",
+                            placeholder: "Address"
+                          },
+                          domProps: { value: _vm.form.address },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.form, "address", $event.target.value)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "address" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", [_vm._v("District")]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.district_id,
+                                expression: "form.district_id"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("district")
+                            },
+                            staticStyle: { width: "100%" },
+                            on: {
+                              change: [
+                                function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.form,
+                                    "district_id",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                },
+                                _vm.getSubDistricts
+                              ]
+                            }
+                          },
+                          [
+                            _c(
+                              "option",
+                              { attrs: { value: "", disabled: "" } },
+                              [_vm._v("Select a district")]
+                            ),
+                            _vm._v(" "),
+                            _vm._l(_vm.districts, function(district) {
+                              return _c(
+                                "option",
+                                {
+                                  key: district.id,
+                                  domProps: { value: district.id }
+                                },
+                                [_vm._v(_vm._s(district.name))]
+                              )
+                            })
+                          ],
+                          2
+                        ),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "district" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", [_vm._v("Sub District")]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.sub_district_id,
+                                expression: "form.sub_district_id"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has(
+                                "sub_district_id"
+                              )
+                            },
+                            staticStyle: { width: "100%" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.form,
+                                  "sub_district_id",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "option",
+                              { attrs: { value: "", disabled: "" } },
+                              [_vm._v("Select a sub district")]
+                            ),
+                            _vm._v(" "),
+                            _vm._l(_vm.subDistricts, function(subDistrict) {
+                              return _c(
+                                "option",
+                                {
+                                  key: subDistrict.id,
+                                  domProps: { value: subDistrict.id }
+                                },
+                                [_vm._v(_vm._s(subDistrict.name))]
+                              )
+                            })
+                          ],
+                          2
+                        ),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "sub_district_id" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _vm.McreateMode
+                      ? _c("div", { staticClass: "widget-user-image" }, [
+                          _vm._m(2)
+                        ])
+                      : _c("div", { staticClass: "widget-user-image" }, [
+                          _c("label", { attrs: { for: "main_img" } }, [
+                            _c("img", {
+                              staticClass: "mt-1",
+                              staticStyle: { width: "80%", height: "25%" },
+                              attrs: {
+                                src: _vm.getMainPhoto(),
+                                alt: "Main Image"
+                              }
+                            })
+                          ])
+                        ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", { attrs: { for: "main_img" } }, [
+                          _vm._v("Main Image")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group" }, [
+                          _c("div", { staticClass: "custom-file" }, [
+                            _c("input", {
+                              staticClass: "custom-file-input",
+                              class: {
+                                "is-invalid": _vm.form.errors.has("main_img")
+                              },
+                              attrs: {
+                                type: "file",
+                                name: "main_img",
+                                id: "main_img",
+                                accept: "image/*"
+                              },
+                              on: { change: _vm.Main_Image }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "label",
+                              {
+                                staticClass: "custom-file-label",
+                                attrs: { for: "main_img" }
+                              },
+                              [_vm._v("Choose file")]
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "main_img" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _vm.Mg1createMode
+                      ? _c("div", { staticClass: "widget-user-image" }, [
+                          _vm._m(3)
+                        ])
+                      : _c("div", { staticClass: "widget-user-image" }, [
+                          _c("label", { attrs: { for: "gallery_img_1" } }, [
+                            _c("img", {
+                              staticClass: "mt-1",
+                              staticStyle: { width: "80%", height: "25%" },
+                              attrs: {
+                                src: _vm.getGalleryPhoto1(),
+                                for: "gallery_img_1",
+                                alt: "Gallery Image:1"
+                              }
+                            })
+                          ])
+                        ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", { attrs: { for: "gallery_img_1" } }, [
+                          _vm._v("Gallery Image:1")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group" }, [
+                          _c("div", { staticClass: "custom-file" }, [
+                            _c("input", {
+                              staticClass: "custom-file-input",
+                              class: {
+                                "is-invalid": _vm.form.errors.has(
+                                  "gallery_img_1"
+                                )
+                              },
+                              attrs: {
+                                type: "file",
+                                name: "gallery_img_1",
+                                id: "gallery_img_1",
+                                accept: "image/*"
+                              },
+                              on: { change: _vm.Gallery_image_1 }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "label",
+                              {
+                                staticClass: "custom-file-label",
+                                attrs: { for: "main_img" }
+                              },
+                              [_vm._v("Choose file")]
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "gallery_img_1" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _vm.Mg2createMode
+                      ? _c("div", { staticClass: "widget-user-image" }, [
+                          _vm._m(4)
+                        ])
+                      : _c("div", { staticClass: "widget-user-image" }, [
+                          _c("label", { attrs: { for: "gallery_img_2" } }, [
+                            _c("img", {
+                              staticClass: "mt-1",
+                              staticStyle: { width: "80%", height: "25%" },
+                              attrs: {
+                                src: _vm.getGalleryPhoto2(),
+                                alt: "Gallery Image:2"
+                              }
+                            })
+                          ])
+                        ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", { attrs: { for: "gallery_img_2" } }, [
+                          _vm._v("Gallery Image:2")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group" }, [
+                          _c("div", { staticClass: "custom-file" }, [
+                            _c("input", {
+                              staticClass: "custom-file-input",
+                              class: {
+                                "is-invalid": _vm.form.errors.has(
+                                  "gallery_img_2"
+                                )
+                              },
+                              attrs: {
+                                type: "file",
+                                id: "gallery_img_2",
+                                accept: "image/*"
+                              },
+                              on: { change: _vm.Gallery_image_2 }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "label",
+                              {
+                                staticClass: "custom-file-label",
+                                attrs: { for: "gallery_img_2" }
+                              },
+                              [_vm._v("Choose file")]
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "gallery_img_2" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", { attrs: { for: "address" } }, [
+                          _vm._v("Hotel Description")
+                        ]),
+                        _vm._v(" "),
+                        _c("textarea", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.description,
+                              expression: "form.description"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("description")
+                          },
+                          attrs: {
+                            name: "description",
+                            id: "description",
+                            placeholder: "Description"
+                          },
+                          domProps: { value: _vm.form.description },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.form,
+                                "description",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "description" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", [_vm._v("Car Parking")]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.car_parking,
+                              expression: "form.car_parking"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "car_parking" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.form,
+                                "car_parking",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "Yes" } }, [
+                            _vm._v("Yes")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "No" } }, [
+                            _vm._v("No")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", [_vm._v("Restaurant")]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.restaurant,
+                              expression: "form.restaurant"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "restaurant" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.form,
+                                "restaurant",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "Yes" } }, [
+                            _vm._v("Yes")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "No" } }, [
+                            _vm._v("No")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", [_vm._v("Cafe")]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.cafe,
+                              expression: "form.cafe"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "cafe" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.form,
+                                "cafe",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "Yes" } }, [
+                            _vm._v("Yes")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "No" } }, [
+                            _vm._v("No")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", [_vm._v("Publication Status")]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.isActive,
+                              expression: "form.isActive"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "isActive" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.form,
+                                "isActive",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "Active" } }, [
+                            _vm._v("Publish")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "Draft" } }, [
+                            _vm._v("Draft")
+                          ])
+                        ]
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _c(
+                      "button",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.editMode,
+                            expression: "editMode"
+                          }
+                        ],
+                        staticClass: "btn btn-success",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Update")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: !_vm.editMode,
+                            expression: "!editMode"
+                          }
+                        ],
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Create")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger",
+                        attrs: { type: "button", "data-dismiss": "modal" }
+                      },
+                      [_vm._v("Close")]
+                    )
+                  ])
+                ]
+              )
+            ])
+          ]
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("ID")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Place Name")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Place District")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Place Sub-District")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Status")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Modify")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "main_img" } }, [
+      _c("img", {
+        staticClass: "mt-1",
+        staticStyle: { width: "80%", height: "25%" },
+        attrs: { src: "img/tour_places/default.jpg", alt: "Main Image" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "gallery_img_1" } }, [
+      _c("img", {
+        staticClass: "mt-1",
+        staticStyle: { width: "80%", height: "25%" },
+        attrs: { src: "img/tour_places/default.jpg", alt: "Gallery Image:1" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "gallery_img_2" } }, [
+      _c("img", {
+        staticClass: "mt-1",
+        staticStyle: { width: "80%", height: "25%" },
+        attrs: { src: "img/tour_places/default.jpg", alt: "Gallery Image:2" }
+      })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-4e9f8034", module.exports)
   }
 }
 

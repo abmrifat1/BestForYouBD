@@ -52,6 +52,10 @@ Route::get('admin-getdistrict','API\SubDistrictController@getDistrict');
 Route::apiResources(['admin-district'=>'API\DistrictController']);
 //Start Rooms
 Route::apiResources(['dashboard-room'=>'API\HotelRoomController']);
+//Start tour place
+Route::apiResources(['dashboard/tour-place'=>'API\TourPlaceController']);
+Route::get('get-districts','API\TourPlaceController@getDistricts');
+Route::get('get-sub-districts/{district_id}','API\TourPlaceController@getSubDistricts');
 //Start Hotel Rooms
 Route::get('hotel-rooms','API\HotelController@getRoom');
 Route::put('hotel-rooms','API\HotelController@updateHotelRoom');

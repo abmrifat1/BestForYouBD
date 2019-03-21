@@ -62,6 +62,7 @@ let routes = [
     { path: '/dashboard-hospitals', component: require('./components/Hospital.vue') },
     { path: '/dashboard-hospital-departments', component: require('./components/HospitalDepartment.vue') },
     { path: '/dashboard-hotels', component: require('./components/Hotel.vue') },
+    { path: '/dashboard-tour-places', component: require('./components/TourPlace.vue') },
     { path: '/dashboard-subdistricts', component: require('./components/SubDistrict.vue') },
     { path: '/dashboard-districts', component: require('./components/District.vue') },
     { path: '/dashboard-hotel-rooms', component: require('./components/HotelRoom.vue') },

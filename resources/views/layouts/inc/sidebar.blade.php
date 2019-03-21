@@ -11,10 +11,10 @@
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                 <div class="image">
-                    <img src="../img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                    <img src="/img/profile/{{ Auth::user()->photo }}" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
-                    <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+                    <a href="javascript:void(0)" class="d-block">{{ Auth::user()->name }}</a>
                 </div>
             </div>
 
@@ -139,20 +139,16 @@
                                     <p>Rooms</p>
                                 </router-link>
                             </li>
-                            <li class="nav-item">
-                                <router-link to="/dashboard-districts" class="nav-link">
-                                    <i class="fas fa-angle-double-right nav-icon yellow"></i>
-                                    <p>Districts</p>
-                                </router-link>
-                            </li>
-                            <li class="nav-item">
-                                <router-link to="/dashboard-subdistricts" class="nav-link">
-                                    <i class="fas fa-angle-double-right nav-icon yellow"></i>
-                                    <p>Sub Districts</p>
-                                </router-link>
-                            </li>
                         </ul>
                     </li>
+                    @endcan
+                    @can('isAdminOrAuthor')
+                    <li class="nav-item">
+                            <router-link to="/dashboard-tour-places" class="nav-link">
+                                <i class="fas fa-umbrella-beach nav-icon green"></i>
+                                <p>Tour Places</p>
+                            </router-link>
+                        </li>
                     @endcan
                     @can('isAdminOrAuthor')
                     <li class="nav-item has-treeview">

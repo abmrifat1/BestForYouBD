@@ -28,8 +28,8 @@
 			<div class="row">
 				<div class="dir-hr1 dir-cat-search">
 					<div class="dir-ho-t-tit">
-						<h1>Connect with the right<br>Service Experts</h1> 
-						<p>Find B2B & B2C businesses contact addresses, phone numbers,<br> user ratings and reviews.</p>
+						<h1>Get The Best <br>Services & Places In Bangladesh</h1> 
+						<p>Find Institute, Hospital & Hotel Infromations with contact addresses, and phone numbers.<br> Get a suggestion of beautiful tour places in BD.</p>
 					</div>
 					<form class="cate-search-form" action="javascript:void(0)">
 						<div class="input-field">

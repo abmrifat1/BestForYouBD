@@ -32,7 +32,7 @@ class CreateHotelRoomsTable extends Migration
             $table->char('smoke_detector',5)->nullable();
             $table->integer('price')->nullable();
             $table->integer('total_room')->nullable();
-            $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade');
+            $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade')->onUpdate('no action');
             $table->timestamps();
         });
     }

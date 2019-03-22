@@ -27,8 +27,9 @@ class InstituteController extends Controller
      */
     public function index()
     {
-        if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
-            return Institute::with('departments')->orderBy('name','asc')->paginate(7);
+        if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) 
+        {
+            return Institute::with('departments')->orderBy('name','asc')->paginate(20);
         }
     }
     public function getDept()
@@ -45,6 +46,9 @@ class InstituteController extends Controller
     {
         $this->validate($request,[
            'name'=>'required|string|max:191',
+           'main_img'=>'required|image',
+           'institute_type_id'=>'required',
+           'department'=>'required',
         ]);
         if(!empty($request->main_img)){
             $name = time().rand(50,5000).'.' . explode('/', explode(':', substr($request->main_img, 0, strpos($request->main_img, ';')))[1])[1];
@@ -100,6 +104,11 @@ class InstituteController extends Controller
     }
     public function updateEducationDepartment(Request $request)
     {
+        $this->validate($request,[
+            'cost'=>'required',
+            'students'=>'required',
+            'faculty_members'=>'required',
+         ]);
         $eduDept = InstituteDepartments::where('institute_id', $request->institute_id)
            ->where('department_id', $request->department_id)
            ->update($request->all());
@@ -107,6 +116,11 @@ class InstituteController extends Controller
     }
     public function addInstituteDepartment(Request $request,$institude_id)
     {
+        $this->validate($request,[
+            'cost'=>'required',
+            'students'=>'required',
+            'faculty_members'=>'required',
+         ]);
         $request->merge(['institute_id' => $institude_id]);
         $insDept = InstituteDepartments::where('institute_id', $request->institute_id)
         ->where('department_id', $request->department_id)
@@ -132,6 +146,7 @@ class InstituteController extends Controller
             'name'=>'required|string|max:191'
         ]);
         $currentPhoto = $institute->main_img;
+        $currentInstituteTypeId = $institute->institute_type_id;
         
         if($request->main_img != $currentPhoto){
             $name = time().rand(50,5000).'.' . explode('/', explode(':', substr($request->main_img, 0, strpos($request->main_img, ';')))[1])[1];
@@ -166,9 +181,14 @@ class InstituteController extends Controller
             }
         }
         $institute->update($request->all());
-        if(!empty($request->department)){
+        if($currentInstituteTypeId != $institute->institute_type_id)
+        {
             $institute->departments()->sync($request->department);
+        }else 
+        { 
+            $institute->departments()->syncWithoutDetaching($request->department);
         }
+        
         return ['update' => "institute information updated"];
     }
 
@@ -212,10 +232,10 @@ class InstituteController extends Controller
         if ($search = \Request::get('q')) {
             $institutes = Institute::where(function($query) use ($search){
                 $query->where('name','LIKE',"%$search%")
-                    ->orWhere('email','LIKE',"%$search%");
-            })->paginate(20);
+                ->orWhere('isActive','LIKE',"%$search%");
+            })->orderBy('name','asc')->paginate(20);
         }else{
-            $institutes = User::latest()->paginate(5);
+            $institutes = Institute::orderBy('name','asc')->paginate(20);
         }
 
         return $institutes;

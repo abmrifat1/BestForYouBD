@@ -30,8 +30,9 @@ class SubDistrictController extends Controller
             return DB::table('sub_districts')
             ->join('districts','districts.id','=','sub_districts.district_id')
             ->orderby('districts.name','asc')
+            ->orderby('sub_districts.name','asc')
             ->select('sub_districts.*','districts.name as districtName')
-            ->paginate(10);
+            ->paginate(20);
         }
 
     }
@@ -94,5 +95,17 @@ class SubDistrictController extends Controller
         $sub_district = SubDistrict::findOrFail($id);
         $sub_district->delete();
         return ['delete'=>"Deleted successfully"];
+    }
+    public function search(){
+
+        if ($search = \Request::get('q')) {
+            $sub_districts = SubDistrict::where(function($query) use ($search){
+                $query->where('name','LIKE',"%$search%");
+            })->orderBy('name','asc')->paginate(20);
+        }else{
+            $sub_districts = SubDistrict::orderBy('name','asc')->paginate(20);
+        }
+
+        return $sub_districts;
     }
 }

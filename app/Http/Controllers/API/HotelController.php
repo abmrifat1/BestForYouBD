@@ -45,6 +45,7 @@ class HotelController extends Controller
     {
         $this->validate($request,[
            'name'=>'required|string|max:191',
+           'name'=>'required|string|max:191',
         ]);
         if(!empty($request->main_img)){
             $name = time().rand(50,5000).'.' . explode('/', explode(':', substr($request->main_img, 0, strpos($request->main_img, ';')))[1])[1];
@@ -203,9 +204,9 @@ class HotelController extends Controller
             $hotels = Hotel::where(function($query) use ($search){
                 $query->where('name','LIKE',"%$search%")
                     ->orWhere('address','LIKE',"%$search%");
-            })->paginate(10);
+            })->paginate(15);
         }else{
-            $hotels = Hotel::latest()->paginate(10);
+            $hotels = Hotel::orderBy('name','asc')->paginate(15);
         }
 
         return $hotels;

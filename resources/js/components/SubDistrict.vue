@@ -44,7 +44,7 @@
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
-                        <pagination :data="cities" @pagination-change-page="getResults"></pagination>
+                        <pagination :data="subDistricts" @pagination-change-page="getResults"></pagination>
                     </div>
                 </div>
                 <!-- /.card -->

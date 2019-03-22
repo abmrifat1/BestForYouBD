@@ -22,7 +22,7 @@ class CreateInstituteDepartmentsTable extends Migration
             $table->string('IEEB')->nullable();
             $table->integer('credit')->nullable();
             $table->integer('computer')->nullable();
-            $table->foreign('institute_id')->references('id')->on('institutes')->onDelete('cascade');
+            $table->foreign('institute_id')->references('id')->on('institutes')->onDelete('cascade')->onUpdate('no action');
             $table->timestamps();
         });
     }

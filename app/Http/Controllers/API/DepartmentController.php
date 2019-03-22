@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 use App\Department;
+use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -25,10 +26,26 @@ class DepartmentController extends Controller
     public function index()
     {
         if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
-            return Department::orderby('name','asc')->paginate(8);
+            $departments = DB::table('departments')
+            ->join('institute_types','institute_types.id','=','departments.institute_type_id')
+            ->select('departments.*','institute_types.name as instituteTypeName')
+            ->orderBy('institute_types.id','asc')
+            ->orderBy('departments.name','asc')
+            ->paginate(20);
+            return $departments;
         }
 
     }
+    public function getInstituteTypes()
+    {
+        return DB::table('institute_types')->orderBy('id','asc')->get();
+    }
+    
+    public function getInstituteDepartments($institute_type_id)
+    {
+        return Department::where('institute_type_id',$institute_type_id)->orderby('name','asc')->get();
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -39,16 +56,10 @@ class DepartmentController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-           'name'=>'required|string|max:191',
-           'isActive'=>'required',
+           'name'=>'required|string|max:60',
+           'institute_type_id'=>'required',
         ]);
-        $slug = trim(preg_replace('/\s+/', '-', $request['name']));
-        $slug = strtolower($slug);
-        return Department::create([
-            'name' => $request['name'],
-            'slug' => $slug,
-            'isActive' => $request['isActive'],
-        ]);
+        return Department::create($request->all());
     }
 
     /**
@@ -72,15 +83,9 @@ class DepartmentController extends Controller
     {
         $category = Department::findOrFail($id);
         $this->validate($request,[
-            'name'=>'required|string|max:191',
-            'isActive'=>'required',
+            'name'=>'required|string|max:60',
+            'institute_type_id'=>'required',
         ]);
-        if($category->name != $request->name){
-
-            $slug = trim(preg_replace('/\s+/', '-', $request['name']));
-            $slug = strtolower($slug);
-            $request['slug'] = $slug;
-        }
         $category->update($request->all());
         return ['update' => "Category information updated"];
     }
@@ -100,13 +105,13 @@ class DepartmentController extends Controller
     public function search(){
 
         if ($search = \Request::get('q')) {
-            $categories = Department::where(function($query) use ($search){
+            $departments = Department::where(function($query) use ($search){
                 $query->where('name','LIKE',"%$search%");
-            })->paginate(8);
+            })->orderBy('name','asc')->paginate(20);
         }else{
-            $categories = Department::latest()->paginate(8);
+            $departments = Department::orderBy('name','asc')->paginate(20);
         }
 
-        return $categories;
+        return $departments;
     }
 }

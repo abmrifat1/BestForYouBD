@@ -75275,25 +75275,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             editMode: false,
+            visible: true,
             departmentEditMode: false,
             McreateMode: false,
             Mg1createMode: false,
             Mg2createMode: false,
             institutes: {},
+            instituteTypes: {},
             departments: {},
             institute_id: '',
             institute_departments: {},
+            districts: {},
+            subDistricts: {},
             form: new Form({
                 id: '',
                 name: '',
@@ -75304,17 +75302,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 ownership_type: '',
                 vice_chancellor: '',
                 address: '',
-                city: '',
-                type: '',
+                district_id: '',
+                sub_district_id: '',
+                institute_type_id: '',
                 phone: '',
                 email: '',
                 description: '',
                 hostel: '',
-                restaurant: '',
+                restaurant: 'Yes',
                 bus: '',
                 auditorium: '',
                 play_ground: '',
-                events: '',
+                events: 'Yes',
                 isActive: 'Active',
                 department: []
             }),
@@ -75332,6 +75331,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
 
     methods: _defineProperty({
+        getDepartments: function getDepartments(e) {
+            var _this = this;
+
+            this.visible = true;
+            axios.get("api/get-departments/" + this.form.institute_type_id).then(function (_ref) {
+                var data = _ref.data;
+                return _this.departments = data;
+            });
+        },
+        getSubDistricts: function getSubDistricts(e) {
+            var _this2 = this;
+
+            axios.get("api/get-sub-districts/" + this.form.district_id).then(function (_ref2) {
+                var data = _ref2.data;
+                return _this2.subDistricts = data;
+            });
+        },
         getMainPhoto: function getMainPhoto() {
             var main_img_pic = this.form.main_img.length > 200 ? this.form.main_img : "img/institutes/" + this.form.main_img;
             return main_img_pic;
@@ -75345,29 +75361,49 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             return gallery_img_2_pic;
         },
         newModal: function newModal() {
+            var _this3 = this;
+
             this.editMode = false;
             this.McreateMode = true;
             this.Mg1createMode = true;
             this.Mg2createMode = true;
             this.form.reset();
-            //axios.get("api/education/create").then( response => (this.departments = response));
-
+            axios.get("api/get-institute-types").then(function (_ref3) {
+                var data = _ref3.data;
+                return _this3.instituteTypes = data;
+            });
+            axios.get("api/get-districts").then(function (_ref4) {
+                var data = _ref4.data;
+                return _this3.districts = data;
+            });
             $('#addNew').modal('show');
         },
         editModal: function editModal(institute) {
+            var _this4 = this;
+
             this.McreateMode = false;
             this.Mg1createMode = false;
             this.Mg2createMode = false;
             this.editMode = true;
+            this.visible = false;
             this.form.reset();
+            axios.get("api/get-institute-types").then(function (_ref5) {
+                var data = _ref5.data;
+                return _this4.instituteTypes = data;
+            });
+            axios.get("api/get-districts").then(function (_ref6) {
+                var data = _ref6.data;
+                return _this4.districts = data;
+            });
+            //axios.get("api/get-departments/"+institute.institute_type_id).then(({ data }) => (this.departments = data));
             $('#addNew').modal('show');
             this.form.fill(institute);
         },
         settingInstituteDepartments: function settingInstituteDepartments(institute) {
-            var _this = this;
+            var _this5 = this;
 
             axios.get("api/education-departments/" + institute.id).then(function (data) {
-                _this.institute_departments = data;
+                _this5.institute_departments = data;
             });
             this.institute_id = institute.id;
             $('#instututeDepartments').modal('show');
@@ -75378,7 +75414,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             $('#departmentFormModal').modal('show');
         },
         addInstituteDepartment: function addInstituteDepartment() {
-            var _this2 = this;
+            var _this6 = this;
 
             this.$Progress.start();
             this.departmentForm.post('api/institute-departments/' + this.institute_id).then(function () {
@@ -75386,10 +75422,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 $('#instututeDepartments').modal('hide');
                 Fire.$emit('takePageLoad');
                 swal('Inserted!', 'Your institute department information has been stored.', 'success');
-                _this2.$Progress.finish();
+                _this6.$Progress.finish();
             }).catch(function () {
                 swal("Failed", "Institute Department Already Stored", "warning");
-                _this2.$Progress.fail();
+                _this6.$Progress.fail();
             });
         },
         editDepartment: function editDepartment(department) {
@@ -75399,22 +75435,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             this.departmentForm.fill(department);
         },
         DepartmentUpdate: function DepartmentUpdate() {
-            var _this3 = this;
+            var _this7 = this;
 
             this.$Progress.start();
             this.departmentForm.put('api/education-departments/').then(function () {
                 swal('Updated!', 'Your information has been updated.', 'success');
                 $('#departmentFormModal').modal('hide');
                 $('#instututeDepartments').modal('hide');
-                _this3.$Progress.finish();
+                _this7.$Progress.finish();
                 Fire.$emit('takePageLoad');
             }).catch(function () {
                 swal("Failed", "There was something wrong.", "warning");
-                _this3.$Progress.fail();
+                _this7.$Progress.fail();
             });
         },
         departmentDeleted: function departmentDeleted(department) {
-            var _this4 = this;
+            var _this8 = this;
 
             this.$Progress.start();
             this.departmentForm.reset();
@@ -75429,34 +75465,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             }).then(function (result) {
                 if (result.value) {
 
-                    _this4.departmentForm.fill(department);
-                    _this4.departmentForm.delete('api/delete_institute_department').then(function () {
+                    _this8.departmentForm.fill(department);
+                    _this8.departmentForm.delete('api/delete_institute_department').then(function () {
                         swal('Deleted!', 'Institute Deparment has been deleted.', 'success');
                         $('#instututeDepartments').modal('hide');
                         Fire.$emit('takePageLoad');
                     }).catch(function () {
-                        _this4.$Progress.fail();
+                        _this8.$Progress.fail();
                         swal("Failed", "There was something wrong.", "warning");
                     });
                 }
-                _this4.$Progress.finish();
+                _this8.$Progress.finish();
             });
         },
         update: function update() {
-            var _this5 = this;
+            var _this9 = this;
 
             this.$Progress.start();
             this.form.put('api/education/' + this.form.id).then(function () {
                 $('#addNew').modal('hide');
                 swal('Updated!', 'Your information has been updated.', 'success');
-                _this5.$Progress.finish();
+                _this9.$Progress.finish();
                 Fire.$emit('takePageLoad');
             }).catch(function () {
-                _this5.$Progress.fail();
+                _this9.$Progress.fail();
             });
         },
         Main_Image: function Main_Image(e) {
-            var _this6 = this;
+            var _this10 = this;
 
             // console.log('uploading');
             this.McreateMode = false;
@@ -75466,12 +75502,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             reader.onloadend = function (file) {
                 // console.log('RESULT', reader.result)
-                _this6.form.main_img = reader.result;
+                _this10.form.main_img = reader.result;
             };
             reader.readAsDataURL(file);
         },
         Gallery_image_1: function Gallery_image_1(e) {
-            var _this7 = this;
+            var _this11 = this;
 
             // console.log('uploading');
             this.Mg1createMode = false;
@@ -75481,12 +75517,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             reader.onloadend = function (file) {
                 // console.log('RESULT', reader.result)
-                _this7.form.gallery_img_1 = reader.result;
+                _this11.form.gallery_img_1 = reader.result;
             };
             reader.readAsDataURL(file);
         },
         Gallery_image_2: function Gallery_image_2(e) {
-            var _this8 = this;
+            var _this12 = this;
 
             // console.log('uploading');
             this.Mg2createMode = false;
@@ -75496,37 +75532,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             reader.onloadend = function (file) {
                 // console.log('RESULT', reader.result)
-                _this8.form.gallery_img_2 = reader.result;
+                _this12.form.gallery_img_2 = reader.result;
             };
             reader.readAsDataURL(file);
         },
         load: function load() {
-            var _this9 = this;
+            var _this13 = this;
 
             this.$Progress.start();
             if (this.$gate.isAdminOrAuthor()) {
-                axios.get("api/education").then(function (_ref) {
-                    var data = _ref.data;
-                    return _this9.institutes = data;
+                axios.get("api/education").then(function (_ref7) {
+                    var data = _ref7.data;
+                    return _this13.institutes = data;
                 });
             }
-            axios.get("api/departments").then(function (_ref2) {
-                var data = _ref2.data;
-                return _this9.departments = data;
-            });
             this.$Progress.finish();
         },
         getResults: function getResults() {
-            var _this10 = this;
+            var _this14 = this;
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
             axios.get('api/education?page=' + page).then(function (response) {
-                _this10.institutes = response.data;
+                _this14.institutes = response.data;
             });
         },
         create: function create() {
-            var _this11 = this;
+            var _this15 = this;
 
             this.$Progress.start();
             this.form.post('api/education').then(function () {
@@ -75536,13 +75568,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                     type: 'success',
                     title: 'institute created successfully'
                 });
-                _this11.$Progress.finish();
+                _this15.$Progress.finish();
             }).catch(function () {
-                _this11.$Progress.fail();
+                _this15.$Progress.fail();
             });
         },
         deleted: function deleted(id) {
-            var _this12 = this;
+            var _this16 = this;
 
             this.$Progress.start();
             swal({
@@ -75555,15 +75587,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 confirmButtonText: 'Yes, delete it!'
             }).then(function (result) {
                 if (result.value) {
-                    _this12.form.delete('api/education/' + id).then(function () {
+                    _this16.form.delete('api/education/' + id).then(function () {
                         swal('Deleted!', 'Your file has been deleted.', 'success');
                         Fire.$emit('takePageLoad');
                     }).catch(function () {
-                        _this12.$Progress.fail();
+                        _this16.$Progress.fail();
                         swal("Failed", "There was something wrong.", "warning");
                     });
                 }
-                _this12.$Progress.finish();
+                _this16.$Progress.finish();
             });
         }
     }, 'getMainPhoto', function getMainPhoto() {
@@ -75571,17 +75603,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return photo;
     }),
     created: function created() {
-        var _this13 = this;
+        var _this17 = this;
 
         Fire.$on('searching', function () {
-            var query = _this13.$parent.search;
-            axios.get('api/findeducation?q=' + query).then(function (data) {
-                _this13.institutes = data.data;
+            var query = _this17.$parent.search;
+            axios.get('api/find-institutes?q=' + query).then(function (data) {
+                _this17.institutes = data.data;
             }).catch(function () {});
         });
         this.load();
         Fire.$on('takePageLoad', function () {
-            _this13.load();
+            _this17.load();
         });
 
         //    setInterval(() => this.loadinstitutes(), 3000);
@@ -75634,13 +75666,7 @@ var render = function() {
                           _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(institute.name))]),
                           _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(institute.type))]),
-                          _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(institute.isActive))]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(_vm._s(_vm._f("myDate")(institute.estDate)))
-                          ]),
                           _vm._v(" "),
                           _c("td", [
                             _c(
@@ -75811,7 +75837,8 @@ var render = function() {
                             type: "text",
                             id: "name",
                             name: "name",
-                            placeholder: "Name"
+                            placeholder: "Name",
+                            required: ""
                           },
                           domProps: { value: _vm.form.name },
                           on: {
@@ -75826,6 +75853,159 @@ var render = function() {
                         _vm._v(" "),
                         _c("has-error", {
                           attrs: { form: _vm.form, field: "name" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-form-label",
+                            attrs: { for: "institute_type_id" }
+                          },
+                          [_vm._v("Institute Type:")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.institute_type_id,
+                                expression: "form.institute_type_id"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has(
+                                "institute_type_id"
+                              )
+                            },
+                            attrs: { required: "" },
+                            on: {
+                              change: [
+                                function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.form,
+                                    "institute_type_id",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                },
+                                _vm.getDepartments
+                              ]
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { value: "" } }, [
+                              _vm._v("Select One")
+                            ]),
+                            _vm._v(" "),
+                            _vm._l(_vm.instituteTypes, function(instituteType) {
+                              return _c(
+                                "option",
+                                {
+                                  key: instituteType.id,
+                                  domProps: { value: instituteType.id }
+                                },
+                                [_vm._v(_vm._s(instituteType.name))]
+                              )
+                            })
+                          ],
+                          2
+                        ),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "institute_type_id" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.visible,
+                            expression: "visible"
+                          }
+                        ],
+                        staticClass: "form-group"
+                      },
+                      [
+                        _c("label", [_vm._v("Select Departments")]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.department,
+                                expression: "form.department"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("department")
+                            },
+                            staticStyle: { width: "100%" },
+                            attrs: { multiple: true },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.form,
+                                  "department",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          _vm._l(_vm.departments, function(department) {
+                            return _c(
+                              "option",
+                              {
+                                key: department.id,
+                                domProps: { value: department.id }
+                              },
+                              [_vm._v(_vm._s(department.name))]
+                            )
+                          })
+                        ),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "department" }
                         })
                       ],
                       1
@@ -75855,7 +76035,8 @@ var render = function() {
                           attrs: {
                             type: "date",
                             name: "estDate",
-                            placeholder: "estDate"
+                            placeholder: "estDate",
+                            required: ""
                           },
                           domProps: { value: _vm.form.estDate },
                           on: {
@@ -75880,7 +76061,7 @@ var render = function() {
                       { staticClass: "form-group" },
                       [
                         _c("label", { attrs: { for: "address" } }, [
-                          _vm._v("Institution Address")
+                          _vm._v("Address")
                         ]),
                         _vm._v(" "),
                         _c("textarea", {
@@ -75899,7 +76080,8 @@ var render = function() {
                           attrs: {
                             name: "address",
                             id: "address",
-                            placeholder: "Address"
+                            placeholder: "Address",
+                            required: ""
                           },
                           domProps: { value: _vm.form.address },
                           on: {
@@ -75923,7 +76105,7 @@ var render = function() {
                       "div",
                       { staticClass: "form-group" },
                       [
-                        _c("label", [_vm._v("Select a City")]),
+                        _c("label", [_vm._v("District")]),
                         _vm._v(" "),
                         _c(
                           "select",
@@ -75932,13 +76114,91 @@ var render = function() {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.form.city,
-                                expression: "form.city"
+                                value: _vm.form.district_id,
+                                expression: "form.district_id"
                               }
                             ],
                             staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("district")
+                            },
                             staticStyle: { width: "100%" },
-                            attrs: { name: "city" },
+                            on: {
+                              change: [
+                                function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.form,
+                                    "district_id",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                },
+                                _vm.getSubDistricts
+                              ]
+                            }
+                          },
+                          [
+                            _c(
+                              "option",
+                              { attrs: { value: "", disabled: "" } },
+                              [_vm._v("Select a district")]
+                            ),
+                            _vm._v(" "),
+                            _vm._l(_vm.districts, function(district) {
+                              return _c(
+                                "option",
+                                {
+                                  key: district.id,
+                                  domProps: { value: district.id }
+                                },
+                                [_vm._v(_vm._s(district.name))]
+                              )
+                            })
+                          ],
+                          2
+                        ),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "district" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", [_vm._v("Sub District")]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.sub_district_id,
+                                expression: "form.sub_district_id"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has(
+                                "sub_district_id"
+                              )
+                            },
+                            staticStyle: { width: "100%" },
                             on: {
                               change: function($event) {
                                 var $$selectedVal = Array.prototype.filter
@@ -75951,7 +76211,7 @@ var render = function() {
                                   })
                                 _vm.$set(
                                   _vm.form,
-                                  "city",
+                                  "sub_district_id",
                                   $event.target.multiple
                                     ? $$selectedVal
                                     : $$selectedVal[0]
@@ -75963,49 +76223,25 @@ var render = function() {
                             _c(
                               "option",
                               { attrs: { value: "", disabled: "" } },
-                              [_vm._v("Select a City")]
+                              [_vm._v("Select a sub district")]
                             ),
                             _vm._v(" "),
-                            _c("option", { attrs: { value: "Dhaka" } }, [
-                              _vm._v("Dhaka")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Chittagong" } }, [
-                              _vm._v("Chittagong")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Sylhet" } }, [
-                              _vm._v("Sylhet")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Rajshahi" } }, [
-                              _vm._v("Rajshahi")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Khulna" } }, [
-                              _vm._v("Khulna")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Comilla" } }, [
-                              _vm._v("Comilla")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Rangpur" } }, [
-                              _vm._v("Rangpur")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Barishal" } }, [
-                              _vm._v("Barishal")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Mymansing" } }, [
-                              _vm._v("Mymansing")
-                            ])
-                          ]
+                            _vm._l(_vm.subDistricts, function(subDistrict) {
+                              return _c(
+                                "option",
+                                {
+                                  key: subDistrict.id,
+                                  domProps: { value: subDistrict.id }
+                                },
+                                [_vm._v(_vm._s(subDistrict.name))]
+                              )
+                            })
+                          ],
+                          2
                         ),
                         _vm._v(" "),
                         _c("has-error", {
-                          attrs: { form: _vm.form, field: "city" }
+                          attrs: { form: _vm.form, field: "sub_district_id" }
                         })
                       ],
                       1
@@ -76216,6 +76452,7 @@ var render = function() {
                                 "ownership_type"
                               )
                             },
+                            attrs: { required: "" },
                             on: {
                               change: function($event) {
                                 var $$selectedVal = Array.prototype.filter
@@ -76258,171 +76495,6 @@ var render = function() {
                         })
                       ],
                       1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "form-group" },
-                      [
-                        _c("label", [_vm._v("Select the Institution Type")]),
-                        _vm._v(" "),
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.form.type,
-                                expression: "form.type"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            class: {
-                              "is-invalid": _vm.form.errors.has("type")
-                            },
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.$set(
-                                  _vm.form,
-                                  "type",
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
-                              }
-                            }
-                          },
-                          [
-                            _c(
-                              "option",
-                              { attrs: { value: "", disabled: "" } },
-                              [_vm._v("Institute Type")]
-                            ),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "School" } }, [
-                              _vm._v("School")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "College" } }, [
-                              _vm._v("College")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "University" } }, [
-                              _vm._v("University")
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "option",
-                              { attrs: { value: "Medical College" } },
-                              [_vm._v("Medical College")]
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c("has-error", {
-                          attrs: { form: _vm.form, field: "type" }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: !_vm.editMode,
-                            expression: "!editMode"
-                          }
-                        ],
-                        staticClass: "form-group"
-                      },
-                      [
-                        _c("label", [_vm._v("Select departments")]),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c(
-                          "ul",
-                          { staticClass: "list-group" },
-                          _vm._l(_vm.departments, function(department) {
-                            return _c(
-                              "li",
-                              {
-                                key: department.id,
-                                staticClass: "list-group-item"
-                              },
-                              [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.form.department,
-                                      expression: "form.department"
-                                    }
-                                  ],
-                                  attrs: { type: "checkbox" },
-                                  domProps: {
-                                    value: department.id,
-                                    checked: Array.isArray(_vm.form.department)
-                                      ? _vm._i(
-                                          _vm.form.department,
-                                          department.id
-                                        ) > -1
-                                      : _vm.form.department
-                                  },
-                                  on: {
-                                    change: function($event) {
-                                      var $$a = _vm.form.department,
-                                        $$el = $event.target,
-                                        $$c = $$el.checked ? true : false
-                                      if (Array.isArray($$a)) {
-                                        var $$v = department.id,
-                                          $$i = _vm._i($$a, $$v)
-                                        if ($$el.checked) {
-                                          $$i < 0 &&
-                                            _vm.$set(
-                                              _vm.form,
-                                              "department",
-                                              $$a.concat([$$v])
-                                            )
-                                        } else {
-                                          $$i > -1 &&
-                                            _vm.$set(
-                                              _vm.form,
-                                              "department",
-                                              $$a
-                                                .slice(0, $$i)
-                                                .concat($$a.slice($$i + 1))
-                                            )
-                                        }
-                                      } else {
-                                        _vm.$set(_vm.form, "department", $$c)
-                                      }
-                                    }
-                                  }
-                                }),
-                                _vm._v(
-                                  " " +
-                                    _vm._s(department.name) +
-                                    "\n                                "
-                                )
-                              ]
-                            )
-                          })
-                        )
-                      ]
                     ),
                     _vm._v(" "),
                     _c(
@@ -76494,7 +76566,8 @@ var render = function() {
                           attrs: {
                             type: "text",
                             id: "phone",
-                            placeholder: "phone"
+                            placeholder: "phone",
+                            required: ""
                           },
                           domProps: { value: _vm.form.phone },
                           on: {
@@ -76536,7 +76609,8 @@ var render = function() {
                           attrs: {
                             type: "email",
                             id: "email",
-                            placeholder: "email"
+                            placeholder: "email",
+                            required: ""
                           },
                           domProps: { value: _vm.form.email },
                           on: {
@@ -76578,7 +76652,8 @@ var render = function() {
                           attrs: {
                             type: "number",
                             id: "bus",
-                            placeholder: "Total bus"
+                            placeholder: "Total bus",
+                            min: "0"
                           },
                           domProps: { value: _vm.form.bus },
                           on: {
@@ -76602,7 +76677,7 @@ var render = function() {
                       "div",
                       { staticClass: "form-group" },
                       [
-                        _c("label", { attrs: { for: "email" } }, [
+                        _c("label", { attrs: { for: "auditorium" } }, [
                           _vm._v("Auditorium")
                         ]),
                         _vm._v(" "),
@@ -76622,7 +76697,8 @@ var render = function() {
                           attrs: {
                             type: "number",
                             id: "auditorium",
-                            placeholder: "Total auditorium"
+                            placeholder: "Total auditorium",
+                            min: "0"
                           },
                           domProps: { value: _vm.form.auditorium },
                           on: {
@@ -76670,7 +76746,8 @@ var render = function() {
                           attrs: {
                             type: "number",
                             id: "hostel",
-                            placeholder: "Total hostel"
+                            placeholder: "Total hostel",
+                            min: "0"
                           },
                           domProps: { value: _vm.form.hostel },
                           on: {
@@ -76714,7 +76791,8 @@ var render = function() {
                           attrs: {
                             type: "number",
                             id: "play_ground",
-                            placeholder: "Total play ground"
+                            placeholder: "Total play ground",
+                            min: "0"
                           },
                           domProps: { value: _vm.form.play_ground },
                           on: {
@@ -77175,190 +77253,265 @@ var render = function() {
                       ]
                     ),
                     _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-form-label",
-                          attrs: { for: "credit" }
-                        },
-                        [_vm._v("Credit:")]
-                      ),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c(
+                          "label",
                           {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.departmentForm.credit,
-                            expression: "departmentForm.credit"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { type: "number", id: "credit" },
-                        domProps: { value: _vm.departmentForm.credit },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                            staticClass: "col-form-label",
+                            attrs: { for: "credit" }
+                          },
+                          [_vm._v("Credit:")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.departmentForm.credit,
+                              expression: "departmentForm.credit"
                             }
-                            _vm.$set(
-                              _vm.departmentForm,
-                              "credit",
-                              $event.target.value
-                            )
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("credit")
+                          },
+                          attrs: { type: "number", id: "credit", min: "0" },
+                          domProps: { value: _vm.departmentForm.credit },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.departmentForm,
+                                "credit",
+                                $event.target.value
+                              )
+                            }
                           }
-                        }
-                      })
-                    ]),
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "credit" }
+                        })
+                      ],
+                      1
+                    ),
                     _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-form-label",
-                          attrs: { for: "faculty_members" }
-                        },
-                        [_vm._v("Faculty Members:")]
-                      ),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c(
+                          "label",
                           {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.departmentForm.faculty_members,
-                            expression: "departmentForm.faculty_members"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { type: "number", id: "faculty_members" },
-                        domProps: { value: _vm.departmentForm.faculty_members },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                            staticClass: "col-form-label",
+                            attrs: { for: "faculty_members" }
+                          },
+                          [_vm._v("Faculty Members:")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.departmentForm.faculty_members,
+                              expression: "departmentForm.faculty_members"
                             }
-                            _vm.$set(
-                              _vm.departmentForm,
-                              "faculty_members",
-                              $event.target.value
-                            )
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("faculty_members")
+                          },
+                          attrs: {
+                            type: "number",
+                            id: "faculty_members",
+                            min: "0",
+                            required: ""
+                          },
+                          domProps: {
+                            value: _vm.departmentForm.faculty_members
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.departmentForm,
+                                "faculty_members",
+                                $event.target.value
+                              )
+                            }
                           }
-                        }
-                      })
-                    ]),
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "faculty_members" }
+                        })
+                      ],
+                      1
+                    ),
                     _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-form-label",
-                          attrs: { for: "students" }
-                        },
-                        [_vm._v("Students:")]
-                      ),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c(
+                          "label",
                           {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.departmentForm.students,
-                            expression: "departmentForm.students"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { type: "number", id: "students" },
-                        domProps: { value: _vm.departmentForm.students },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                            staticClass: "col-form-label",
+                            attrs: { for: "students" }
+                          },
+                          [_vm._v("Students:")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.departmentForm.students,
+                              expression: "departmentForm.students"
                             }
-                            _vm.$set(
-                              _vm.departmentForm,
-                              "students",
-                              $event.target.value
-                            )
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("students")
+                          },
+                          attrs: {
+                            type: "number",
+                            id: "students",
+                            min: "0",
+                            required: ""
+                          },
+                          domProps: { value: _vm.departmentForm.students },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.departmentForm,
+                                "students",
+                                $event.target.value
+                              )
+                            }
                           }
-                        }
-                      })
-                    ]),
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "students" }
+                        })
+                      ],
+                      1
+                    ),
                     _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-form-label",
-                          attrs: { for: "cost" }
-                        },
-                        [_vm._v("Cost:")]
-                      ),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c(
+                          "label",
                           {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.departmentForm.cost,
-                            expression: "departmentForm.cost"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { type: "number", id: "cost" },
-                        domProps: { value: _vm.departmentForm.cost },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                            staticClass: "col-form-label",
+                            attrs: { for: "cost" }
+                          },
+                          [_vm._v("Cost:")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.departmentForm.cost,
+                              expression: "departmentForm.cost"
                             }
-                            _vm.$set(
-                              _vm.departmentForm,
-                              "cost",
-                              $event.target.value
-                            )
+                          ],
+                          staticClass: "form-control",
+                          class: { "is-invalid": _vm.form.errors.has("cost") },
+                          attrs: {
+                            type: "number",
+                            id: "cost",
+                            min: "0",
+                            required: ""
+                          },
+                          domProps: { value: _vm.departmentForm.cost },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.departmentForm,
+                                "cost",
+                                $event.target.value
+                              )
+                            }
                           }
-                        }
-                      })
-                    ]),
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "cost" }
+                        })
+                      ],
+                      1
+                    ),
                     _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-form-label",
-                          attrs: { for: "computer" }
-                        },
-                        [_vm._v("Computer:")]
-                      ),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c(
+                          "label",
                           {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.departmentForm.computer,
-                            expression: "departmentForm.computer"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { type: "number", id: "computer" },
-                        domProps: { value: _vm.departmentForm.computer },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                            staticClass: "col-form-label",
+                            attrs: { for: "computer" }
+                          },
+                          [_vm._v("Computer:")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.departmentForm.computer,
+                              expression: "departmentForm.computer"
                             }
-                            _vm.$set(
-                              _vm.departmentForm,
-                              "computer",
-                              $event.target.value
-                            )
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("computer")
+                          },
+                          attrs: { type: "number", id: "computer", min: "0" },
+                          domProps: { value: _vm.departmentForm.computer },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.departmentForm,
+                                "computer",
+                                $event.target.value
+                              )
+                            }
                           }
-                        }
-                      })
-                    ]),
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "computer" }
+                        })
+                      ],
+                      1
+                    ),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
                       _c(
@@ -77476,13 +77629,9 @@ var staticRenderFns = [
     return _c("tr", [
       _c("th", [_vm._v("S.N")]),
       _vm._v(" "),
-      _c("th", [_vm._v("institute Name")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Type")]),
+      _c("th", [_vm._v("Institute Name")]),
       _vm._v(" "),
       _c("th", [_vm._v("Status")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Established At")]),
       _vm._v(" "),
       _c("th", [_vm._v("Modify")])
     ])
@@ -77777,17 +77926,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             editMode: false,
             departments: {},
+            instituteTypes: {},
             form: new Form({
                 id: '',
                 name: '',
-                slug: '',
-                isActive: ''
+                institute_type_id: '',
+                isActive: 'Active'
             })
         };
     },
@@ -77834,6 +77993,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 axios.get("api/admin-department").then(function (_ref) {
                     var data = _ref.data;
                     return _this3.departments = data;
+                });
+                axios.get("api/get-institute-types").then(function (_ref2) {
+                    var data = _ref2.data;
+                    return _this3.instituteTypes = data;
                 });
             }
             this.$Progress.finish();
@@ -77941,7 +78104,9 @@ var render = function() {
                         return _c("tr", { key: department.id }, [
                           _c("td", [_vm._v(_vm._s(department.name))]),
                           _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(department.slug))]),
+                          _c("td", [
+                            _vm._v(_vm._s(department.instituteTypeName))
+                          ]),
                           _vm._v(" "),
                           _c("td", [
                             _vm._v(
@@ -78077,6 +78242,15 @@ var render = function() {
                       "div",
                       { staticClass: "form-group" },
                       [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-form-label",
+                            attrs: { for: "name" }
+                          },
+                          [_vm._v("Activation Status:")]
+                        ),
+                        _vm._v(" "),
                         _c("input", {
                           directives: [
                             {
@@ -78116,6 +78290,91 @@ var render = function() {
                       { staticClass: "form-group" },
                       [
                         _c(
+                          "label",
+                          {
+                            staticClass: "col-form-label",
+                            attrs: { for: "institute_type_id" }
+                          },
+                          [_vm._v("Institute Type:")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.institute_type_id,
+                                expression: "form.institute_type_id"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has(
+                                "institute_type_id"
+                              )
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.form,
+                                  "institute_type_id",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { value: "" } }, [
+                              _vm._v("Select One")
+                            ]),
+                            _vm._v(" "),
+                            _vm._l(_vm.instituteTypes, function(instituteType) {
+                              return _c(
+                                "option",
+                                {
+                                  key: instituteType.id,
+                                  domProps: { value: instituteType.id }
+                                },
+                                [_vm._v(_vm._s(instituteType.name))]
+                              )
+                            })
+                          ],
+                          2
+                        ),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "institute_type_id" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-form-label",
+                            attrs: { for: "isActive" }
+                          },
+                          [_vm._v("Activation Status:")]
+                        ),
+                        _vm._v(" "),
+                        _c(
                           "select",
                           {
                             directives: [
@@ -78152,18 +78411,12 @@ var render = function() {
                             }
                           },
                           [
-                            _c(
-                              "option",
-                              { attrs: { value: "", disabled: "" } },
-                              [_vm._v("Select Activation Type")]
-                            ),
-                            _vm._v(" "),
                             _c("option", { attrs: { value: "Active" } }, [
                               _vm._v("Active")
                             ]),
                             _vm._v(" "),
-                            _c("option", { attrs: { value: "DeActive" } }, [
-                              _vm._v("DeActive")
+                            _c("option", { attrs: { value: "Draft" } }, [
+                              _vm._v("Draft")
                             ])
                           ]
                         ),
@@ -78237,7 +78490,7 @@ var staticRenderFns = [
     return _c("tr", [
       _c("th", [_vm._v("Name")]),
       _vm._v(" "),
-      _c("th", [_vm._v("slug")]),
+      _c("th", [_vm._v("Institute Type")]),
       _vm._v(" "),
       _c("th", [_vm._v("isActive")]),
       _vm._v(" "),
@@ -84508,7 +84761,7 @@ var render = function() {
                 { staticClass: "card-footer" },
                 [
                   _c("pagination", {
-                    attrs: { data: _vm.cities },
+                    attrs: { data: _vm.subDistricts },
                     on: { "pagination-change-page": _vm.getResults }
                   })
                 ],

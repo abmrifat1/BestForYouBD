@@ -265,8 +265,7 @@
             },
             getSubDistricts(e)
             {
-                axios.get("api/get-sub-districts/"+this.form.district_id).then(({ data }) => (this.subDistricts = data));
-                
+                axios.get("api/get-sub-districts/"+this.form.district_id).then(({ data }) => (this.subDistricts = data));  
             },
             newModal(){
                 this.editMode = false;

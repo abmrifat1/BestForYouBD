@@ -30,8 +30,10 @@ Route::delete('delete_institute_department','API\InstituteController@destroyEduc
 Route::get('education-departments/{id}','API\InstituteController@getEduDept');
 Route::put('education-departments','API\InstituteController@updateEducationDepartment');
 Route::post('institute-departments/{institute_id}','API\InstituteController@addInstituteDepartment');
+Route::get('get-departments/{institute_type_id}','API\DepartmentController@getInstituteDepartments');
 //Start Department
 Route::apiResources(['admin-department'=>'API\DepartmentController']);
+Route::get('get-institute-types','API\DepartmentController@getInstituteTypes');
 //Start Hospital & Department Relations
 Route::apiResources(['dashboard/hospital'=>'API\HospitalController']);
 Route::apiResources(['dashboard/hospital'=>'API\HospitalController']);
@@ -66,3 +68,4 @@ Route::post('hotel-rooms/{hotel_id}','API\HotelController@addHotelRoom');
 
 Route::get('findCategory', 'API\CategoryController@search');
 Route::get('findDiscuss', 'API\ForumController@search');
+Route::get('find-institutes', 'API\InstituteController@search');

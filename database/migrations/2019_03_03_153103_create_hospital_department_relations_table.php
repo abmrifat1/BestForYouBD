@@ -18,7 +18,7 @@ class CreateHospitalDepartmentRelationsTable extends Migration
             $table->integer('hospital_department_id')->unsigned()->index();
             $table->integer('doctors')->nullable();
             $table->integer('foreign_degree_doctors')->nullable();
-            $table->foreign('hospital_id')->references('id')->on('hospitals')->onDelete('cascade');
+            $table->foreign('hospital_id')->references('id')->on('hospitals')->onDelete('cascade')->onUpdate('no action');
             $table->timestamps();
         });
     }

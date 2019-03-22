@@ -19,14 +19,14 @@
                             <tbody>
                             <tr>
                                 <th>Name</th>
-                                <th>slug</th>
+                                <th>Institute Type</th>
                                 <th>isActive</th>
                                 <th>Modify</th>
                             </tr>
 
                             <tr v-for="department in departments.data" :key="department.id">
                                 <td>{{department.name}}</td>
-                                <td>{{department.slug}}</td>
+                                <td>{{department.instituteTypeName}}</td>
                                 <td>{{department.isActive | upText}}</td>
                                 <td>
                                     <a href="#" @click="editModal(department)">
@@ -67,19 +67,28 @@
                     <form @submit.prevent="editMode ? update() : create()">
                         <div class="modal-body">
                             <div class="form-group">
+                                <label for="name" class="col-form-label">Activation Status:</label>
                                 <input v-model="form.name" type="text" name="name"
                                        placeholder="Name"
                                        class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
                                 <has-error :form="form" field="name"></has-error>
                             </div>
                             <div class="form-group">
-                            <select name="isActive" v-model="form.isActive" id="isActive" class="form-control" :class="{ 'is-invalid': form.errors.has('isActive') }">
-                                <option value="" disabled>Select Activation Type</option>
-                                <option value="Active">Active</option>
-                                <option value="DeActive">DeActive</option>
-                            </select>
-                            <has-error :form="form" field="isActive"></has-error>
-                        </div>
+                                <label for="institute_type_id" class="col-form-label">Institute Type:</label>
+                                <select v-model="form.institute_type_id" class="form-control" :class="{ 'is-invalid': form.errors.has('institute_type_id') }">
+                                    <option value="">Select One</option>
+                                    <option v-for="instituteType in instituteTypes" :key="instituteType.id" :value="instituteType.id">{{instituteType.name}}</option>
+                                </select>
+                                <has-error :form="form" field="institute_type_id"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label for="isActive" class="col-form-label">Activation Status:</label>
+                                <select name="isActive" v-model="form.isActive" id="isActive" class="form-control" :class="{ 'is-invalid': form.errors.has('isActive') }">
+                                    <option value="Active">Active</option>
+                                    <option value="Draft">Draft</option>
+                                </select>
+                                <has-error :form="form" field="isActive"></has-error>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button v-show="editMode" type="submit" class="btn btn-success">Update</button>
@@ -102,11 +111,12 @@
             return {
                 editMode: false,
                 departments: {},
+                instituteTypes: {},
                 form: new Form({
                     id:'',
                     name : '',
-                    slug: '',
-                    isActive: '',
+                    institute_type_id: '',
+                    isActive: 'Active',
                 })
             }
         },
@@ -149,6 +159,7 @@
                 this.$Progress.start();
                 if(this.$gate.isAdminOrAuthor()){
                     axios.get("api/admin-department").then(({ data }) => (this.departments = data));
+                    axios.get("api/get-institute-types").then(({ data }) => (this.instituteTypes = data));
                 }
                 this.$Progress.finish();
             },

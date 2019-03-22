@@ -25,6 +25,7 @@ class CreateInstitutesTable extends Migration
             $table->string('address',100)->nullable();
             $table->string('city',50)->nullable();
             $table->string('type',50)->nullable();
+            $table->string('library',6)->nullable();
             $table->string('isActive',50)->default('Deactive');
             $table->timestamps();
         });

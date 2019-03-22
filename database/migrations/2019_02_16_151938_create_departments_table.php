@@ -16,8 +16,9 @@ class CreateDepartmentsTable extends Migration
         Schema::create('departments', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name',200);
-            $table->string('slug',200);
+            $table->integer('insitute_type_id')->unsigned()->index();
             $table->string('isActive',20);
+            $table->foreign('insitute_type_id')->references('id')->on('insitute_types')->onDelete('no action')->onUpdate('no action');
             $table->timestamps();
         });
     }

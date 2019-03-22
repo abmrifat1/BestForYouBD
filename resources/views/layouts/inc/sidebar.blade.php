@@ -169,7 +169,7 @@
                             <li class="nav-item">
                                 <router-link to="/dashboard-subdistricts" class="nav-link">
                                     <i class="fas fa-angle-double-right nav-icon yellow"></i>
-                                    <p>Sub Districts</p>
+                                    <p>Sub Places of Districts</p>
                                 </router-link>
                             </li>
                         </ul>

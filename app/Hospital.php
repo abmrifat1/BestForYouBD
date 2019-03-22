@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Hospital extends Model
 {
     protected $fillable = [
-        'name', 'estDate', 'main_img','gallery_img_1','gallery_img_2','chancellor','ownership_type', 'address','city','isActive'
+        'name', 'estDate', 'main_img','gallery_img_1','gallery_img_2','chancellor','ownership_type', 'address','district_id','sub_district_id','isActive'
     ];
     public function departments()
     {

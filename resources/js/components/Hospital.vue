@@ -92,25 +92,22 @@
                                   class="form-control" :class="{ 'is-invalid': form.errors.has('address') }"></textarea>
                                 <has-error :form="form" field="address"></has-error>
                             </div>
-
-
                             <div class="form-group">
-                                <label>Select a City</label>
-                                <select name="city" class="form-control" v-model="form.city" style="width:100%;">
-                                    <option value="" disabled>Select a City</option>
-                                    <option value="Dhaka">Dhaka</option>
-                                    <option value="Chittagong">Chittagong</option>
-                                    <option value="Sylhet">Sylhet</option>
-                                    <option value="Rajshahi">Rajshahi</option>
-                                    <option value="Khulna">Khulna</option>
-                                    <option value="Comilla">Comilla</option>
-                                    <option value="Rangpur">Rangpur</option>
-                                    <option value="Barishal">Barishal</option>
-                                    <option value="Mymansing">Mymansing</option>
+                                <label>District</label>
+                                <select class="form-control" v-model="form.district_id" style="width:100%;" @change="getSubDistricts" :class="{ 'is-invalid': form.errors.has('district') }">
+                                    <option value="" disabled>Select a district</option>
+                                    <option v-for="district in districts" :value="district.id" :key="district.id">{{district.name}}</option>
                                 </select>
-                                <has-error :form="form" field="city"></has-error>
+                                <has-error :form="form" field="district"></has-error>
                             </div>
-                            
+                            <div class="form-group">
+                                <label>Sub Location of District</label>
+                                <select class="form-control" v-model="form.sub_district_id" style="width:100%;" :class="{ 'is-invalid': form.errors.has('sub_district_id') }">
+                                    <option value="" disabled>Select a sub district</option>
+                                    <option v-for="subDistrict in subDistricts" :value="subDistrict.id" :key="subDistrict.id">{{subDistrict.name}}</option>
+                                </select>
+                                <has-error :form="form" field="sub_district_id"></has-error>
+                            </div>
                             <div class="widget-user-image" v-if="McreateMode">
                                 <label for="main_img"><img class="mt-1" src="img/hospitals/default.jpg" style="width:80%;height:25%;" alt="Main Image"></label>
                             </div>
@@ -305,6 +302,8 @@
                 Mg2createMode:false,
                 hospitals: {},
                 departments:{},
+                districts: {},
+                subDistricts: {},
                 hospital_id:'',
                 hospital_departments:{},
                 form: new Form({
@@ -317,7 +316,8 @@
                     ownership_type: '',
                     chancellor: '',
                     address: '',
-                    city: '',
+                    district_id: '',
+                    sub_district_id: '',
                     isActive: '',
                     department: []
                 }),
@@ -345,7 +345,10 @@
                 let gallery_img_2_pic = (this.form.gallery_img_2.length > 200) ? this.form.gallery_img_2 : "img/hospitals/"+ this.form.gallery_img_2 ;
                 return gallery_img_2_pic;
             },
-            
+            getSubDistricts(e)
+            {
+                axios.get("api/get-sub-districts/"+this.form.district_id).then(({ data }) => (this.subDistricts = data));  
+            },
             newModal(){
                 this.editMode = false;
                 this.McreateMode = true;
@@ -353,7 +356,7 @@
                 this.Mg2createMode = true;
                 this.form.reset();
                 //axios.get("api/education/create").then( response => (this.departments = response));
-                
+                axios.get("api/get-districts").then(({ data }) => (this.districts = data));
                 $('#addNew').modal('show');
             },
             editModal(hospital){
@@ -363,6 +366,7 @@
                 this.editMode = true;
                 this.form.reset();
                 $('#addNew').modal('show');
+                axios.get("api/get-districts").then(({ data }) => (this.districts = data));
                 this.form.fill(hospital);
             },
             settingInstituteDepartments(hospital){

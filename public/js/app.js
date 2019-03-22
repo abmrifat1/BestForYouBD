@@ -78872,9 +78872,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -78886,6 +78883,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             Mg2createMode: false,
             hospitals: {},
             departments: {},
+            districts: {},
+            subDistricts: {},
             hospital_id: '',
             hospital_departments: {},
             form: new Form({
@@ -78898,7 +78897,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 ownership_type: '',
                 chancellor: '',
                 address: '',
-                city: '',
+                district_id: '',
+                sub_district_id: '',
                 isActive: '',
                 department: []
             }),
@@ -78925,30 +78925,49 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             var gallery_img_2_pic = this.form.gallery_img_2.length > 200 ? this.form.gallery_img_2 : "img/hospitals/" + this.form.gallery_img_2;
             return gallery_img_2_pic;
         },
+        getSubDistricts: function getSubDistricts(e) {
+            var _this = this;
+
+            axios.get("api/get-sub-districts/" + this.form.district_id).then(function (_ref) {
+                var data = _ref.data;
+                return _this.subDistricts = data;
+            });
+        },
         newModal: function newModal() {
+            var _this2 = this;
+
             this.editMode = false;
             this.McreateMode = true;
             this.Mg1createMode = true;
             this.Mg2createMode = true;
             this.form.reset();
             //axios.get("api/education/create").then( response => (this.departments = response));
-
+            axios.get("api/get-districts").then(function (_ref2) {
+                var data = _ref2.data;
+                return _this2.districts = data;
+            });
             $('#addNew').modal('show');
         },
         editModal: function editModal(hospital) {
+            var _this3 = this;
+
             this.McreateMode = false;
             this.Mg1createMode = false;
             this.Mg2createMode = false;
             this.editMode = true;
             this.form.reset();
             $('#addNew').modal('show');
+            axios.get("api/get-districts").then(function (_ref3) {
+                var data = _ref3.data;
+                return _this3.districts = data;
+            });
             this.form.fill(hospital);
         },
         settingInstituteDepartments: function settingInstituteDepartments(hospital) {
-            var _this = this;
+            var _this4 = this;
 
             axios.get("api/hospital-departments/" + hospital.id).then(function (data) {
-                _this.hospital_departments = data;
+                _this4.hospital_departments = data;
             });
             this.hospital_id = hospital.id;
             $('#hospitalDepartments').modal('show');
@@ -78959,7 +78978,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             $('#departmentFormModal').modal('show');
         },
         addHospitalDepartment: function addHospitalDepartment() {
-            var _this2 = this;
+            var _this5 = this;
 
             this.$Progress.start();
             this.departmentForm.post('api/hospital-departments/' + this.hospital_id).then(function () {
@@ -78967,10 +78986,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 $('#hospitalDepartments').modal('hide');
                 Fire.$emit('takePageLoad');
                 swal('Inserted!', 'Your hospital department information has been stored.', 'success');
-                _this2.$Progress.finish();
+                _this5.$Progress.finish();
             }).catch(function () {
                 swal("Failed", "Hospital Department Already Stored", "warning");
-                _this2.$Progress.fail();
+                _this5.$Progress.fail();
             });
         },
         editDepartment: function editDepartment(department) {
@@ -78980,22 +78999,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             this.departmentForm.fill(department);
         },
         DepartmentUpdate: function DepartmentUpdate() {
-            var _this3 = this;
+            var _this6 = this;
 
             this.$Progress.start();
             this.departmentForm.put('api/hospital-departments/').then(function () {
                 swal('Updated!', 'Your information has been updated.', 'success');
                 $('#departmentFormModal').modal('hide');
                 $('#hospitalDepartments').modal('hide');
-                _this3.$Progress.finish();
+                _this6.$Progress.finish();
                 Fire.$emit('takePageLoad');
             }).catch(function () {
                 swal("Failed", "There was something wrong.", "warning");
-                _this3.$Progress.fail();
+                _this6.$Progress.fail();
             });
         },
         departmentDeleted: function departmentDeleted(department) {
-            var _this4 = this;
+            var _this7 = this;
 
             this.$Progress.start();
             this.departmentForm.reset();
@@ -79010,34 +79029,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             }).then(function (result) {
                 if (result.value) {
 
-                    _this4.departmentForm.fill(department);
-                    _this4.departmentForm.delete('api/delete_hospital_department').then(function () {
+                    _this7.departmentForm.fill(department);
+                    _this7.departmentForm.delete('api/delete_hospital_department').then(function () {
                         swal('Deleted!', 'Hospital Deparment has been deleted.', 'success');
                         $('#hospitalDepartments').modal('hide');
                         Fire.$emit('takePageLoad');
                     }).catch(function () {
-                        _this4.$Progress.fail();
+                        _this7.$Progress.fail();
                         swal("Failed", "There was something wrong.", "warning");
                     });
                 }
-                _this4.$Progress.finish();
+                _this7.$Progress.finish();
             });
         },
         update: function update() {
-            var _this5 = this;
+            var _this8 = this;
 
             this.$Progress.start();
             this.form.put('api/dashboard/hospital/' + this.form.id).then(function () {
                 $('#addNew').modal('hide');
                 swal('Updated!', 'Your information has been updated.', 'success');
-                _this5.$Progress.finish();
+                _this8.$Progress.finish();
                 Fire.$emit('takePageLoad');
             }).catch(function () {
-                _this5.$Progress.fail();
+                _this8.$Progress.fail();
             });
         },
         Main_Image: function Main_Image(e) {
-            var _this6 = this;
+            var _this9 = this;
 
             // console.log('uploading');
             this.McreateMode = false;
@@ -79047,12 +79066,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             reader.onloadend = function (file) {
                 // console.log('RESULT', reader.result)
-                _this6.form.main_img = reader.result;
+                _this9.form.main_img = reader.result;
             };
             reader.readAsDataURL(file);
         },
         Gallery_image_1: function Gallery_image_1(e) {
-            var _this7 = this;
+            var _this10 = this;
 
             // console.log('uploading');
             this.Mg1createMode = false;
@@ -79062,12 +79081,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             reader.onloadend = function (file) {
                 // console.log('RESULT', reader.result)
-                _this7.form.gallery_img_1 = reader.result;
+                _this10.form.gallery_img_1 = reader.result;
             };
             reader.readAsDataURL(file);
         },
         Gallery_image_2: function Gallery_image_2(e) {
-            var _this8 = this;
+            var _this11 = this;
 
             // console.log('uploading');
             this.Mg2createMode = false;
@@ -79077,37 +79096,37 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             reader.onloadend = function (file) {
                 // console.log('RESULT', reader.result)
-                _this8.form.gallery_img_2 = reader.result;
+                _this11.form.gallery_img_2 = reader.result;
             };
             reader.readAsDataURL(file);
         },
         load: function load() {
-            var _this9 = this;
+            var _this12 = this;
 
             this.$Progress.start();
             if (this.$gate.isAdminOrAuthor()) {
-                axios.get("api/dashboard/hospital").then(function (_ref) {
-                    var data = _ref.data;
-                    return _this9.hospitals = data;
+                axios.get("api/dashboard/hospital").then(function (_ref4) {
+                    var data = _ref4.data;
+                    return _this12.hospitals = data;
                 });
             }
-            axios.get("api/hospital/departments").then(function (_ref2) {
-                var data = _ref2.data;
-                return _this9.departments = data;
+            axios.get("api/hospital/departments").then(function (_ref5) {
+                var data = _ref5.data;
+                return _this12.departments = data;
             });
             this.$Progress.finish();
         },
         getResults: function getResults() {
-            var _this10 = this;
+            var _this13 = this;
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
             axios.get('api/dashboard/hospital?page=' + page).then(function (response) {
-                _this10.hospitals = response.data;
+                _this13.hospitals = response.data;
             });
         },
         create: function create() {
-            var _this11 = this;
+            var _this14 = this;
 
             this.$Progress.start();
             this.form.post('api/dashboard/hospital').then(function () {
@@ -79117,13 +79136,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                     type: 'success',
                     title: 'Hospital created successfully'
                 });
-                _this11.$Progress.finish();
+                _this14.$Progress.finish();
             }).catch(function () {
-                _this11.$Progress.fail();
+                _this14.$Progress.fail();
             });
         },
         deleted: function deleted(id) {
-            var _this12 = this;
+            var _this15 = this;
 
             this.$Progress.start();
             swal({
@@ -79136,15 +79155,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 confirmButtonText: 'Yes, delete it!'
             }).then(function (result) {
                 if (result.value) {
-                    _this12.form.delete('api/dashboard/hospital/' + id).then(function () {
+                    _this15.form.delete('api/dashboard/hospital/' + id).then(function () {
                         swal('Deleted!', 'Your file has been deleted.', 'success');
                         Fire.$emit('takePageLoad');
                     }).catch(function () {
-                        _this12.$Progress.fail();
+                        _this15.$Progress.fail();
                         swal("Failed", "There was something wrong.", "warning");
                     });
                 }
-                _this12.$Progress.finish();
+                _this15.$Progress.finish();
             });
         }
     }, 'getMainPhoto', function getMainPhoto() {
@@ -79152,17 +79171,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return photo;
     }),
     created: function created() {
-        var _this13 = this;
+        var _this16 = this;
 
         Fire.$on('searching', function () {
-            var query = _this13.$parent.search;
+            var query = _this16.$parent.search;
             axios.get('api/findhospital?q=' + query).then(function (data) {
-                _this13.hospitals = data.data;
+                _this16.hospitals = data.data;
             }).catch(function () {});
         });
         this.load();
         Fire.$on('takePageLoad', function () {
-            _this13.load();
+            _this16.load();
         });
 
         //    setInterval(() => this.loadinstitutes(), 3000);
@@ -79498,7 +79517,7 @@ var render = function() {
                       "div",
                       { staticClass: "form-group" },
                       [
-                        _c("label", [_vm._v("Select a City")]),
+                        _c("label", [_vm._v("District")]),
                         _vm._v(" "),
                         _c(
                           "select",
@@ -79507,13 +79526,91 @@ var render = function() {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.form.city,
-                                expression: "form.city"
+                                value: _vm.form.district_id,
+                                expression: "form.district_id"
                               }
                             ],
                             staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("district")
+                            },
                             staticStyle: { width: "100%" },
-                            attrs: { name: "city" },
+                            on: {
+                              change: [
+                                function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.form,
+                                    "district_id",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                },
+                                _vm.getSubDistricts
+                              ]
+                            }
+                          },
+                          [
+                            _c(
+                              "option",
+                              { attrs: { value: "", disabled: "" } },
+                              [_vm._v("Select a district")]
+                            ),
+                            _vm._v(" "),
+                            _vm._l(_vm.districts, function(district) {
+                              return _c(
+                                "option",
+                                {
+                                  key: district.id,
+                                  domProps: { value: district.id }
+                                },
+                                [_vm._v(_vm._s(district.name))]
+                              )
+                            })
+                          ],
+                          2
+                        ),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "district" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", [_vm._v("Sub Location of District")]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.sub_district_id,
+                                expression: "form.sub_district_id"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has(
+                                "sub_district_id"
+                              )
+                            },
+                            staticStyle: { width: "100%" },
                             on: {
                               change: function($event) {
                                 var $$selectedVal = Array.prototype.filter
@@ -79526,7 +79623,7 @@ var render = function() {
                                   })
                                 _vm.$set(
                                   _vm.form,
-                                  "city",
+                                  "sub_district_id",
                                   $event.target.multiple
                                     ? $$selectedVal
                                     : $$selectedVal[0]
@@ -79538,49 +79635,25 @@ var render = function() {
                             _c(
                               "option",
                               { attrs: { value: "", disabled: "" } },
-                              [_vm._v("Select a City")]
+                              [_vm._v("Select a sub district")]
                             ),
                             _vm._v(" "),
-                            _c("option", { attrs: { value: "Dhaka" } }, [
-                              _vm._v("Dhaka")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Chittagong" } }, [
-                              _vm._v("Chittagong")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Sylhet" } }, [
-                              _vm._v("Sylhet")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Rajshahi" } }, [
-                              _vm._v("Rajshahi")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Khulna" } }, [
-                              _vm._v("Khulna")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Comilla" } }, [
-                              _vm._v("Comilla")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Rangpur" } }, [
-                              _vm._v("Rangpur")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Barishal" } }, [
-                              _vm._v("Barishal")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Mymansing" } }, [
-                              _vm._v("Mymansing")
-                            ])
-                          ]
+                            _vm._l(_vm.subDistricts, function(subDistrict) {
+                              return _c(
+                                "option",
+                                {
+                                  key: subDistrict.id,
+                                  domProps: { value: subDistrict.id }
+                                },
+                                [_vm._v(_vm._s(subDistrict.name))]
+                              )
+                            })
+                          ],
+                          2
                         ),
                         _vm._v(" "),
                         _c("has-error", {
-                          attrs: { form: _vm.form, field: "city" }
+                          attrs: { form: _vm.form, field: "sub_district_id" }
                         })
                       ],
                       1
@@ -81691,27 +81764,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -81723,6 +81775,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             Mg2createMode: false,
             hotels: {},
             rooms: {},
+            districts: {},
+            subDistricts: {},
             hotel_id: '',
             hotel_rooms: {},
             form: new Form({
@@ -81738,8 +81792,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 website_url: '',
                 address: '',
                 description: '',
-                district: '',
-                sub_district: '',
+                district_id: '',
+                sub_district_id: '',
                 isActive: 'Active',
                 restaurant: 'Yes',
                 cafe: 'Yes',
@@ -81782,30 +81836,49 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             var gallery_img_2_pic = this.form.gallery_img_2.length > 200 ? this.form.gallery_img_2 : "img/hotels/" + this.form.gallery_img_2;
             return gallery_img_2_pic;
         },
+        getSubDistricts: function getSubDistricts(e) {
+            var _this = this;
+
+            axios.get("api/get-sub-districts/" + this.form.district_id).then(function (_ref) {
+                var data = _ref.data;
+                return _this.subDistricts = data;
+            });
+        },
         newModal: function newModal() {
+            var _this2 = this;
+
             this.editMode = false;
             this.McreateMode = true;
             this.Mg1createMode = true;
             this.Mg2createMode = true;
             this.form.reset();
             //axios.get("api/education/create").then( response => (this.departments = response));
-
+            axios.get("api/get-districts").then(function (_ref2) {
+                var data = _ref2.data;
+                return _this2.districts = data;
+            });
             $('#addNew').modal('show');
         },
         editModal: function editModal(hotel) {
+            var _this3 = this;
+
             this.McreateMode = false;
             this.Mg1createMode = false;
             this.Mg2createMode = false;
             this.editMode = true;
             this.form.reset();
             $('#addNew').modal('show');
+            axios.get("api/get-districts").then(function (_ref3) {
+                var data = _ref3.data;
+                return _this3.districts = data;
+            });
             this.form.fill(hotel);
         },
         settingHotelRooms: function settingHotelRooms(hotel) {
-            var _this = this;
+            var _this4 = this;
 
             axios.get("api/hotel-rooms/" + hotel.id).then(function (data) {
-                _this.hotel_rooms = data;
+                _this4.hotel_rooms = data;
             });
             this.hotel_id = hotel.id;
             $('#hotelRoomsModal').modal('show');
@@ -81816,7 +81889,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             $('#roomFormModal').modal('show');
         },
         addHotelRoom: function addHotelRoom() {
-            var _this2 = this;
+            var _this5 = this;
 
             this.$Progress.start();
             this.roomForm.post('api/hotel-rooms/' + this.hotel_id).then(function () {
@@ -81824,10 +81897,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 $('#hotelRoomsModal').modal('hide');
                 Fire.$emit('takePageLoad');
                 swal('Inserted!', 'Your hotel room information has been stored.', 'success');
-                _this2.$Progress.finish();
+                _this5.$Progress.finish();
             }).catch(function () {
                 swal("Failed", "hotel room Already Stored", "warning");
-                _this2.$Progress.fail();
+                _this5.$Progress.fail();
             });
         },
         editRoom: function editRoom(room) {
@@ -81837,22 +81910,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             this.roomForm.fill(room);
         },
         roomUpdate: function roomUpdate() {
-            var _this3 = this;
+            var _this6 = this;
 
             this.$Progress.start();
             this.roomForm.put('api/hotel-rooms/').then(function () {
                 swal('Updated!', 'Your information has been updated.', 'success');
                 $('#roomFormModal').modal('hide');
                 $('#hotelRoomsModal').modal('hide');
-                _this3.$Progress.finish();
+                _this6.$Progress.finish();
                 Fire.$emit('takePageLoad');
             }).catch(function () {
                 swal("Failed", "There was something wrong.", "warning");
-                _this3.$Progress.fail();
+                _this6.$Progress.fail();
             });
         },
         roomDelete: function roomDelete(room) {
-            var _this4 = this;
+            var _this7 = this;
 
             this.$Progress.start();
             this.roomForm.reset();
@@ -81867,34 +81940,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             }).then(function (result) {
                 if (result.value) {
 
-                    _this4.roomForm.fill(room);
-                    _this4.roomForm.delete('api/delete-hotel-room').then(function () {
+                    _this7.roomForm.fill(room);
+                    _this7.roomForm.delete('api/delete-hotel-room').then(function () {
                         swal('Deleted!', 'Hotel Deparment has been deleted.', 'success');
                         $('#hotelRoomsModal').modal('hide');
                         Fire.$emit('takePageLoad');
                     }).catch(function () {
-                        _this4.$Progress.fail();
+                        _this7.$Progress.fail();
                         swal("Failed", "There was something wrong.", "warning");
                     });
                 }
-                _this4.$Progress.finish();
+                _this7.$Progress.finish();
             });
         },
         update: function update() {
-            var _this5 = this;
+            var _this8 = this;
 
             this.$Progress.start();
             this.form.put('api/dashboard/hotel/' + this.form.id).then(function () {
                 $('#addNew').modal('hide');
                 swal('Updated!', 'Your information has been updated.', 'success');
-                _this5.$Progress.finish();
+                _this8.$Progress.finish();
                 Fire.$emit('takePageLoad');
             }).catch(function () {
-                _this5.$Progress.fail();
+                _this8.$Progress.fail();
             });
         },
         Main_Image: function Main_Image(e) {
-            var _this6 = this;
+            var _this9 = this;
 
             // console.log('uploading');
             this.McreateMode = false;
@@ -81904,12 +81977,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             reader.onloadend = function (file) {
                 // console.log('RESULT', reader.result)
-                _this6.form.main_img = reader.result;
+                _this9.form.main_img = reader.result;
             };
             reader.readAsDataURL(file);
         },
         Gallery_image_1: function Gallery_image_1(e) {
-            var _this7 = this;
+            var _this10 = this;
 
             // console.log('uploading');
             this.Mg1createMode = false;
@@ -81919,12 +81992,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             reader.onloadend = function (file) {
                 // console.log('RESULT', reader.result)
-                _this7.form.gallery_img_1 = reader.result;
+                _this10.form.gallery_img_1 = reader.result;
             };
             reader.readAsDataURL(file);
         },
         Gallery_image_2: function Gallery_image_2(e) {
-            var _this8 = this;
+            var _this11 = this;
 
             // console.log('uploading');
             this.Mg2createMode = false;
@@ -81934,37 +82007,37 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             reader.onloadend = function (file) {
                 // console.log('RESULT', reader.result)
-                _this8.form.gallery_img_2 = reader.result;
+                _this11.form.gallery_img_2 = reader.result;
             };
             reader.readAsDataURL(file);
         },
         load: function load() {
-            var _this9 = this;
+            var _this12 = this;
 
             this.$Progress.start();
             if (this.$gate.isAdminOrAuthor()) {
-                axios.get("api/dashboard/hotel").then(function (_ref) {
-                    var data = _ref.data;
-                    return _this9.hotels = data;
+                axios.get("api/dashboard/hotel").then(function (_ref4) {
+                    var data = _ref4.data;
+                    return _this12.hotels = data;
                 });
             }
-            axios.get("api/hotel-rooms").then(function (_ref2) {
-                var data = _ref2.data;
-                return _this9.rooms = data;
+            axios.get("api/hotel-rooms").then(function (_ref5) {
+                var data = _ref5.data;
+                return _this12.rooms = data;
             });
             this.$Progress.finish();
         },
         getResults: function getResults() {
-            var _this10 = this;
+            var _this13 = this;
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
             axios.get('api/dashboard/hotel?page=' + page).then(function (response) {
-                _this10.hotels = response.data;
+                _this13.hotels = response.data;
             });
         },
         create: function create() {
-            var _this11 = this;
+            var _this14 = this;
 
             this.$Progress.start();
             this.form.post('api/dashboard/hotel').then(function () {
@@ -81974,13 +82047,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                     type: 'success',
                     title: 'Hotel created successfully'
                 });
-                _this11.$Progress.finish();
+                _this14.$Progress.finish();
             }).catch(function () {
-                _this11.$Progress.fail();
+                _this14.$Progress.fail();
             });
         },
         deleted: function deleted(id) {
-            var _this12 = this;
+            var _this15 = this;
 
             this.$Progress.start();
             swal({
@@ -81993,15 +82066,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 confirmButtonText: 'Yes, delete it!'
             }).then(function (result) {
                 if (result.value) {
-                    _this12.form.delete('api/dashboard/hotel/' + id).then(function () {
+                    _this15.form.delete('api/dashboard/hotel/' + id).then(function () {
                         swal('Deleted!', 'Your file has been deleted.', 'success');
                         Fire.$emit('takePageLoad');
                     }).catch(function () {
-                        _this12.$Progress.fail();
+                        _this15.$Progress.fail();
                         swal("Failed", "There was something wrong.", "warning");
                     });
                 }
-                _this12.$Progress.finish();
+                _this15.$Progress.finish();
             });
         }
     }, 'getMainPhoto', function getMainPhoto() {
@@ -82009,17 +82082,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return photo;
     }),
     created: function created() {
-        var _this13 = this;
+        var _this16 = this;
 
         Fire.$on('searching', function () {
-            var query = _this13.$parent.search;
+            var query = _this16.$parent.search;
             axios.get('api/findhospital?q=' + query).then(function (data) {
-                _this13.hotels = data.data;
+                _this16.hotels = data.data;
             }).catch(function () {});
         });
         this.load();
         Fire.$on('takePageLoad', function () {
-            _this13.load();
+            _this16.load();
         });
 
         //    setInterval(() => this.loadinstitutes(), 3000);
@@ -82243,7 +82316,8 @@ var render = function() {
                             type: "text",
                             id: "name",
                             name: "name",
-                            placeholder: "Name"
+                            placeholder: "Name",
+                            required: ""
                           },
                           domProps: { value: _vm.form.name },
                           on: {
@@ -82287,7 +82361,8 @@ var render = function() {
                           attrs: {
                             type: "date",
                             name: "estDate",
-                            placeholder: "estDate"
+                            placeholder: "estDate",
+                            required: ""
                           },
                           domProps: { value: _vm.form.estDate },
                           on: {
@@ -82329,7 +82404,8 @@ var render = function() {
                           attrs: {
                             type: "number",
                             name: "star",
-                            placeholder: "Star"
+                            placeholder: "Star",
+                            required: ""
                           },
                           domProps: { value: _vm.form.star },
                           on: {
@@ -82463,7 +82539,8 @@ var render = function() {
                           attrs: {
                             name: "address",
                             id: "address",
-                            placeholder: "Address"
+                            placeholder: "Address",
+                            required: ""
                           },
                           domProps: { value: _vm.form.address },
                           on: {
@@ -82482,12 +82559,11 @@ var render = function() {
                       ],
                       1
                     ),
-                    _vm._v(" "),
                     _c(
                       "div",
                       { staticClass: "form-group" },
                       [
-                        _c("label", [_vm._v("Select a District")]),
+                        _c("label", [_vm._v("District")]),
                         _vm._v(" "),
                         _c(
                           "select",
@@ -82496,31 +82572,38 @@ var render = function() {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.form.district,
-                                expression: "form.district"
+                                value: _vm.form.district_id,
+                                expression: "form.district_id"
                               }
                             ],
                             staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("district")
+                            },
                             staticStyle: { width: "100%" },
-                            attrs: { name: "district" },
+                            attrs: { required: "" },
                             on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.$set(
-                                  _vm.form,
-                                  "district",
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
-                              }
+                              change: [
+                                function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.form,
+                                    "district_id",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                },
+                                _vm.getSubDistricts
+                              ]
                             }
                           },
                           [
@@ -82530,42 +82613,18 @@ var render = function() {
                               [_vm._v("Select a district")]
                             ),
                             _vm._v(" "),
-                            _c("option", { attrs: { value: "Dhaka" } }, [
-                              _vm._v("Dhaka")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Chittagong" } }, [
-                              _vm._v("Chittagong")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Sylhet" } }, [
-                              _vm._v("Sylhet")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Rajshahi" } }, [
-                              _vm._v("Rajshahi")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Khulna" } }, [
-                              _vm._v("Khulna")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Comilla" } }, [
-                              _vm._v("Comilla")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Rangpur" } }, [
-                              _vm._v("Rangpur")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Barishal" } }, [
-                              _vm._v("Barishal")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Mymansing" } }, [
-                              _vm._v("Mymansing")
-                            ])
-                          ]
+                            _vm._l(_vm.districts, function(district) {
+                              return _c(
+                                "option",
+                                {
+                                  key: district.id,
+                                  domProps: { value: district.id }
+                                },
+                                [_vm._v(_vm._s(district.name))]
+                              )
+                            })
+                          ],
+                          2
                         ),
                         _vm._v(" "),
                         _c("has-error", {
@@ -82579,7 +82638,7 @@ var render = function() {
                       "div",
                       { staticClass: "form-group" },
                       [
-                        _c("label", [_vm._v("Select a Sub District")]),
+                        _c("label", [_vm._v("Sub District")]),
                         _vm._v(" "),
                         _c(
                           "select",
@@ -82588,13 +82647,17 @@ var render = function() {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.form.sub_district,
-                                expression: "form.sub_district"
+                                value: _vm.form.sub_district_id,
+                                expression: "form.sub_district_id"
                               }
                             ],
                             staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has(
+                                "sub_district_id"
+                              )
+                            },
                             staticStyle: { width: "100%" },
-                            attrs: { name: "sub_district" },
                             on: {
                               change: function($event) {
                                 var $$selectedVal = Array.prototype.filter
@@ -82607,7 +82670,7 @@ var render = function() {
                                   })
                                 _vm.$set(
                                   _vm.form,
-                                  "sub_district",
+                                  "sub_district_id",
                                   $event.target.multiple
                                     ? $$selectedVal
                                     : $$selectedVal[0]
@@ -82622,52 +82685,22 @@ var render = function() {
                               [_vm._v("Select a sub district")]
                             ),
                             _vm._v(" "),
-                            _c("option", { attrs: { value: "Dhanmondi" } }, [
-                              _vm._v("Dhanmondi")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Karwan Bazar" } }, [
-                              _vm._v("Karwan Bazar")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Farmgate" } }, [
-                              _vm._v("Farmgate")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Mirpur" } }, [
-                              _vm._v("Mirpur")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Shaymoli" } }, [
-                              _vm._v("Shaymoli")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Mohammodpur" } }, [
-                              _vm._v("Mohammodpur")
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "option",
-                              { attrs: { value: "Sher-e-bangla" } },
-                              [_vm._v("Sher-e-bangla")]
-                            ),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Badda" } }, [
-                              _vm._v("Badda")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "New Market" } }, [
-                              _vm._v("New Market")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Gulshan" } }, [
-                              _vm._v("Gulshan")
-                            ])
-                          ]
+                            _vm._l(_vm.subDistricts, function(subDistrict) {
+                              return _c(
+                                "option",
+                                {
+                                  key: subDistrict.id,
+                                  domProps: { value: subDistrict.id }
+                                },
+                                [_vm._v(_vm._s(subDistrict.name))]
+                              )
+                            })
+                          ],
+                          2
                         ),
                         _vm._v(" "),
                         _c("has-error", {
-                          attrs: { form: _vm.form, field: "sub_district" }
+                          attrs: { form: _vm.form, field: "sub_district_id" }
                         })
                       ],
                       1

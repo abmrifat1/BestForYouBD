@@ -48,6 +48,8 @@ class InstituteController extends Controller
            'name'=>'required|string|max:191',
            'main_img'=>'required|image',
            'institute_type_id'=>'required',
+           'district_id'=>'required',
+           'sub_district_id'=>'required',
            'department'=>'required',
         ]);
         if(!empty($request->main_img)){

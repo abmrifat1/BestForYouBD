@@ -45,7 +45,6 @@ class HotelController extends Controller
     {
         $this->validate($request,[
            'name'=>'required|string|max:191',
-           'name'=>'required|string|max:191',
         ]);
         if(!empty($request->main_img)){
             $name = time().rand(50,5000).'.' . explode('/', explode(':', substr($request->main_img, 0, strpos($request->main_img, ';')))[1])[1];
@@ -157,9 +156,7 @@ class HotelController extends Controller
             }
         }
         $Hotel->update($request->all());
-        if(!empty($request->department)){
-            $Hotel->departments()->sync($request->department);
-        }
+        $Hotel->rooms()->syncWithoutDetaching($request->department);
         return ['update' => "Hotel information updated"];
     }
 

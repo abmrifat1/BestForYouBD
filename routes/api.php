@@ -69,3 +69,6 @@ Route::post('hotel-rooms/{hotel_id}','API\HotelController@addHotelRoom');
 Route::get('findCategory', 'API\CategoryController@search');
 Route::get('findDiscuss', 'API\ForumController@search');
 Route::get('find-institutes', 'API\InstituteController@search');
+Route::get('find-hotels', 'API\HotelController@search');
+Route::get('find-tour-places', 'API\TourPlaceController@search');
+Route::get('find-hospitals', 'API\HospitalController@search');

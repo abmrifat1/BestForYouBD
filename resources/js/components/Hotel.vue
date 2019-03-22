@@ -73,7 +73,7 @@
                                 <label for="name">Hotel Name</label>
                                 <input v-model="form.name" type="text" id="name" name="name"
                                        placeholder="Name"
-                                       class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
+                                       class="form-control" :class="{ 'is-invalid': form.errors.has('name') }" required>
                                 <has-error :form="form" field="name"></has-error>
                             </div>
 
@@ -81,14 +81,14 @@
                                 <label for="date">Establish Date</label>
                                 <input v-model="form.estDate" type="date" name="estDate"
                                        placeholder="estDate"
-                                       class="form-control" :class="{ 'is-invalid': form.errors.has('estDate') }">
+                                       class="form-control" :class="{ 'is-invalid': form.errors.has('estDate') }" required>
                                 <has-error :form="form" field="estDate"></has-error>
                             </div>
                             <div class="form-group">
                                 <label for="date">Star</label>
                                 <input v-model="form.star" type="number" name="star"
                                        placeholder="Star"
-                                       class="form-control" :class="{ 'is-invalid': form.errors.has('star') }">
+                                       class="form-control" :class="{ 'is-invalid': form.errors.has('star') }" required>
                                 <has-error :form="form" field="star"></has-error>
                             </div>
                             <div class="form-group">
@@ -110,45 +110,24 @@
                                 <label for="address">Hotel Address</label>
                                 <textarea v-model="form.address" name="address" id="address"
                                   placeholder="Address"
-                                  class="form-control" :class="{ 'is-invalid': form.errors.has('address') }"></textarea>
+                                  class="form-control" :class="{ 'is-invalid': form.errors.has('address') }" required></textarea>
                                 <has-error :form="form" field="address"></has-error>
-                            </div>
-
-
-                            <div class="form-group">
-                                <label>Select a District</label>
-                                <select name="district" class="form-control" v-model="form.district" style="width:100%;">
+                            </div><div class="form-group">
+                                <label>District</label>
+                                <select class="form-control" v-model="form.district_id" style="width:100%;" @change="getSubDistricts" :class="{ 'is-invalid': form.errors.has('district') }" required>
                                     <option value="" disabled>Select a district</option>
-                                    <option value="Dhaka">Dhaka</option>
-                                    <option value="Chittagong">Chittagong</option>
-                                    <option value="Sylhet">Sylhet</option>
-                                    <option value="Rajshahi">Rajshahi</option>
-                                    <option value="Khulna">Khulna</option>
-                                    <option value="Comilla">Comilla</option>
-                                    <option value="Rangpur">Rangpur</option>
-                                    <option value="Barishal">Barishal</option>
-                                    <option value="Mymansing">Mymansing</option>
+                                    <option v-for="district in districts" :value="district.id" :key="district.id">{{district.name}}</option>
                                 </select>
                                 <has-error :form="form" field="district"></has-error>
                             </div>
                             <div class="form-group">
-                                <label>Select a Sub District</label>
-                                <select name="sub_district" class="form-control" v-model="form.sub_district" style="width:100%;">
+                                <label>Sub District</label>
+                                <select class="form-control" v-model="form.sub_district_id" style="width:100%;" :class="{ 'is-invalid': form.errors.has('sub_district_id') }">
                                     <option value="" disabled>Select a sub district</option>
-                                    <option value="Dhanmondi">Dhanmondi</option>
-                                    <option value="Karwan Bazar">Karwan Bazar</option>
-                                    <option value="Farmgate">Farmgate</option>
-                                    <option value="Mirpur">Mirpur</option>
-                                    <option value="Shaymoli">Shaymoli</option>
-                                    <option value="Mohammodpur">Mohammodpur</option>
-                                    <option value="Sher-e-bangla">Sher-e-bangla</option>
-                                    <option value="Badda">Badda</option>
-                                    <option value="New Market">New Market</option>
-                                    <option value="Gulshan">Gulshan</option>
+                                    <option v-for="subDistrict in subDistricts" :value="subDistrict.id" :key="subDistrict.id">{{subDistrict.name}}</option>
                                 </select>
-                                <has-error :form="form" field="sub_district"></has-error>
+                                <has-error :form="form" field="sub_district_id"></has-error>
                             </div>
-                            
                             <div class="widget-user-image" v-if="McreateMode">
                                 <label for="main_img"><img class="mt-1" src="img/hotels/default.jpg" style="width:80%;height:25%;" alt="Main Image"></label>
                             </div>
@@ -456,6 +435,8 @@
                 Mg2createMode:false,
                 hotels: {},
                 rooms:{},
+                districts: {},
+                subDistricts: {},
                 hotel_id:'',
                 hotel_rooms:{},
                 form: new Form({
@@ -471,8 +452,8 @@
                     website_url: '',
                     address: '',
                     description: '',
-                    district: '',
-                    sub_district: '',
+                    district_id: '',
+                    sub_district_id: '',
                     isActive: 'Active',
                     restaurant: 'Yes',
                     cafe: 'Yes',
@@ -516,7 +497,10 @@
                 let gallery_img_2_pic = (this.form.gallery_img_2.length > 200) ? this.form.gallery_img_2 : "img/hotels/"+ this.form.gallery_img_2 ;
                 return gallery_img_2_pic;
             },
-            
+            getSubDistricts(e)
+            {
+                axios.get("api/get-sub-districts/"+this.form.district_id).then(({ data }) => (this.subDistricts = data));  
+            },
             newModal(){
                 this.editMode = false;
                 this.McreateMode = true;
@@ -524,7 +508,7 @@
                 this.Mg2createMode = true;
                 this.form.reset();
                 //axios.get("api/education/create").then( response => (this.departments = response));
-                
+                axios.get("api/get-districts").then(({ data }) => (this.districts = data));
                 $('#addNew').modal('show');
             },
             editModal(hotel){
@@ -534,6 +518,7 @@
                 this.editMode = true;
                 this.form.reset();
                 $('#addNew').modal('show');
+                axios.get("api/get-districts").then(({ data }) => (this.districts = data));
                 this.form.fill(hotel);
             },
             settingHotelRooms(hotel){

@@ -28,7 +28,7 @@ class HospitalController extends Controller
     public function index()
     {
         if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
-            return Hospital::with('departments')->orderBy('name','asc')->paginate(10);
+            return Hospital::with('departments')->orderBy('name','asc')->paginate(15);
         }
     }
     public function getDept()
@@ -44,7 +44,11 @@ class HospitalController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-           'name'=>'required|string|max:191',
+            'name'=>'required|string|max:191',
+            'main_img'=>'required|image',
+            'district_id'=>'required',
+            'department'=>'required',
+            'sub_district_id'=>'required'
         ]);
         if(!empty($request->main_img)){
             $name = time().rand(50,5000).'.' . explode('/', explode(':', substr($request->main_img, 0, strpos($request->main_img, ';')))[1])[1];
@@ -67,7 +71,8 @@ class HospitalController extends Controller
         }else{
             $request->merge(['gallery_img_2' => 'default.jpg']);
         }
-        $hospital = Hospital::create([
+        $hospital = Hospital::create($request->all());
+        /*$hospital = Hospital::create([
             'name' => $request['name'],
             'estDate' => $request['estDate'],
             'address' => $request['address'],
@@ -77,7 +82,7 @@ class HospitalController extends Controller
             'gallery_img_2' => $request['gallery_img_2'],
             'ownership_type' => $request['ownership_type'],
             'isActive' => $request['isActive'],
-        ]);
+        ]);*/
         $hospital->departments()->sync($request->department);
         return ['update' => "Hospital information stored"];
     }
@@ -128,7 +133,10 @@ class HospitalController extends Controller
     {
         $hospital = Hospital::findOrFail($id);
         $this->validate($request,[
-            'name'=>'required|string|max:191'
+            'name'=>'required|string|max:191',
+            'main_img'=>'required',
+            'district_id'=>'required',
+            'sub_district_id'=>'required'
         ]);
         $currentPhoto = $hospital->main_img;
         
@@ -165,9 +173,7 @@ class HospitalController extends Controller
             }
         }
         $hospital->update($request->all());
-        if(!empty($request->department)){
-            $hospital->departments()->sync($request->department);
-        }
+        $hospital->departments()->syncWithoutDetaching($request->department);
         return ['update' => "Hospital information updated"];
     }
 
@@ -209,14 +215,13 @@ class HospitalController extends Controller
     public function search(){
 
         if ($search = \Request::get('q')) {
-            $users = Hospital::where(function($query) use ($search){
-                $query->where('name','LIKE',"%$search%")
-                    ->orWhere('email','LIKE',"%$search%");
-            })->paginate(20);
+            $hospitals = Hospital::where(function($query) use ($search){
+                $query->where('name','LIKE',"%$search%");
+            })->orderBy('name','asc')->paginate(15);
         }else{
-            $users = Hospital::latest()->paginate(5);
+            $hospitals = Hospital::orderBy('name','asc')->paginate(15);
         }
 
-        return $users;
+        return $hospitals;
     }
 }

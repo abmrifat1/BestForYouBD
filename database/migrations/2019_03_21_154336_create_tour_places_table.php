@@ -25,7 +25,7 @@ class CreateTourPlacesTable extends Migration
             $table->string('gallery_img_2',80)->default('default.jpg');
             $table->string('website_url',60)->nullable();
             $table->string('address',100)->nullable();
-            $table->string('description',300)->nullable();
+            $table->longText('description')->nullable();
             $table->integer('district_id')->nullable();
             $table->char('restaurant',5)->nullable();
             $table->char('cafe',5)->nullable();

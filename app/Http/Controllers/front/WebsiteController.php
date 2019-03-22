@@ -4,6 +4,7 @@ namespace App\Http\Controllers\front;
 use App\Institute;
 use App\Hospital;
 use App\Hotel;
+use App\TourPlace;
 use App\Department;
 use DB;
 use Illuminate\Http\Request;
@@ -20,9 +21,11 @@ class WebsiteController extends Controller
         $privateHospitals = Hospital::withCount('departments')->where('isActive' , 'Active')->where('ownership_type','Private')->orderByRaw('RAND()')->take(4)->get();
         
         $hotels = Hotel::where('isActive' , 'Active')->orderByRaw('RAND()')->take(4)->get();
+
+        $tourPlaces = TourPlace::where('isActive' , 'Active')->orderByRaw('RAND()')->take(6)->get();
                 
 
-        return view('front.home',['publicInstitutes'=>$publicInstitutes,'privateInstitutes'=>$privateInstitutes,'publicHospitals'=>$publicHospitals,'privateHospitals'=>$privateHospitals,'hotels'=>$hotels]);
+        return view('front.home',['publicInstitutes'=>$publicInstitutes,'privateInstitutes'=>$privateInstitutes,'publicHospitals'=>$publicHospitals,'privateHospitals'=>$privateHospitals,'hotels'=>$hotels,'tourPlaces'=>$tourPlaces]);
     }
 
     public function institutes()
@@ -47,7 +50,7 @@ class WebsiteController extends Controller
 
     public function hospitals()
     {
-        $hospitals = Hospital::withCount('departments')->where('isActive' , 'Active')->latest()->paginate(6);
+        $hospitals = Hospital::withCount('departments')->where('isActive' , 'Active')->orderByRaw('RAND()')->paginate(6);
         return view('front.hospital.home',['hospitals'=>$hospitals]);
     }
 
@@ -59,7 +62,7 @@ class WebsiteController extends Controller
     }
     public function hotels()
     {
-        $hotels = Hotel::where('isActive' , 'Active')->latest()->paginate(6);
+        $hotels = Hotel::where('isActive' , 'Active')->orderByRaw('RAND()')->paginate(6);
         return view('front.hotel.home',['hotels'=>$hotels]);
     }
 
@@ -67,7 +70,19 @@ class WebsiteController extends Controller
     {
         $hotel = Hotel::findOrfail($id);
         return $hotel;
-        return view('front.hospital.show',['hotel'=>$hotel]);
+        return view('front.hotel.show',['hotel'=>$hotel]);
+    }
+    public function tourPlaces()
+    {
+        $tourPlaces = TourPlace::where('isActive' , 'Active')->orderByRaw('RAND()')->paginate(6);
+        return view('front.tourPlace.home',['tourPlaces'=>$tourPlaces]);
+    }
+
+    public function showTourPlace($id)
+    {
+        $tourPlace = TourPlace::findOrfail($id);
+        return $tourPlace;
+        return view('front.tourPlace.show',['tourPlaces'=>$tourPlace]);
     }
 
 }

@@ -58,8 +58,8 @@
 							<ul>
 								@foreach($departments as $department)
 									<li>
-										<input type="checkbox" id="scf1" value="{{$department->id}}" name=department_id[]/>
-										<label for="scf1">{{$department->name}}</label>
+										<input type="checkbox" id="scf{{$department->id}}" value="{{$department->id}}" name=department_id[]/>
+										<label for="scf{{$department->id}}">{{$department->name}}</label>
 									</li>
 								@endforeach
 							</ul>

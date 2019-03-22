@@ -255,4 +255,29 @@
 			</div>
 		</div>
 	</section>
+	<!--EXPLORE Tour Place LISTING-->
+	<section class="com-padd com-padd-redu-top">
+		<div class="container">
+			<div class="row">
+				<div class="com-title">
+					<h2>Watch The Beauty of Tour Places <span>in Bangladesh</span></h2>
+					<p>Explore some of the best tour place from around the Bangladesh.</p>
+                </div>
+                @foreach ($tourPlaces as $tourPlace)
+                    <div class="col-md-4">
+                        <a href="/hotel/{{$tourPlace->id}}">
+                            <div class="list-mig-like-com">
+                                <div class="list-mig-lc-img"> <img src="img/tour_places/{{ $tourPlace->main_img }}" alt="" /> </div>
+                                <div class="list-mig-lc-con">
+                                    <!--<div class="list-rat-ch list-room-rati"> <span>{{ $tourPlace->star }}</span> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star-o" aria-hidden="true"></i> </div>-->
+                                    <h5>{{ $tourPlace->name }}</h5>
+                                    <p><b>Address:</b> {{$tourPlace->address}}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+			</div>
+		</div>
+	</section>
 @endsection

@@ -1,4 +1,13 @@
 @extends('front.master')
+@section('style')
+<link rel="stylesheet" href="{{asset('/front/css/nice-select.css')}}">
+<style>
+.form-control{
+	height: 45px !important;
+    line-height: 1.86 !important;
+}
+</style>
+@endsection
 @section('content')
 	<!--BANNER AND SERACH BOX-->
 	<section class="dir3-home-head">
@@ -29,23 +38,34 @@
 				<div class="dir-hr1 dir-cat-search">
 					<div class="dir-ho-t-tit">
 						<h1>Get The Best <br>Services & Places In Bangladesh</h1> 
-						<p>Find Institute, Hospital & Hotel Infromations with contact addresses, and phone numbers.<br> Get a suggestion of beautiful tour places in BD.</p>
+						<!--<p>Find Institute, Hospital & Hotel Infromations with contact addresses, and phone numbers.<br> Get a suggestion of beautiful tour places in BD.</p>-->
 					</div>
-					<form class="cate-search-form" action="javascript:void(0)">
-						<div class="input-field">
-							<input type="text" id="select-search" class="autocomplete">
-							<label for="select-search">Search your services</label>
+					<form action="{{url('/search')}}" method="POST">
+						@csrf
+						<div class="form-row">
+							<div class="form-group col-md-3">
+								<select id="service" name="service" class="form-control" required>
+									<option value="">Select a Service</option>
+									<option value="institutes">Institute</option>
+									<option value="hospitals">Hospital</option>
+									<option value="hotels">Hotel</option>
+									<option value="tour_places">Tour Place</option>
+								</select>
+							</div>
+							<div class="form-group col-md-3">
+									<select id="district" name="district_id" class="form-control">
+										<option value="">Select a City</option>
+									</select>
+							</div>
+							<div class="form-group col-md-3">
+								<select id="subdistrict" name="sub_district_id" class="form-control">
+									<option value="">Select a sub Place</option>
+								</select>
+							</div>
+							<div class="form-group col-md-2">
+								<button type="submit" class="form-control btn btn-primary">Search</button>
+							</div>
 						</div>
-						<div class="input-field">
-							<input type="text" id="select-city" class="autocomplete">
-							<label for="select-city">Enter city</label>
-						</div>
-						<div class="input-field">
-							<input type="text" id="select-category" class="autocomplete auto-category">
-							<label for="select-category">Select category</label>
-						</div>
-						<div class="input-field">
-							<input type="submit" value="search" class="waves-effect waves-light tourz-sear-btn"> </div>
 					</form>
 				</div>
 			</div>
@@ -98,7 +118,7 @@
 							</div>
 							<div class="land-pack-grid-text">
 							<h4>Tour Place Listing</h4>
-							<a href="{{ url('/tours')}}" class="land-pack-grid-btn land-pack-grid-btn-red">Go Now</a></div>
+							<a href="{{ url('/tour-places')}}" class="land-pack-grid-btn land-pack-grid-btn-red">Go Now</a></div>
 							</div>
 						</li>
 					</ul>
@@ -280,4 +300,46 @@
 			</div>
 		</div>
 	</section>
+@endsection
+@section('script')
+<script src="{{asset('/front/js/jquery.nice-select.js')}}"></script>
+<script>
+	$(document).ready(function() {
+	$('select').niceSelect();
+	});
+</script>
+<script type="text/javascript">
+	$('#service').on('change', function(e){
+	  console.log(e);
+	  var service = e.target.value;
+	  $.get('/get-districts?service=' + service,function(data) {
+		console.log(data);
+		$('#district').empty();
+		$('#district').append('<option value="">Select a City</option>');
+
+		$('#subdistrict').empty();
+		$('#subdistrict').append('<option value="">Select a Sub Place</option>');
+
+		$.each(data, function(index, districtsObj){
+		  $('#district').append('<option value="'+ districtsObj.id +'">'+ districtsObj.name +'</option>');
+		  $('select').niceSelect('update');
+		})
+	  });
+	});
+
+	$('#district').on('change', function(e){
+	  console.log(e);
+	  var district_id = e.target.value;
+	  $.get('/get-subdistricts/' + district_id,function(data) {
+		console.log(data);
+		$('#subdistrict').empty();
+		$('#subdistrict').append('<option value="">Select a Sub Place</option>');
+
+		$.each(data, function(index, subdistrictsObj){
+		  $('#subdistrict').append('<option value="'+ subdistrictsObj.id +'">'+ subdistrictsObj.name +'</option>');
+		  $('select').niceSelect('update');
+		})
+	  });
+	});
+  </script>
 @endsection

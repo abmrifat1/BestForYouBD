@@ -98,7 +98,7 @@ $(document).ready(function() {
         belowOrigin: false, // Displays dropdown below the button
         alignment: 'left' // Displays dropdown with edge aligned to the left of button
     });
-
+/*
     //Collapsible
     $('.collapsible').collapsible();
 
@@ -201,7 +201,7 @@ $(document).ready(function() {
         },
         minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
     });		
-
+*/
     //HOME PAGE FIXED MENU
     $(window).scroll(function() {
 

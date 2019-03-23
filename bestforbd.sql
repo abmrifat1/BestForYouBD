@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 22, 2019 at 02:33 PM
+-- Generation Time: Mar 23, 2019 at 10:27 AM
 -- Server version: 10.1.24-MariaDB
 -- PHP Version: 7.1.6
 
@@ -308,7 +308,8 @@ CREATE TABLE `hospitals` (
   `chancellor` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ownership_type` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `address` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `city` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `district_id` int(7) NOT NULL,
+  `sub_district_id` int(7) NOT NULL,
   `isActive` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Active',
   `updated_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL
@@ -318,15 +319,15 @@ CREATE TABLE `hospitals` (
 -- Dumping data for table `hospitals`
 --
 
-INSERT INTO `hospitals` (`id`, `name`, `estDate`, `main_img`, `gallery_img_1`, `gallery_img_2`, `chancellor`, `ownership_type`, `address`, `city`, `isActive`, `updated_at`, `created_at`) VALUES
-(2, 'Square Hospital', '2019-03-02', '15529969224171.jpeg', '15525395333147.png', '15525398674394.jpeg', NULL, 'Private', '18/F, Bir Uttam Qazi Nuruzzaman Sarak West, Panthapath, Dhaka 1205', 'Dhaka', 'Active', '2019-03-19 06:02:02', '2019-03-13 22:58:53'),
-(4, 'Samorita Hospital', '2019-03-04', '15529972344260.jpeg', 'default.jpg', 'default.jpg', NULL, 'Private', '89/1 Panthapath, Dhaka 1215', 'Dhaka', 'Active', '2019-03-19 06:07:14', '2019-03-19 06:07:14'),
-(5, 'Popular Medical Center', '2019-03-03', '1552997538504.jpeg', 'default.jpg', 'default.jpg', NULL, 'Private', 'Sadar Upazila, Kajolshah, Medical College Rd, Sylhet 3100', 'Sylhet', 'Active', '2019-03-19 06:12:18', '2019-03-19 06:12:18'),
-(6, 'Bangabandhu Sheikh Mujib Medical University', '1965-06-03', '1552997754870.jpeg', '1552997754561.jpeg', 'default.jpg', NULL, 'Public', 'PG Hospital, Shahbagh Rd, Dhaka 1000', 'Dhaka', 'Active', '2019-03-19 06:15:54', '2019-03-19 06:15:54'),
-(7, 'Dhaka Medical College and Hospital', '1946-07-08', '15530037513234.jpeg', 'default.jpg', 'default.jpg', NULL, 'Public', 'Bakshibazar area, Dhaka 1000', 'Dhaka', 'Active', '2019-03-19 07:55:51', '2019-03-19 07:55:51'),
-(8, 'BIRDEM General Hospital', '1980-06-16', '15530039912830.jpeg', 'default.jpg', 'default.jpg', NULL, 'Private', '122 Kazi Nazrul Islam Ave, Dhaka 1000', 'Dhaka', 'Active', '2019-03-19 07:59:51', '2019-03-19 07:59:51'),
-(9, 'Sylhet MAG Osmani Medical College Hospital', '1962-03-01', '15530041902932.jpeg', 'default.jpg', 'default.jpg', NULL, 'Public', 'Osmani Medical, Sylhet', 'Sylhet', 'Active', '2019-03-19 08:03:10', '2019-03-19 08:03:10'),
-(10, 'Rajshahi Medical College Hospital', '1958-01-01', '15530043704503.jpeg', 'default.jpg', 'default.jpg', NULL, 'Public', 'Medical College Road, Rajshahi 6000', 'Rajshahi', 'Active', '2019-03-19 08:06:10', '2019-03-19 08:06:10');
+INSERT INTO `hospitals` (`id`, `name`, `estDate`, `main_img`, `gallery_img_1`, `gallery_img_2`, `chancellor`, `ownership_type`, `address`, `district_id`, `sub_district_id`, `isActive`, `updated_at`, `created_at`) VALUES
+(2, 'Square Hospital', '2019-03-02', '15529969224171.jpeg', '15525395333147.png', '15525398674394.jpeg', NULL, 'Private', '18/F, Bir Uttam Qazi Nuruzzaman Sarak West, Panthapath, Dhaka 1205', 1, 20, 'Active', '2019-03-23 02:56:01', '2019-03-13 22:58:53'),
+(4, 'Samorita Hospital', '2019-03-04', '15529972344260.jpeg', 'default.jpg', 'default.jpg', NULL, 'Private', '89/1 Panthapath, Dhaka 1215', 1, 20, 'Active', '2019-03-23 02:56:30', '2019-03-19 06:07:14'),
+(5, 'Popular Medical Center', '2019-03-03', '1552997538504.jpeg', 'default.jpg', 'default.jpg', NULL, 'Private', 'Sadar Upazila, Kajolshah, Medical College Rd, Sylhet 3100', 2, 13, 'Active', '2019-03-23 02:56:15', '2019-03-19 06:12:18'),
+(6, 'Bangabandhu Sheikh Mujib Medical University', '1965-06-03', '1552997754870.jpeg', '1552997754561.jpeg', 'default.jpg', NULL, 'Public', 'PG Hospital, Shahbagh Rd, Dhaka 1000', 1, 16, 'Active', '2019-03-23 02:54:15', '2019-03-19 06:15:54'),
+(7, 'Dhaka Medical College and Hospital', '1946-07-08', '15530037513234.jpeg', 'default.jpg', 'default.jpg', NULL, 'Public', 'Bakshibazar area, Dhaka 1000', 1, 15, 'Active', '2019-03-23 03:02:21', '2019-03-19 07:55:51'),
+(8, 'BIRDEM General Hospital', '1980-06-16', '15530039912830.jpeg', 'default.jpg', 'default.jpg', NULL, 'Private', '122 Kazi Nazrul Islam Ave, Dhaka 1000', 1, 16, 'Active', '2019-03-23 02:54:28', '2019-03-19 07:59:51'),
+(9, 'Sylhet MAG Osmani Medical College Hospital', '1962-03-01', '15530041902932.jpeg', 'default.jpg', 'default.jpg', NULL, 'Public', 'Osmani Medical, Sylhet', 2, 13, 'Active', '2019-03-23 02:58:29', '2019-03-19 08:03:10'),
+(10, 'Rajshahi Medical College Hospital', '1958-01-01', '15530043704503.jpeg', 'default.jpg', 'default.jpg', NULL, 'Public', 'Medical College Road, Rajshahi 6000', 10, 12, 'Active', '2019-03-23 02:55:43', '2019-03-19 08:06:10');
 
 -- --------------------------------------------------------
 
@@ -410,8 +411,8 @@ CREATE TABLE `hotels` (
   `website_url` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `address` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `description` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `district` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sub_district` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `district_id` int(6) NOT NULL,
+  `sub_district_id` int(6) NOT NULL,
   `isActive` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Active',
   `restaurant` char(5) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `cafe` char(5) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -425,12 +426,12 @@ CREATE TABLE `hotels` (
 -- Dumping data for table `hotels`
 --
 
-INSERT INTO `hotels` (`id`, `name`, `user_id`, `estDate`, `star`, `rating`, `main_img`, `gallery_img_1`, `gallery_img_2`, `owner`, `website_url`, `address`, `description`, `district`, `sub_district`, `isActive`, `restaurant`, `cafe`, `car_parking`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 'Pan Pacific Sonargaon Dhaka Hotel', 1, '2000-03-08', 5, NULL, '15530102861799.jpeg', '15530102874987.jpeg', '15530102871809.jpeg', 'Mahbubul', NULL, '107 Kazi Nazrul Islam Ave, Dhaka 1215', 'This is fantastic.', 'Dhaka', 'Karwan Bazar', 'Active', 'Yes', 'Yes', 'Yes', NULL, '2019-03-16 07:12:15', '2019-03-19 10:00:04'),
-(2, 'Best Western La Vinci Hotel', 1, '2007-03-01', 3, NULL, '15530114371908.jpeg', '15530114384376.jpeg', '15530114383537.jpeg', NULL, NULL, '54, Kawran Bazar Road No 1, Dhaka 1215', NULL, 'Dhaka', 'Karwan Bazar', 'Active', 'Yes', 'Yes', 'Yes', NULL, '2019-03-19 10:03:58', '2019-03-19 10:03:58'),
-(3, 'SEL NIBASH', 1, '2014-09-13', 1, NULL, '15530116552415.jpeg', '1553011655298.jpeg', '15530116551670.jpeg', NULL, 'http://www.selnibash.com.bd/', 'Near Green Life Hospital, 30 Green Rd, Dhaka 1205', NULL, 'Dhaka', 'Farmgate', 'Active', 'Yes', 'Yes', 'Yes', NULL, '2019-03-19 10:07:35', '2019-03-19 10:07:35'),
-(4, 'Grand Prince Hotel Dhaka Bangladesh', 1, '2018-04-13', 3, NULL, '15530118553126.jpeg', '1553011855945.jpeg', '15530118551760.jpeg', NULL, 'http://www.grandprince-dhaka.com/', 'Paradise Plaza, Com. Plot # 6 and 11, Dhaka 1216', NULL, 'Dhaka', 'Gulshan', 'Active', 'Yes', 'Yes', 'Yes', NULL, '2019-03-19 10:10:55', '2019-03-19 10:10:55'),
-(5, 'InterContinental Dhaka', 1, '2019-07-07', 5, NULL, '15530122863099.jpeg', '15530122861772.jpeg', '15530122864531.jpeg', NULL, NULL, '1 Minto Rd, Dhaka 1000', NULL, 'Dhaka', 'Gulshan', 'Active', 'Yes', 'Yes', 'Yes', NULL, '2019-03-19 10:18:06', '2019-03-19 10:18:06');
+INSERT INTO `hotels` (`id`, `name`, `user_id`, `estDate`, `star`, `rating`, `main_img`, `gallery_img_1`, `gallery_img_2`, `owner`, `website_url`, `address`, `description`, `district_id`, `sub_district_id`, `isActive`, `restaurant`, `cafe`, `car_parking`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 'Pan Pacific Sonargaon Dhaka Hotel', 1, '2000-03-08', 5, NULL, '15530102861799.jpeg', '15530102874987.jpeg', '15530102871809.jpeg', 'Mahbubul', NULL, '107 Kazi Nazrul Islam Ave, Dhaka 1215', 'This is fantastic.', 1, 5, 'Active', 'Yes', 'Yes', 'Yes', NULL, '2019-03-16 07:12:15', '2019-03-22 09:02:35'),
+(2, 'Best Western La Vinci Hotel', 1, '2007-03-01', 3, NULL, '15530114371908.jpeg', '15530114384376.jpeg', '15530114383537.jpeg', NULL, NULL, '54, Kawran Bazar Road No 1, Dhaka 1215', NULL, 2, 13, 'Active', 'Yes', 'Yes', 'Yes', NULL, '2019-03-19 10:03:58', '2019-03-23 03:00:39'),
+(3, 'SEL NIBASH', 1, '2014-09-13', 1, NULL, '15530116552415.jpeg', '1553011655298.jpeg', '15530116551670.jpeg', NULL, 'http://www.selnibash.com.bd/', 'Near Green Life Hospital, 30 Green Rd, Dhaka 1205', NULL, 9, 6, 'Active', 'Yes', 'Yes', 'Yes', NULL, '2019-03-19 10:07:35', '2019-03-23 03:00:53'),
+(4, 'Grand Prince Hotel Dhaka Bangladesh', 1, '2018-04-13', 3, NULL, '15530118553126.jpeg', '1553011855945.jpeg', '15530118551760.jpeg', NULL, 'http://www.grandprince-dhaka.com/', 'Paradise Plaza, Com. Plot # 6 and 11, Dhaka 1216', NULL, 1, 15, 'Active', 'Yes', 'Yes', 'Yes', NULL, '2019-03-19 10:10:55', '2019-03-22 09:01:54'),
+(5, 'InterContinental Dhaka', 1, '2019-07-07', 5, NULL, '15530122863099.jpeg', '15530122861772.jpeg', '15530122864531.jpeg', NULL, NULL, '1 Minto Rd, Dhaka 1000', NULL, 1, 15, 'Active', 'Yes', 'Yes', 'Yes', NULL, '2019-03-19 10:18:06', '2019-03-22 09:02:15');
 
 -- --------------------------------------------------------
 
@@ -495,7 +496,8 @@ CREATE TABLE `institutes` (
   `vice_chancellor` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ownership_type` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `address` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `city` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `district_id` int(6) NOT NULL,
+  `sub_district_id` int(6) NOT NULL,
   `institute_type_id` int(8) DEFAULT NULL,
   `phone` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -516,17 +518,17 @@ CREATE TABLE `institutes` (
 -- Dumping data for table `institutes`
 --
 
-INSERT INTO `institutes` (`id`, `name`, `estDate`, `main_img`, `gallery_img_1`, `gallery_img_2`, `vice_chancellor`, `ownership_type`, `address`, `city`, `institute_type_id`, `phone`, `email`, `description`, `Library`, `hostel`, `restaurant`, `bus`, `auditorium`, `play_ground`, `events`, `isActive`, `created_at`, `updated_at`) VALUES
-(2, 'Daffodil International University', '2002-03-01', '15529387844511.jpeg', '15531198661727.jpeg', '15531198672887.jpeg', NULL, 'Private', '4/2, Sobhanbag, Mirpur Rd, Dhaka 1207', 'Dhaka', 3, '01772233232', 'admin@diu.edu.bd', 'Daffodil International University is a private university located in Dhanmondi, Dhaka, Bangladesh. It was established on 24 January 2002 under the Private University Act, 1992. DIU is the first university in Bangladesh to have signed the UN\'s Commitment to Sustainable Practices of Higher Education Institutions', NULL, 3, 'Yes', 150, 3, 3, 'Yes', 'Active', '2019-03-02 06:33:48', '2019-03-20 16:11:07'),
-(3, 'Dhaka University', '1921-03-02', '15529387193588.jpeg', 'default.jpg', 'default.jpg', NULL, 'Public', 'Shahbag, Dhaka', 'Dhaka', 3, '01992-232532', 'admin@du.edu.bd', 'In 2018 QS World University Rankings, University of Dhaka is ranked in #701-750 globally, and based on Graduate Employability, University of Dhaka is placed in #301-500 in the world. In Times Higher Education 2018 Global University Ranking, University of Dhaka is placed in 1001+ position among the world universities.', NULL, 16, 'Yes', 26, 9, 13, 'Yes', 'Active', '2019-03-03 03:30:09', '2019-03-20 16:22:38'),
-(4, 'SUST', '1994-12-08', '15529385793161.jpeg', 'default.jpg', 'default.jpg', NULL, 'Public', 'Sylhet Sadar', 'Sylhet', 3, '01723 323532', 'admin@sust.edu.bd', 'Shahjalal University of Science and Technology also known as SUST is a state supported, public research university located in Sylhet, Bangladesh. It is the 8th oldest university of the country and the first university to adopt American credit system', NULL, 4, 'Yes', 3, 5, 4, 'Yes', 'Active', '2019-03-03 05:20:25', '2019-03-20 16:17:14'),
-(5, 'Brack University', '1998-03-02', '15529389682693.jpeg', 'default.jpg', 'default.jpg', NULL, 'Private', 'Dhaka Sadar', 'Dhaka', 3, '+8801774-575735', 'admin@brack.edu.bd', 'BRAC University is a private University in Bangladesh. It was founded as a branch of the BRAC organization by Fazle Hasan Abed in 2001 under the Private University Act\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.', NULL, 3, 'Yes', 200, 3, 2, 'Yes', 'Draft', '2019-03-09 07:39:27', '2019-03-22 06:08:43'),
-(6, 'North South University', '1997-03-04', '15529883821103.jpeg', 'default.jpg', 'default.jpg', NULL, 'Private', 'Plot, 15, Block B Kuril - NSU Rd, Dhaka 1229', 'Dhaka', 3, '01823-232532', 'admin@northsouth.edu.bd', 'North South University is the first official non-government university in Bangladesh. Its business school is also the first in Bangladesh to receive American accreditation from the ACBSP in 2015', NULL, 3, 'Yes', 27, 4, 2, 'Yes', 'Active', '2019-03-18 15:33:16', '2019-03-20 16:18:00'),
-(7, 'United International University', '2003-07-08', '15529900341279.jpeg', 'default.jpg', 'default.jpg', NULL, 'Private', 'United City, Madani Ave, Dhaka 1212', 'Dhaka', 3, '01923-234232', 'admin@uiu.edu.bd', 'United International University or UIU is a private university located in Dhaka, Bangladesh, The government of Bangladesh approved the establishment of United International University in 2003 under the Private University Act of 1992. Financial support came from the United Group, a Bangladeshi business conglomerate.', NULL, 3, 'Yes', 16, 3, 4, 'Yes', 'Active', '2019-03-18 15:35:54', '2019-03-20 16:19:28'),
-(10, 'University of Chittagong', '1996-03-01', '15529890333427.jpeg', 'default.jpg', 'default.jpg', NULL, 'Public', 'Chittagong University Road,suburban area of Hathazari', 'Chittagong', 3, '01623-232523', 'admin@cu.edu.bd', 'University of Chittagong is a public research university with multidisciplinary faculties situated across a 2110-acre hilly landmass in Jungle Poshchim-potti area of Fatehpur Union of Hathazari Upazila, 22 kilometres north of Chittagong city of Bangladesh', NULL, 11, 'Yes', 33, 5, 5, 'Yes', 'Active', '2019-03-18 15:38:43', '2019-03-20 16:24:45'),
-(11, 'Rajshahi University', '1956-03-02', '15529881644791.jpeg', 'default.jpg', 'default.jpg', NULL, 'Public', 'City Corporation Road', 'Rajshahi', 3, '01887659842', 'admin@ru.edu.bd', NULL, NULL, 7, 'Yes', 7, 7, 8, 'Yes', 'Active', '2019-03-19 03:36:06', '2019-03-22 04:22:29'),
-(12, 'Shahjalal City College', NULL, '1553249494735.jpeg', 'default.jpg', 'default.jpg', NULL, NULL, NULL, 'Sylhet', 2, NULL, NULL, NULL, NULL, NULL, 'Yes', NULL, NULL, 0, 'Yes', 'Active', '2019-03-22 04:11:35', '2019-03-22 04:22:54'),
-(13, 'Dhaka College', '2019-03-04', '15532601551919.jpeg', 'default.jpg', 'default.jpg', NULL, 'Public', 'New Market', 'Dhaka', 2, '01884956154', 'admin@dc.edu.bd', NULL, NULL, 3, 'Yes', 3, 1, 3, 'Yes', 'Active', '2019-03-22 04:38:09', '2019-03-22 07:09:15');
+INSERT INTO `institutes` (`id`, `name`, `estDate`, `main_img`, `gallery_img_1`, `gallery_img_2`, `vice_chancellor`, `ownership_type`, `address`, `district_id`, `sub_district_id`, `institute_type_id`, `phone`, `email`, `description`, `Library`, `hostel`, `restaurant`, `bus`, `auditorium`, `play_ground`, `events`, `isActive`, `created_at`, `updated_at`) VALUES
+(2, 'Daffodil International University', '2002-03-01', '15529387844511.jpeg', '15531198661727.jpeg', '15531198672887.jpeg', NULL, 'Private', '4/2, Sobhanbag, Mirpur Rd, Dhaka 1207', 1, 10, 3, '01772233232', 'admin@diu.edu.bd', 'Daffodil International University is a private university located in Dhanmondi, Dhaka, Bangladesh. It was established on 24 January 2002 under the Private University Act, 1992. DIU is the first university in Bangladesh to have signed the UN\'s Commitment to Sustainable Practices of Higher Education Institutions', NULL, 3, 'Yes', 150, 3, 3, 'Yes', 'Active', '2019-03-02 06:33:48', '2019-03-22 07:53:00'),
+(3, 'Dhaka University', '1921-03-02', '15529387193588.jpeg', 'default.jpg', 'default.jpg', NULL, 'Public', 'Shahbag, Dhaka', 1, 15, 3, '01992-232532', 'admin@du.edu.bd', 'In 2018 QS World University Rankings, University of Dhaka is ranked in #701-750 globally, and based on Graduate Employability, University of Dhaka is placed in #301-500 in the world. In Times Higher Education 2018 Global University Ranking, University of Dhaka is placed in 1001+ position among the world universities.', NULL, 16, 'Yes', 26, 9, 13, 'Yes', 'Active', '2019-03-03 03:30:09', '2019-03-22 08:00:53'),
+(4, 'SUST', '1994-12-08', '15529385793161.jpeg', 'default.jpg', 'default.jpg', NULL, 'Public', 'Sylhet Sadar', 2, 13, 3, '01723 323532', 'admin@sust.edu.bd', 'Shahjalal University of Science and Technology also known as SUST is a state supported, public research university located in Sylhet, Bangladesh. It is the 8th oldest university of the country and the first university to adopt American credit system', NULL, 4, 'Yes', 3, 5, 4, 'Yes', 'Active', '2019-03-03 05:20:25', '2019-03-22 07:59:28'),
+(5, 'Brack University', '1998-03-02', '15529389682693.jpeg', 'default.jpg', 'default.jpg', NULL, 'Private', 'Dhaka Sadar', 1, 5, 3, '+8801774-575735', 'admin@brack.edu.bd', 'BRAC University is a private University in Bangladesh. It was founded as a branch of the BRAC organization by Fazle Hasan Abed in 2001 under the Private University Act\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.', NULL, 3, 'Yes', 200, 3, 2, 'Yes', 'Active', '2019-03-09 07:39:27', '2019-03-22 07:46:31'),
+(6, 'North South University', '1997-03-04', '15529883821103.jpeg', 'default.jpg', 'default.jpg', NULL, 'Private', 'Plot, 15, Block B Kuril - NSU Rd, Dhaka 1229', 1, 5, 3, '01823-232532', 'admin@northsouth.edu.bd', 'North South University is the first official non-government university in Bangladesh. Its business school is also the first in Bangladesh to receive American accreditation from the ACBSP in 2015', NULL, 3, 'Yes', 27, 4, 2, 'Yes', 'Active', '2019-03-18 15:33:16', '2019-03-22 07:54:41'),
+(7, 'United International University', '2003-07-08', '15529900341279.jpeg', 'default.jpg', 'default.jpg', NULL, 'Private', 'United City, Madani Ave, Dhaka 1212', 1, 11, 3, '01923-234232', 'admin@uiu.edu.bd', 'United International University or UIU is a private university located in Dhaka, Bangladesh, The government of Bangladesh approved the establishment of United International University in 2003 under the Private University Act of 1992. Financial support came from the United Group, a Bangladeshi business conglomerate.', NULL, 3, 'Yes', 16, 3, 4, 'Yes', 'Active', '2019-03-18 15:35:54', '2019-03-22 07:59:45'),
+(10, 'University of Chittagong', '1996-03-01', '15529890333427.jpeg', 'default.jpg', 'default.jpg', NULL, 'Public', 'Chittagong University Road,suburban area of Hathazari', 0, 0, 3, '01623-232523', 'admin@cu.edu.bd', 'University of Chittagong is a public research university with multidisciplinary faculties situated across a 2110-acre hilly landmass in Jungle Poshchim-potti area of Fatehpur Union of Hathazari Upazila, 22 kilometres north of Chittagong city of Bangladesh', NULL, 11, 'Yes', 33, 5, 5, 'Yes', 'Active', '2019-03-18 15:38:43', '2019-03-20 16:24:45'),
+(11, 'Rajshahi University', '1956-03-02', '15529881644791.jpeg', 'default.jpg', 'default.jpg', NULL, 'Public', 'City Corporation Road', 10, 12, 3, '01887659842', 'admin@ru.edu.bd', 'One of the very big and popular university in Bangladesh', NULL, 7, 'Yes', 7, 7, 8, 'Yes', 'Active', '2019-03-19 03:36:06', '2019-03-22 07:54:21'),
+(12, 'Shahjalal City College', NULL, '1553249494735.jpeg', 'default.jpg', 'default.jpg', NULL, NULL, NULL, 0, 0, 2, NULL, NULL, NULL, NULL, NULL, 'Yes', NULL, NULL, 0, 'Yes', 'Active', '2019-03-22 04:11:35', '2019-03-22 04:22:54'),
+(13, 'Dhaka College', '2019-03-04', '15532601551919.jpeg', 'default.jpg', 'default.jpg', NULL, 'Public', 'New Market', 1, 15, 2, '01884956154', 'admin@dc.edu.bd', NULL, NULL, 3, 'Yes', 3, 1, 3, 'Yes', 'Active', '2019-03-22 04:38:09', '2019-03-22 08:01:15');
 
 -- --------------------------------------------------------
 
@@ -853,7 +855,19 @@ INSERT INTO `sub_districts` (`id`, `district_id`, `name`, `created_at`, `updated
 (4, 4, 'Chittagong Sadar', '2019-03-21 07:02:26', '2019-03-21 07:02:26'),
 (5, 1, 'Tejgaon', '2019-03-21 07:05:02', '2019-03-21 07:05:02'),
 (6, 9, 'Cox\'s Bazar Sadar', '2019-03-21 14:21:26', '2019-03-21 14:21:26'),
-(7, 11, 'Gazipur Sadar', '2019-03-21 22:41:42', '2019-03-21 22:41:42');
+(7, 11, 'Gazipur Sadar', '2019-03-21 22:41:42', '2019-03-21 22:41:42'),
+(9, 1, 'Dohar', '2019-03-22 07:48:23', '2019-03-22 07:48:23'),
+(10, 1, 'Savar', '2019-03-22 07:48:38', '2019-03-22 07:48:38'),
+(11, 1, 'Nawabganj', '2019-03-22 07:48:52', '2019-03-22 07:48:52'),
+(12, 10, 'Rajshai Sadar', '2019-03-22 07:53:29', '2019-03-22 07:53:29'),
+(13, 2, 'Sylhet Sadar', '2019-03-22 07:55:02', '2019-03-22 07:55:02'),
+(14, 2, 'Osmani Nagar', '2019-03-22 07:55:48', '2019-03-22 07:55:48'),
+(15, 1, 'Dhaka Sadar', '2019-03-22 08:00:18', '2019-03-22 08:00:18'),
+(16, 1, 'Shahbagh', '2019-03-22 09:43:44', '2019-03-22 09:43:44'),
+(17, 1, 'Farmgate', '2019-03-22 09:44:32', '2019-03-22 09:44:32'),
+(18, 1, 'Ashulia', '2019-03-22 09:44:58', '2019-03-22 09:44:58'),
+(19, 1, 'Mohammodpur', '2019-03-22 10:13:53', '2019-03-22 10:13:53'),
+(20, 1, 'Karwan Bazar', '2019-03-22 10:45:26', '2019-03-22 10:45:26');
 
 -- --------------------------------------------------------
 
@@ -1169,7 +1183,7 @@ ALTER TABLE `room_types`
 -- AUTO_INCREMENT for table `sub_districts`
 --
 ALTER TABLE `sub_districts`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `tour_places`
 --

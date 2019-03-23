@@ -18,6 +18,11 @@ Route::get('/hospitals','front\WebsiteController@hospitals');
 Route::get('/hospital/{id}','front\WebsiteController@showHospital');
 Route::get('/hotels','front\WebsiteController@hotels');
 Route::get('/hotel/{id}','front\WebsiteController@showhotel');
+Route::get('/tour-places','front\WebsiteController@tourPlaces');
+Route::get('/tour-place/{id}','front\WebsiteController@showTourPlace');
+Route::get('/get-districts','front\WebsiteController@districts');
+Route::get('/get-subdistricts/{district_id}', 'front\WebsiteController@subDistricts');
+Route::post('/search','front\WebsiteController@search');
 
 Auth::routes();
 

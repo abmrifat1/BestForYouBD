@@ -12,6 +12,37 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Best For You In Bangladesh</title>
     <link href="{{asset('img/favicon.ico')}}" rel="icon" type="image/x-icon" />
+    <style>
+        .page_404{ 
+            padding:40px 0; 
+            background:#fff; 
+            font-family: 'Arvo', serif;
+        }
+        .page_404  img{ 
+            width:100%;
+        }
+        .four_zero_four_bg{
+            background-image: url('/img/dribbble.gif');
+            height: 400px;
+            background-position: center;
+        }
+        .four_zero_four_bg h1{
+            font-size:80px;
+        }
+        .four_zero_four_bg h3{
+            font-size:80px;
+        }
+        .link_404{			 
+            color: #fff!important;
+            padding: 10px 20px;
+            background: #39ac31;
+            margin: 20px 0;
+            display: inline-block;
+        }
+        .contant_box_404{ 
+            margin-top:-50px;
+        }
+    </style>
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="{{ asset('admin/plugins/font-awesome/css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/dist/css/adminlte.min.css')}}">

@@ -39,9 +39,8 @@ class WebsiteController extends Controller
   
     public function subDistricts($district_id)
     {
-        return SubDistrict::where('district_id', $district_id)->orderBy('name','asc')->get();
-        $subDistricts = SubDistrict::where('district_id', $district_id)->orderBy('name','asc')->get();
-         
+        //return SubDistrict::where('district_id', $district_id)->orderBy('name','asc')->get();
+        $subDistricts = SubDistrict::where('district_id', $district_id)->orderBy('name','asc')->get();  
         return response()->json($subDistricts);
     }
 
@@ -86,8 +85,14 @@ class WebsiteController extends Controller
     public function showHotel($id)
     {
         $hotel = Hotel::findOrfail($id);
-        return $hotel;
-        return view('front.hotel.show',['hotel'=>$hotel]);
+        $hotel_rooms = DB::table('hotels')
+        ->join('hotel_rooms','hotel_rooms.hotel_id','=','hotels.id')
+        ->join('room_types','room_types.id','=','hotel_rooms.room_type_id')
+        ->where('hotels.id',$id)
+        ->select('room_types.name','hotel_rooms.*')
+        ->get();
+        $hotels = Hotel::where('isActive' , 'Active')->orderByRaw('RAND()')->take(4)->get();
+        return view('front.hotel.show',['hotel'=>$hotel,'hotel_rooms'=>$hotel_rooms,'hotels'=>$hotels]);
     }
     public function tourPlaces()
     {
@@ -113,7 +118,8 @@ class WebsiteController extends Controller
         }
         if($services->isNotEmpty()){
             if($request->service === 'institutes'){
-                return view('front.institute.home',['institutes'=>$services]);
+                $departments = Department::where('isActive','Active')->get();
+                return view('front.institute.home',['institutes'=>$services,'departments'=>$departments]);
             }
             elseif($request->service === 'hospitals'){
                 return view('front.hospital.home',['hospitals'=>$services]);
@@ -127,6 +133,20 @@ class WebsiteController extends Controller
         }
         else 
             return view('front.404');
+    }
+    public function instituteCompare(Request $request)
+    {
+        return Institute::with('institute_departments')->with('departments')->whereIn('institutes.id',$request->id)->get();
+        //return Institute::with('departments')->where('isActive','Active')->whereIn('id',$request->id)->get();
+        /*$tourPlaces = DB::table('institutes')
+            ->join('institute_departments','institute_departments.institute_id','=','institutes.id')
+            ->join('departments','departments.id','=','institutes.id')
+            ->orderBy('institutes.name','asc')
+            ->orderBy('departments.name','asc')
+            ->where('institutes.id',$request->id)
+            ->select('institutes.*','departments.name as departmentName','institute_departments.*')
+            ->get();
+            return $tourPlaces;*/
     }
 
 }

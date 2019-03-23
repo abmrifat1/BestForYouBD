@@ -172,6 +172,7 @@ class HospitalController extends Controller
                 @unlink($hospitalPhoto);
             }
         }
+        
         $hospital->update($request->all());
         $hospital->departments()->syncWithoutDetaching($request->department);
         return ['update' => "Hospital information updated"];

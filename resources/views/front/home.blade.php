@@ -1,10 +1,19 @@
 @extends('front.master')
 @section('style')
-<link rel="stylesheet" href="{{asset('/front/css/nice-select.css')}}">
+<link href="{{asset('front/css/select2.min.css')}}" rel="stylesheet" />
 <style>
 .form-control{
 	height: 45px !important;
-    line-height: 1.86 !important;
+    line-height: 2 !important;
+}
+.select2-container .select2-selection--single {
+	height:45px;
+	line-height: 2 !important;
+}.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 42px;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    top: 8px;
 }
 </style>
 @endsection
@@ -302,18 +311,10 @@
 	</section>
 @endsection
 @section('script')
-<script src="{{asset('/front/js/jquery.nice-select.js')}}"></script>
-<script>
-	$(document).ready(function() {
-	$('select').niceSelect();
-	});
-</script>
 <script type="text/javascript">
 	$('#service').on('change', function(e){
-	  console.log(e);
 	  var service = e.target.value;
 	  $.get('/get-districts?service=' + service,function(data) {
-		console.log(data);
 		$('#district').empty();
 		$('#district').append('<option value="">Select a City</option>');
 
@@ -322,24 +323,28 @@
 
 		$.each(data, function(index, districtsObj){
 		  $('#district').append('<option value="'+ districtsObj.id +'">'+ districtsObj.name +'</option>');
-		  $('select').niceSelect('update');
 		})
 	  });
 	});
 
 	$('#district').on('change', function(e){
-	  console.log(e);
 	  var district_id = e.target.value;
 	  $.get('/get-subdistricts/' + district_id,function(data) {
-		console.log(data);
 		$('#subdistrict').empty();
 		$('#subdistrict').append('<option value="">Select a Sub Place</option>');
 
 		$.each(data, function(index, subdistrictsObj){
 		  $('#subdistrict').append('<option value="'+ subdistrictsObj.id +'">'+ subdistrictsObj.name +'</option>');
-		  $('select').niceSelect('update');
 		})
 	  });
+	});
+  </script>
+  <script src="{{asset('front/js/select2.min.js')}}"></script>
+  <script>
+	$(document).ready(function() {
+		$("#service").select2();
+		$("#district").select2();
+		$("#subdistrict").select2();
 	});
   </script>
 @endsection

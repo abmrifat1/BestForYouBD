@@ -13,4 +13,8 @@ class Institute extends Model
     {
         return $this->belongsToMany('App\Department', 'institute_departments')->withTimestamps();
     }
+    public function institute_departments()
+    {
+        return $this->hasMany('App\InstituteDepartments', 'institute_id');
+    }
 }

@@ -23,6 +23,7 @@ Route::get('/tour-place/{id}','front\WebsiteController@showTourPlace');
 Route::get('/get-districts','front\WebsiteController@districts');
 Route::get('/get-subdistricts/{district_id}', 'front\WebsiteController@subDistricts');
 Route::post('/search','front\WebsiteController@search');
+Route::post('/institute-compare','front\WebsiteController@instituteCompare');
 
 Auth::routes();
 

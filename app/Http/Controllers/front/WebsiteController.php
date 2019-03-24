@@ -72,9 +72,25 @@ class WebsiteController extends Controller
 
     public function showHospital($id)
     {
-        $hospital = Institute::findOrfail($id);
-        return $hospital;
-        return view('front.hospital.show',['hospital'=>$hospital]);
+        //$hospital_info = Hospital::select('district_id','sub_district_id')->where('id',$id)->first();
+        //return $hospital_info;
+        $hospital = Hospital::where('hospitals.id',$id)
+        ->leftJoin('districts','districts.id','=','hospitals.district_id')
+        ->leftJoin('sub_districts','sub_districts.id','=','hospitals.sub_district_id')
+        ->select('districts.name as districtName','sub_districts.name as subDistrictName','hospitals.*')
+        ->first();
+        
+        $hospital_department_relations = DB::table('hospitals')
+        ->join('hospital_department_relations','hospital_department_relations.hospital_id','=','hospitals.id')
+        ->join('hospital_departments','hospital_departments.id','=','hospital_department_relations.hospital_department_id')
+        ->where('hospitals.id',$id)
+        ->select('hospital_departments.name','hospital_department_relations.*')
+        ->get();
+
+        //$hospitals = Hospital::where('isActive' , 'Active')->where('district_id', $hospital->district_id)->orWhere('sub_district_id', $hospital->sub_district_id)->take(4)->get();
+        //return $hospitals;
+        $hospitals = Hospital::where('isActive' , 'Active')->orderByRaw('RAND()')->take(4)->get();
+        return view('front.hospital.show',['hospital'=>$hospital,'hospital_department_relations'=>$hospital_department_relations,'hospitals'=>$hospitals]);
     }
     public function hotels()
     {

@@ -73,7 +73,7 @@
                                 <label for="name">Hospital Name</label>
                                 <input v-model="form.name" type="text" id="name" name="name"
                                        placeholder="Name"
-                                       class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
+                                       class="form-control" :class="{ 'is-invalid': form.errors.has('name') }" required>
                                 <has-error :form="form" field="name"></has-error>
                             </div>
 
@@ -81,7 +81,7 @@
                                 <label for="date">Establish Date</label>
                                 <input v-model="form.estDate" type="date" name="estDate"
                                        placeholder="estDate"
-                                       class="form-control" :class="{ 'is-invalid': form.errors.has('estDate') }">
+                                       class="form-control" :class="{ 'is-invalid': form.errors.has('estDate') }" required>
                                 <has-error :form="form" field="estDate"></has-error>
                             </div>
 
@@ -89,12 +89,12 @@
                                 <label for="address">Hospital Address</label>
                                 <textarea v-model="form.address" name="address" id="address"
                                   placeholder="Address"
-                                  class="form-control" :class="{ 'is-invalid': form.errors.has('address') }"></textarea>
+                                  class="form-control" :class="{ 'is-invalid': form.errors.has('address') }" required></textarea>
                                 <has-error :form="form" field="address"></has-error>
                             </div>
                             <div class="form-group">
                                 <label>District</label>
-                                <select class="form-control" v-model="form.district_id" style="width:100%;" @change="getSubDistricts" :class="{ 'is-invalid': form.errors.has('district') }">
+                                <select class="form-control" v-model="form.district_id" style="width:100%;" @change="getSubDistricts" :class="{ 'is-invalid': form.errors.has('district') }" required>
                                     <option value="" disabled>Select a district</option>
                                     <option v-for="district in districts" :value="district.id" :key="district.id">{{district.name}}</option>
                                 </select>
@@ -158,25 +158,52 @@
                             </div>
                             <div class="form-group">
                                 <label>Select the Ownership Type</label>
-                                <select v-model="form.ownership_type" class="form-control" :class="{ 'is-invalid': form.errors.has('ownership_type') }">
+                                <select v-model="form.ownership_type" class="form-control" :class="{ 'is-invalid': form.errors.has('ownership_type') }" required>
                                     <option value="" disabled>Ownership Type</option>
-                                    <option value="Public">Public</option>
+                                    <option value="Public">Government</option>
                                     <option value="Private">Private</option>
                                 </select>
                                 <has-error :form="form" field="ownership_type"></has-error>
                             </div>
                             <div class="form-group" v-show="!editMode">
-                                <label>Select departments</label><br/>
-                                <ul class="list-group">
-                                    <li v-for="department in departments" class="list-group-item" :key="department.id">
-                                        <input type="checkbox" v-model="form.department" :value="department.id"> {{department.name}}
-                                    </li>
-                                </ul>
+                                <label>Select Departments</label>
+                                <select class="form-control" v-model="form.department" :multiple="true" style="width:100%;" :class="{ 'is-invalid': form.errors.has('department') }">
+                            
+                                    <option v-for="department in departments" :value="department.id" :key="department.id">{{department.name}}</option>
+                                </select>
+                                <has-error :form="form" field="department"></has-error>
+                            </div>
+                             <div class="form-group">
+                                <label for="date">Phone Number</label>
+                                <input v-model="form.phone" type="text" placeholder="Phone" class="form-control" :class="{ 'is-invalid': form.errors.has('phone') }" required>
+                                <has-error :form="form" field="phone"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label for="date">Email Name</label>
+                                <input v-model="form.email" type="email" placeholder="E-mail" class="form-control" :class="{ 'is-invalid': form.errors.has('email') }" required>
+                                <has-error :form="form" field="email"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label for="date">Total Doctors</label>
+                                <input v-model="form.total_doctors" type="number" placeholder="Total doctors" class="form-control" :class="{ 'is-invalid': form.errors.has('total_doctors') }" min="0" required>
+                                <has-error :form="form" field="total_doctors"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label for="date">Total Departments</label>
+                                <input v-model="form.total_departments" type="number" placeholder="Total departments" class="form-control" :class="{ 'is-invalid': form.errors.has('total_departments') }" min="0" required>
+                                <has-error :form="form" field="total_departments"></has-error>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Air Conditioning</label>
+                                <select v-model="form.air_conditioning" id="air_conditioning" class="form-control">
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label>Publication Status</label>
                                 <select v-model="form.isActive" id="isActive" class="form-control">
-                                    <option value="" disabled>Select Status</option>
                                     <option value="Active">Publish</option>
                                     <option value="Pending">Draft</option>
                                 </select>
@@ -259,21 +286,21 @@
                         <div class="modal-body">
                             <div class="form-group" v-show="!departmentEditMode">
                                 <label for="degree" class="col-form-label">Department:</label>
-                                <select v-model="departmentForm.hospital_department_id" class="form-control">
+                                <select v-model="departmentForm.hospital_department_id" class="form-control" required>
                                     <option v-for="department in departments" :key="department.id" :value="department.id">{{department.name}}</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="credit" class="col-form-label">Total Doctors:</label>
-                                <input type="number" v-model="departmentForm.doctors" class="form-control" id="credit">
+                                <label for="doctors" class="col-form-label">Total Doctors:</label>
+                                <input type="number" v-model="departmentForm.doctors" class="form-control" id="doctors" required min="0">
                             </div>
                             <div class="form-group">
                                 <label for="faculty_members" class="col-form-label">Total PHD or foreign degree doctors:</label>
-                                <input type="number" v-model="departmentForm.foreign_degree_doctors" class="form-control" id="faculty_members">
+                                <input type="number" v-model="departmentForm.foreign_degree_doctors" class="form-control" id="faculty_members" required min="0">
                             </div>
                             <div class="form-group">
                                 <label for="students" class="col-form-label">Staff:</label>
-                                <input type="number" v-model="departmentForm.staff" class="form-control" id="students">
+                                <input type="number" v-model="departmentForm.staff" class="form-control" id="students" min="0" required>
                             </div>
                             <!--<div class="form-group"><input type="hidden" v-model="departmentForm.department_id" class="form-control"></div>
                             <div class="form-group"><input type="hidden" v-model="departmentForm.institute_id" class="form-control"></div>-->
@@ -309,6 +336,11 @@
                 form: new Form({
                     id:'',
                     name : '',
+                    phone : '',
+                    email : '',
+                    air_conditioning : 'No',
+                    total_doctors : '',
+                    total_departments : '',
                     estDate: '',
                     main_img: '',
                     gallery_img_1: '',

@@ -19,11 +19,11 @@
                     <!-- Add the bg color to the header using any of the bg-* classes -->
                     <div class="widget-user-header text-white" style="background-image:url('./img/cover-default.jpg')">
                         <h3 class="widget-user-username">{{ this.form.name}}</h3>
-                        <h5 class="widget-user-desc">Web Designer</h5>
                     </div>
                     <div class="widget-user-image">
                         <img class="img-circle mt-1" :src="getProfilePhoto()" alt="User Avatar">
                     </div>
+                    <!--
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-sm-4 border-right">
@@ -31,28 +31,28 @@
                                     <h5 class="description-header">3,200</h5>
                                     <span class="description-text">Leave Taken</span>
                                 </div>
-                                <!-- /.description-block -->
+                               
                             </div>
-                            <!-- /.col -->
+                            
                             <div class="col-sm-4 border-right">
                                 <div class="description-block">
                                     <h5 class="description-header">13,000</h5>
                                     <span class="description-text">Has Leave</span>
                                 </div>
-                                <!-- /.description-block -->
+                                
                             </div>
-                            <!-- /.col -->
+                            
                             <div class="col-sm-4">
                                 <div class="description-block">
                                     <h5 class="description-header">35</h5>
                                     <span class="description-text">Rating</span>
                                 </div>
-                                <!-- /.description-block -->
+                                
                             </div>
-                            <!-- /.col -->
+                            
                         </div>
-                        <!-- /.row -->
-                    </div>
+                       
+                    </div>-->
                 </div>
             </div>
 
@@ -70,7 +70,8 @@
                         <div class="tab-content">
                             <!-- Activity Tab -->
                             <div class="tab-pane" id="activity">
-                                <h3 class="text-center">Display User Activity</h3>
+                                <h3 class="text-center green" v-if="form.verified =='Yes'">You're Verified</h3>
+                                <h3 class="text-center red" v-else-if="form.verified =='No'">You're Not Verified</h3>
                             </div>
                             <!-- Setting Tab -->
                             <div class="tab-pane active show" id="settings">
@@ -108,7 +109,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="password" class="col-sm-12 control-label">Password (leave empty if not changing)</label>
+                                        <label for="password" class="col-sm-12 control-label">Password (Leave empty if do not want to change)</label>
 
                                         <div class="col-sm-12">
                                             <input type="password"
@@ -121,7 +122,7 @@
                                             <has-error :form="form" field="password"></has-error>
                                         </div>
                                     </div>
-
+                                    
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-12">
                                             <button @click.prevent="updateInfo" type="submit" class="btn btn-success">Update</button>
@@ -147,6 +148,7 @@
     export default {
         data(){
             return {
+                data:{},
                 form: new Form({
                     id:'',
                     name : '',
@@ -154,6 +156,7 @@
                     password: '',
                     type: '',
                     bio: '',
+                    verified:'',
                     photo: ''
                 })
             }

@@ -21,16 +21,18 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Type</th>
+                                <th>Verified</th>
                                 <th>Registered At</th>
                                 <th>Modify</th>
                             </tr>
 
-                            <tr v-for="user in users.data" :key="user.id">
+                            <tr v-for="(user,index) in users.data" :key="user.id">
 
-                                <td>{{user.id}}</td>
+                                <td>{{index+1}}</td>
                                 <td>{{user.name}}</td>
                                 <td>{{user.email}}</td>
                                 <td>{{user.type | upText}}</td>
+                                <td>{{user.verified}}</td>
                                 <td>{{user.created_at | myDate}}</td>
 
                                 <td>
@@ -74,14 +76,14 @@
                             <div class="form-group">
                                 <input v-model="form.name" type="text" name="name"
                                        placeholder="Name"
-                                       class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
+                                       class="form-control" :class="{ 'is-invalid': form.errors.has('name') }" required>
                                 <has-error :form="form" field="name"></has-error>
                             </div>
 
                             <div class="form-group">
                                 <input v-model="form.email" type="email" name="email"
                                        placeholder="Email Address"
-                                       class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
+                                       class="form-control" :class="{ 'is-invalid': form.errors.has('email') }" required>
                                 <has-error :form="form" field="email"></has-error>
                             </div>
 
@@ -94,7 +96,7 @@
 
 
                             <div class="form-group">
-                                <select name="type" v-model="form.type" id="type" class="form-control" :class="{ 'is-invalid': form.errors.has('type') }">
+                                <select name="type" v-model="form.type" id="type" class="form-control" :class="{ 'is-invalid': form.errors.has('type') }" required>
                                     <option value="">Select User Role</option>
                                     <option value="admin">Admin</option>
                                     <option value="user">Standard User</option>
@@ -102,11 +104,24 @@
                                 </select>
                                 <has-error :form="form" field="type"></has-error>
                             </div>
-
                             <div class="form-group">
-                                <input v-model="form.password" type="password" name="password" id="password"
+                                <select name="verified" v-model="form.verified" id="type" class="form-control" :class="{ 'is-invalid': form.errors.has('verified') }" required>
+                                    <option value="">Verification status</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                                <has-error :form="form" field="verified"></has-error>
+                            </div>
+
+                            <div class="form-group" v-show="!editMode">
+                                <input v-model="form.password" type="password" placeholder="Password (Must be 6 character" name="password" id="password"
                                        class="form-control" :class="{ 'is-invalid': form.errors.has('password') }">
                                 <has-error :form="form" field="password"></has-error>
+                            </div>
+                            <div class="form-group" v-show="!editMode">
+                                <input v-model="form.password_confirmation" type="password" placeholder="Re Password" name="password_confirmation" id="password_confirmation"
+                                       class="form-control" :class="{ 'is-invalid': form.errors.has('password_confirmation') }">
+                                <has-error :form="form" field="password_confirmation"></has-error>
                             </div>
 
                         </div>
@@ -136,7 +151,9 @@
                     name : '',
                     email: '',
                     password: '',
+                    password_confirmation: '',
                     type: '',
+                    verified: '',
                     bio: '',
                     photo: ''
                 })

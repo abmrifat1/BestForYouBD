@@ -45,10 +45,13 @@ class HospitalController extends Controller
     {
         $this->validate($request,[
             'name'=>'required|string|max:191',
-            'main_img'=>'required|image',
+            'main_img'=>'required',
             'district_id'=>'required',
             'department'=>'required',
-            'sub_district_id'=>'required'
+            'sub_district_id'=>'required',
+            'email'=>'required|email',
+            'total_doctors'=>'required',
+            'total_departments'=>'required',
         ]);
         if(!empty($request->main_img)){
             $name = time().rand(50,5000).'.' . explode('/', explode(':', substr($request->main_img, 0, strpos($request->main_img, ';')))[1])[1];
@@ -136,7 +139,10 @@ class HospitalController extends Controller
             'name'=>'required|string|max:191',
             'main_img'=>'required',
             'district_id'=>'required',
-            'sub_district_id'=>'required'
+            'sub_district_id'=>'required',
+            'email'=>'required|email',
+            'total_doctors'=>'required',
+            'total_departments'=>'required',
         ]);
         $currentPhoto = $hospital->main_img;
         

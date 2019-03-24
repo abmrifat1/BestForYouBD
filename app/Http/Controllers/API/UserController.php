@@ -27,7 +27,7 @@ class UserController extends Controller
     public function index()
     {
         if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
-            return User::latest()->paginate(5);
+            return User::latest()->paginate(10);
         }
 
     }
@@ -43,13 +43,16 @@ class UserController extends Controller
         $this->validate($request,[
            'name'=>'required|string|max:191',
            'email'=>'required|string|max:191|email|unique:users',
-           'password'=>'required|string|min:6|max:40',
+           'password'=>'min:6|max:32|required_with:password_confirmation|same:password_confirmation',
+           'password_confirmation' => 'min:6',
+           'verified'=>'required',
         ]);
         return User::create([
             'name' => $request['name'],
             'email' => $request['email'],
             'type' => $request['type'],
             'bio' => $request['bio'],
+            'verified' => $request['verified'],
             'photo' => $request['photo'],
             'password' => Hash::make($request['password']),
         ]);
@@ -74,7 +77,8 @@ class UserController extends Controller
         $this->validate($request,[
             'name' => 'required|string|max:191',
             'email' => 'required|string|email|max:191|unique:users,email,'.$user->id,
-            'password' => 'sometimes|required|min:6'
+            'password' => 'sometimes|required|min:6|confirmed',
+            'verified'=>'required',
         ]);
 
 
@@ -132,7 +136,8 @@ class UserController extends Controller
         $this->validate($request,[
             'name'=>'required|string|max:191',
             'email'=>'required|string|max:191|email|unique:users,email,'.$user->id,
-            'password'=>'sometimes|required|string|min:6|max:40',
+            'password'=>'sometimes|required|string|min:6|max:40|confirmed',
+            'verified'=>'required',
         ]);
         $user->update($request->all());
         return ['update' => "User information updated"];
@@ -158,7 +163,7 @@ class UserController extends Controller
                     ->orWhere('email','LIKE',"%$search%");
             })->paginate(20);
         }else{
-            $users = User::latest()->paginate(5);
+            $users = User::latest()->paginate(10);
         }
 
         return $users;

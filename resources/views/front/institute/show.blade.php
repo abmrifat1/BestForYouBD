@@ -198,7 +198,7 @@
 													<li><img src="/front/images/icon/a6.png" alt=""> Computer: {{$department->computer}}</li>
 													@if($department->IEEB)<li><img src="/front/images/icon/a2.png" alt=""> Certification: {{$department->IEEB}}</li>@endif
 												</ul>
-											</div> <span class="home-list-pop-rat list-rom-pric green-bg">Cost: ${{$department->cost}}54651654</span>
+											</div> <span class="home-list-pop-rat list-rom-pric green-bg">Cost: ${{$department->cost}}</span>
 										</div>
 									</div>
 								@endforeach

@@ -154,7 +154,7 @@
                                     <!--POPULAR LISTINGS: CONTENT-->
                                     <div class="col-md-9 home-list-pop-desc"> <a href="/institute/{{$institute->id}}"><h3>{{ $institute->name }}</h3></a>
                                         <h4>{{ $institute->departments_count }} Departments</h4>
-                                        <p>{{ $institute->address }}</p> <span class="home-list-pop-rat">4.2</span>
+                                        <p>{{ $institute->address }}</p> <!--<span class="home-list-pop-rat">4.2</span>-->
                                         <div class="hom-list-share">
                                             <ul>
                                                 <li><a href="#!"><i class="fa fa-bar-chart" aria-hidden="true"></i> 52</a> </li>
@@ -180,7 +180,7 @@
                                     <!--POPULAR LISTINGS: CONTENT-->
                                     <div class="col-md-9 home-list-pop-desc"> <a href="/institute/{{$institute->id}}"><h3>{{ $institute->name }}</h3></a>
                                         <h4>{{ $institute->departments_count }} Departments</h4>
-                                        <p>{{ $institute->address }}</p> <span class="home-list-pop-rat">4.2</span>
+                                        <p>{{ $institute->address }}</p> <!--<span class="home-list-pop-rat">4.2</span>-->
                                         <div class="hom-list-share">
                                             <ul>
                                                 <li><a href="#!"><i class="fa fa-bar-chart" aria-hidden="true"></i> 52</a> </li>

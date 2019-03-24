@@ -92,7 +92,7 @@ class WebsiteController extends Controller
         ->select('room_types.name','hotel_rooms.*')
         ->get();
         $hotels = Hotel::where('isActive' , 'Active')->orderByRaw('RAND()')->take(4)->get();
-        return view('front.hotel.show',['hotel'=>$hotel,'hotel_rooms'=>$hotel_rooms,'hotels'=>$hotels]);
+        return view('front.hotel.show',['hotel'=>$hotel,'hotelRooms'=>$hotel_rooms,'hotels'=>$hotels]);
     }
     public function tourPlaces()
     {

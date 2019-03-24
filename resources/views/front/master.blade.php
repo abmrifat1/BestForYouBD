@@ -45,11 +45,12 @@
 						<div data-section="section">
 							<div class="container">
 								<div class="row">
+									<div class="col-md-2 offset-md-2"></div>
 									<div class="col-sm-4 col-md-4 foot-logo"> <h3>Best In BD</h3>
 										<p class="hasimg">Bangladesh No. 1 Local Business Directory Website.</p>
 										<p class="hasimg">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. </p>
 									</div>
-									<div class="col-sm-4 col-md-4">
+									<!--<div class="col-sm-4 col-md-4">
 										<h4>Support & Help</h4>
 										<ul class="one-columns">
 											<li> <a href="/about-us">About Us</a> </li>
@@ -57,16 +58,19 @@
 											<li> <a href="/register">Register</a> </li>
 											<li> <a href="/login">Login</a> </li>
 										</ul>
-									</div>
-									<div class="col-sm-4 col-md-4">
+									</div>-->
+									<div class="col-md-1 offset-md-1"></div>
+									<div class="col-sm-3 col-md-3">
 										<h4>Popular Services</h4>
 										<ul class="one-columns">
 											<li> <a href="/hospitals">Hospitals</a> </li>
 											<li> <a href="/hotels">Hotels</a> </li>
-											<li> <a href="/institutes">Education</a> </li>
-											<li> <a href="/tour-placess">Resorts</a> </li>
+											<li> <a href="/institutes">Institutes</a> </li>
+											<li> <a href="/tour-placess">Tour Places</a> </li>
+											<li> <a href="/discuss">Discussion Forum</a> </li>
 										</ul>
 									</div>
+									<div class="col-md-2 offset-md-2"></div>
 								</div>
 							</div>
 						</div>

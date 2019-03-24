@@ -52,8 +52,8 @@
 							</li>
 							<li><a href="#ld-roo"><i class="fa fa-ticket"></i> Departments</a>
 							</li>
-							<li><a href="#ld-vie"><i class="fa fa-street-view"></i> 360 View</a>
-							</li>
+							<!--<li><a href="#ld-vie"><i class="fa fa-street-view"></i> 360 View</a>
+							</li>-->
 						</ul>
 					</div>
 				</div>
@@ -187,25 +187,24 @@
 										<div class="col-md-3"> <img src="/front/images/Dept_Ed.jpg" alt="" style="height:200px"> </div>
 										<!--LISTINGS: CONTENT-->
 										<div class="col-md-9 home-list-pop-desc inn-list-pop-desc list-room-deta"> <a href="#!"><h3>{{$department->name}}</h3></a>
-											<div class="list-rat-ch list-room-rati"> <span>5.0</span> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> </div>
 											<div class="list-room-type list-rom-ami">
 												<ul>
 													<li>
 														<p><b>Amenities:</b> </p>
 													</li>
-													<li><img src="/front/images/icon/a9.png" alt=""> Credit: {{$department->credit}}</li>
+													@if($department->credit > 0)<li><img src="/front/images/icon/a9.png" alt=""> Credit: {{$department->credit}}</li>@endif
 													<li><img src="/front/images/icon/a10.png" alt=""> Faculty Member: {{$department->faculty_members}} </li>
 													<li><img src="/front/images/icon/a3.png" alt=""> Students: {{$department->students}}</li>
 													<li><img src="/front/images/icon/a6.png" alt=""> Computer: {{$department->computer}}</li>
 													@if($department->IEEB)<li><img src="/front/images/icon/a2.png" alt=""> Certification: {{$department->IEEB}}</li>@endif
-													<li><img src="/front/images/icon/a5.png" alt=""> Cost: {{$department->cost}}</li>
 												</ul>
-											</div> <span class="home-list-pop-rat list-rom-pric">$940</span>
+											</div> <span class="home-list-pop-rat list-rom-pric green-bg">Cost: ${{$department->cost}}54651654</span>
 										</div>
 									</div>
 								@endforeach
 							</div>
 						</div>
+						{{--
 						<!--END 360 DEGREE MAP: LEFT PART 8-->
 						<div class="pglist-p3 pglist-bg pglist-p-com" id="ld-vie">
 							<div class="pglist-p-com-ti">
@@ -215,6 +214,7 @@
 							</div>
 						</div>
 						<!--END 360 DEGREE MAP: LEFT PART 8-->
+						--}}
 					</div>
 					<div class="list-pg-rt">
 						<!--LISTING DETAILS: LEFT PART 9-->
@@ -243,9 +243,8 @@
 							@foreach($institutes as $randomInstitute)
 								<a href="/institute/{{$randomInstitute->id}}">
 									<div class="list-mig-like-com">
-										<div class="list-mig-lc-img"> <img src="/img/institutes/{{$randomInstitute->main_img}}" alt="" /> <span class="home-list-pop-rat list-mi-pr">$720</span> </div>
+										<div class="list-mig-lc-img"> <img src="/img/institutes/{{$randomInstitute->main_img}}" alt="" /><!-- <span class="home-list-pop-rat list-mi-pr">$720</span> --></div>
 										<div class="list-mig-lc-con">
-											<div class="list-rat-ch list-room-rati"> <span>4.0</span> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star-o" aria-hidden="true"></i> </div>
 											<h5>{{$randomInstitute->name}}</h5>
 											<p>{{$randomInstitute->address}}</p>
 										</div>

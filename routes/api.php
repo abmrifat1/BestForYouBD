@@ -72,3 +72,5 @@ Route::get('find-institutes', 'API\InstituteController@search');
 Route::get('find-hotels', 'API\HotelController@search');
 Route::get('find-tour-places', 'API\TourPlaceController@search');
 Route::get('find-hospitals', 'API\HospitalController@search');
+Route::get('find-sub-districts', 'API\SubDistrictController@search');
+Route::get('find-districts', 'API\DistrictController@search');

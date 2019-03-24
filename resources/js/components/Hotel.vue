@@ -105,6 +105,20 @@
                                        class="form-control" :class="{ 'is-invalid': form.errors.has('website_url') }">
                                 <has-error :form="form" field="website_url"></has-error>
                             </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input v-model="form.phone" type="text" name="phone"
+                                       placeholder="Phone"
+                                       class="form-control" :class="{ 'is-invalid': form.errors.has('phone') }">
+                                <has-error :form="form" field="phone"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input v-model="form.email" type="email" name="email"
+                                       placeholder="E-mail"
+                                       class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
+                                <has-error :form="form" field="email"></has-error>
+                            </div>
 
                             <div class="form-group">
                                 <label for="address">Hotel Address</label>
@@ -212,6 +226,13 @@
                                     <option value="Yes">Yes</option>
                                     <option value="No">No</option>
                                 </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Total Room</label>
+                                <input v-model="form.total_room" type="text" name="total_room"
+                                       placeholder="Room Number"
+                                       class="form-control" :class="{ 'is-invalid': form.errors.has('total_room') }">
+                                <has-error :form="form" field="total_room"></has-error>
                             </div>
                             <div class="form-group">
                                 <label>Publication Status</label>
@@ -451,6 +472,8 @@
                     owner: '',
                     website_url: '',
                     address: '',
+                    phone: '',
+                    email: '',
                     description: '',
                     district_id: '',
                     sub_district_id: '',
@@ -458,6 +481,7 @@
                     restaurant: 'Yes',
                     cafe: 'Yes',
                     car_parking: 'Yes',
+                    total_room: '',
                     room: []
                 }),
                 roomForm: new Form({

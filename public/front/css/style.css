@@ -3116,7 +3116,7 @@
      font-weight: 600;
      color: #fff;
      right: 15px;
-     top: 0px;
+     top: -4px;
      font-size: 14px;
      border-radius: 2px;
 }
@@ -3748,7 +3748,6 @@
      color: #dcdcdc;
      font-size: 14px;
      width: 33.33%;
-     text-overflow: ellipsis;
      white-space: pre;
      overflow: hidden;
 }
@@ -3939,7 +3938,7 @@
      padding: 20px;
 }
  .list-rom-pric {
-     font-size: 26px !important;
+     font-size: 18px !important;
      background: #fff;
 }
  .list-room-type {

@@ -20,28 +20,6 @@
 @section('content')
 	<!--BANNER AND SERACH BOX-->
 	<section class="dir3-home-head">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-6 col-sm-6 col-xs-12">
-					<div class="dir-ho-tl">
-						<ul>
-							<li>
-                                <a href="{{ url('/') }}"><h3>Best <span>in</span> BD</h3></a>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-md-6 col-sm-6">
-					<div class="dir-ho-tr">
-						<ul>
-							<li><a href="{{url('/register')}}"><i class="fa fa-plus" aria-hidden="true"></i> Add Listing</a> </li>
-							<li><a href="{{url('/login')}}">Sign In</a> </li>
-							<li><a href="/discuss">Discussion Forum <i class="fa fa-arrow-right"></i></a> </li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
 		<div class="container dir-ho-t-sp">
 			<div class="row">
 				<div class="dir-hr1 dir-cat-search">
@@ -273,7 +251,7 @@
                             <div class="list-mig-like-com">
                                 <div class="list-mig-lc-img"> <img src="img/hotels/{{ $hotel->main_img }}" alt="" /> </div>
                                 <div class="list-mig-lc-con">
-                                    <div class="list-rat-ch list-room-rati"> <span>4.0</span> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star-o" aria-hidden="true"></i> </div>
+                                    <div class="list-rat-ch list-room-rati"> <span>{{ $hotel->star }}.0</span> @for($i=1;$i<=$hotel->star;$i++) <i class="fa fa-star" aria-hidden="true"></i>@endfor </div>
                                     <h5>{{ $hotel->name }}</h5>
                                     <p><b>Address:</b> {{$hotel->address}}</p>
                                 </div>
@@ -294,7 +272,7 @@
                 </div>
                 @foreach ($tourPlaces as $tourPlace)
                     <div class="col-md-4">
-                        <a href="/hotel/{{$tourPlace->id}}">
+                        <a href="/tour-place/{{$tourPlace->id}}">
                             <div class="list-mig-like-com">
                                 <div class="list-mig-lc-img"> <img src="img/tour_places/{{ $tourPlace->main_img }}" alt="" /> </div>
                                 <div class="list-mig-lc-con">

@@ -32,7 +32,66 @@
 	<div id="preloader">
 		<div id="status">&nbsp;</div>
 	</div>
-	
+	<!--TOP SEARCH SECTION-->
+	<section class="bottomMenu dir-il-top-fix">
+		<div class="container top-search-main">
+			<div class="row">
+				<div class="ts-menu">
+					<!--SECTION: LOGO-->
+					<div class="ts-menu-1">
+						<a href="index.html"><img src="images/aff-logo.png" alt=""> </a>
+					</div>
+					<!--SECTION: BROWSE CATEGORY(NOTE:IT'S HIDE ON MOBILE & TABLET VIEW)-->
+					<div class="ts-menu-2"><a href="/" class="t-bb">Best4You</a>
+						
+					</div>
+					<!--<div class="ts-menu-3">
+					{{--<div class="">
+							<form class="tourz-search-form tourz-top-search-form" id="service_search" action="service">
+								<div class="input-field">
+									<input type="text" id="top-select-city" class="autocomplete">
+									<label for="top-select-city">Enter city</label>
+								</div>
+								<div class="input-field">
+									<input type="text" id="top-select-search">
+									<label for="top-select-search" class="search-hotel-type">Search your services like hotel, resorts, events and more</label>
+								</div>
+								<div class="input-field">
+									<input type="submit" value="" class="waves-effect waves-light tourz-top-sear-btn"> </div>
+							</form>
+						</div>--}}
+					</div>-->
+					<!--SECTION: REGISTER,SIGNIN AND ADD YOUR BUSINESS-->
+					<div class="ts-menu-4" style="float:right;">
+						<div class="v3-top-ri">
+							<ul>
+								<li><a href="/institutes" class="v3-menu-sign">Institutes</a> </li>
+								<li><a href="/hospitals" class="v3-add-bus">Hospitals</a> </li>
+								<li><a href="/hotels" class="v3-add-bus">Hotels</a> </li>
+								<li><a href="/tour-places" class="v3-add-bus">Tour Places</a> </li>
+								<li><a href="/discuss" class="v3-add-bus">Discuss Forum</a> </li>
+							</ul>
+						</div>
+					</div>
+					<!--MOBILE MENU ICON:IT'S ONLY SHOW ON MOBILE & TABLET VIEW-->
+					<div class="ts-menu-5"><span><i class="fa fa-bars" aria-hidden="true"></i></span> </div>
+					<!--MOBILE MENU CONTAINER:IT'S ONLY SHOW ON MOBILE & TABLET VIEW-->
+					<div class="mob-right-nav" data-wow-duration="0.5s">
+						<div class="mob-right-nav-close"><i class="fa fa-times" aria-hidden="true"></i> </div>
+						<h5>Menu</h5>
+						<ul class="mob-menu-icon">
+							<li><a href="/">Home</a> </li>
+							<li><a href="/institutes">Institutes</a> </li>
+							<li><a href="/hospitals">Hospitals</a> </li>
+							<li><a href="/hotels">Hotels</a> </li>
+							<li><a href="/tour-places">Tour Places</a> </li>
+							<li><a href="/discuss">Discuss Forum</a> </li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 	<!-- Content -->
 	@yield('content')
 	<!-- End Content -->

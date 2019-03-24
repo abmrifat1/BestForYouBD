@@ -1,31 +1,6 @@
 @extends('front.master')
 @section('content')
-	<!--TOP SEARCH SECTION-->
-	<section class="bottomMenu dir-il-top-fix">
-		<div class="container top-search-main">
-			<div class="row">
-				<div class="ts-menu">
-					<!--SECTION: LOGO-->
-					<div class="ts-menu-1">
-						<a href="/"><img src="/img/bestforyoubd2.png" alt=""> </a>
-					</div>
-					<!--SECTION: BROWSE CATEGORY(NOTE:IT'S HIDE ON MOBILE & TABLET VIEW)-->
-					<div class="ts-menu-2"><a href="/" class="t-bb">Best4You</a>
-						
-					</div>
-					<!--SECTION: REGISTER,SIGNIN AND ADD YOUR BUSINESS-->
-					<div class="ts-menu-6">
-						<div class="v3-top-ri">
-							<ul>
-								<li><a href="/login" class="v3-menu-sign"><i class="fa fa-sign-in"></i> Sign In</a> </li>
-								<li><a href="/register" class="v3-add-bus"><i class="fa fa-plus" aria-hidden="true"></i> Add Listing</a> </li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+
 	<section class="dir-alp dir-pa-sp-top">
 		<div class="container">
 			<div class="row">

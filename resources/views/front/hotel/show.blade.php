@@ -1,43 +1,5 @@
 @extends('front.master')
 @section('content')
-	<!--TOP SEARCH SECTION-->
-	<section class="bottomMenu dir-il-top-fix">
-		<div class="container top-search-main">
-			<div class="row">
-				<div class="ts-menu">
-					<!--SECTION: LOGO-->
-					<div class="ts-menu-1">
-						<a href="/"><img src="/img/bestforyoubd2.png" alt=""> </a>
-					</div>
-					<!--SECTION: BROWSE CATEGORY(NOTE:IT'S HIDE ON MOBILE & TABLET VIEW)-->
-					<div class="ts-menu-2"><a href="/" class="t-bb">BestInBD</a>
-						
-					</div>
-					<!--SECTION: REGISTER,SIGNIN AND ADD YOUR BUSINESS-->
-					<div class="ts-menu-6">
-						<div class="v3-top-ri">
-							<ul>
-								<li><a href="/login" class="v3-menu-sign"><i class="fa fa-sign-in"></i> Sign In</a> </li>
-								<li><a href="/register" class="v3-add-bus"><i class="fa fa-plus" aria-hidden="true"></i> Add Listing</a> </li>
-							</ul>
-						</div>
-					</div>
-					{{--<!--MOBILE MENU ICON:IT'S ONLY SHOW ON MOBILE & TABLET VIEW-->
-					<div class="ts-menu-5"><span><i class="fa fa-bars" aria-hidden="true"></i></span> </div>
-					<!--MOBILE MENU CONTAINER:IT'S ONLY SHOW ON MOBILE & TABLET VIEW-->
-					<div class="mob-right-nav" data-wow-duration="0.5s">
-						<div class="mob-right-nav-close"><i class="fa fa-times" aria-hidden="true"></i> </div>
-						<h5>Business</h5>
-						<ul class="mob-menu-icon">
-							<li><a href="/register">Add Business</a> </li>
-							<li><a href="/register">Register</a> </li>
-							<li><a href="/login">Sign In</a> </li>
-						</ul>
-					</div>--}}
-				</div>
-			</div>
-		</div>
-	</section>
 	<section>
 		<div class="v3-list-ql">
 			<div class="container">
@@ -167,7 +129,7 @@
 								@foreach ($hotelRooms as $room)
 									<div class="home-list-pop list-spac list-spac-1 list-room-mar-o">
 										<!--LISTINGS IMAGE-->
-										<div class="col-md-3"> <img src="/front/images/Dept_Ed.jpg" alt="" style="height:200px"> </div>
+										<div class="col-md-3"> <img src="/front/images/hotel_room.png" alt="" style="height:100%;width:100%"> </div>
 										<!--LISTINGS: CONTENT-->
 										<div class="col-md-9 home-list-pop-desc inn-list-pop-desc list-room-deta"> <a href="#!"><h3>{{$room->name}}</h3></a>
 											<div class="list-room-type list-rom-ami">
@@ -232,9 +194,9 @@
 							@foreach($hotels as $randomHotel)
 								<a href="/hotel/{{$randomHotel->id}}">
 									<div class="list-mig-like-com">
-										<div class="list-mig-lc-img"> <img src="/img/hotels/{{$randomHotel->main_img}}" alt="" /> <span class="home-list-pop-rat list-mi-pr">$720</span> </div>
+										<div class="list-mig-lc-img"> <img src="/img/hotels/{{$randomHotel->main_img}}" alt="" />  </div>
 										<div class="list-mig-lc-con">
-											<div class="list-rat-ch list-room-rati"> <span>{{$randomHotel->star}}</span> @for($i=1;$i<=$randomHotel->star;$i++) <i class="fa fa-star" aria-hidden="true"></i>@endfor</div>
+											<div class="list-rat-ch list-room-rati"> <span>{{$randomHotel->star}}.0</span> @for($i=1;$i<=$randomHotel->star;$i++) <i class="fa fa-star" aria-hidden="true"></i>@endfor</div>
 											<h5>{{$randomHotel->name}}</h5>
 											<p>{{$randomHotel->address}}</p>
 										</div>

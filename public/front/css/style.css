@@ -267,7 +267,7 @@
 }
  .ts-menu-2 {
      float: left;
-     width: 12%;
+     width: 10%;
      padding: 17px 12px 15px 12px;
      border-left: 1px solid #273244;
     /* border-left-style: groove;
@@ -295,12 +295,12 @@
 }
  .ts-menu-3 {
      float: left;
-     width: 60%;
+     width: 55%;
      padding: 0px 0px 0px 30px;
 }
  .ts-menu-4 {
      float: left;
-     width: 20%;
+     width: 50%;
      padding: 10px 0px 0px 1px;
 }
  .top-search {
@@ -4799,6 +4799,8 @@
 /*-------------------------------------------------*/
  #preloader {
      position: fixed;
+     width: 100%;
+     height: 100%;
      top: 0;
      left: 0;
      right: 0;
@@ -4809,14 +4811,14 @@
     /* makes sure it stays on top */
 }
  #status {
-     width: 200px;
-     height: 200px;
+     width: 400px;
+     height: 400px;
      position: absolute;
-     left: 50%;
+     left: 40%;
     /* centers the loading animation horizontally one the screen */
-     top: 50%;
+     top: 40%;
     /* centers the loading animation vertically one the screen */
-     background-image: url(../images/preloader.gif);
+     background-image: url(../images/preloader2.gif);
     /* path to your loading animation */
      background-repeat: no-repeat;
      background-position: center;
@@ -6548,7 +6550,7 @@
      float: right;
 }
  .v3-top-ri {
-     padding: 8px 0px;
+     /*padding: 8px 0px;*/
 }
  .v3-top-ri ul {
      margin-bottom: 0px;
@@ -7363,6 +7365,7 @@
  .dir3-home-head{
      width: 100%;
      height: 100%;
+     margin-top: 60px;
      -webkit-user-select: none;
      -khtml-user-select: none;
      -moz-user-select: none;

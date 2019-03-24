@@ -12,7 +12,7 @@ use DB;
 use Illuminate\Http\Request;
 use IlluminateSupportFacadesInput;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Database\Eloquent\Builder;
 class WebsiteController extends Controller
 {
     public function index()
@@ -39,11 +39,10 @@ class WebsiteController extends Controller
   
     public function subDistricts($district_id)
     {
-        //return SubDistrict::where('district_id', $district_id)->orderBy('name','asc')->get();
         $subDistricts = SubDistrict::where('district_id', $district_id)->orderBy('name','asc')->get();  
         return response()->json($subDistricts);
     }
-
+    
     public function institutes()
     {
         $institutes = Institute::where('isActive' , 'Active')->latest()->paginate(6);
@@ -118,9 +117,23 @@ class WebsiteController extends Controller
 
     public function showTourPlace($id)
     {
-        $tourPlace = TourPlace::findOrfail($id);
-        return $tourPlace;
-        return view('front.tourPlace.show',['tourPlaces'=>$tourPlace]);
+        $tour_place = TourPlace::where('tour_places.id',$id)
+        ->leftJoin('districts','districts.id','=','tour_places.district_id')
+        ->leftJoin('sub_districts','sub_districts.id','=','tour_places.sub_district_id')
+        ->select('districts.name as districtName','sub_districts.name as subDistrictName','tour_places.*')
+        ->first();
+        
+        /*$hospital_department_relations = DB::table('tour_places')
+        ->join('hospital_department_relations','hospital_department_relations.hospital_id','=','tour_places.id')
+        ->join('hospital_departments','hospital_departments.id','=','hospital_department_relations.hospital_department_id')
+        ->where('tour_places.id',$id)
+        ->select('hospital_departments.name','hospital_department_relations.*')
+        ->get();*/
+
+        //$hospitals = Hospital::where('isActive' , 'Active')->where('district_id', $hospital->district_id)->orWhere('sub_district_id', $hospital->sub_district_id)->take(4)->get();
+        //return $hospitals;
+        $tour_places = TourPlace::where('isActive' , 'Active')->orderByRaw('RAND()')->take(4)->get();
+        return view('front.tourPlace.show',['tour_place'=>$tour_place,'tour_places'=>$tour_places]);
     }
     public function search(Request $request)
     {
@@ -164,5 +177,18 @@ class WebsiteController extends Controller
             ->get();
             return $tourPlaces;*/
     }
+    /*public function allServices()
+    {
+        $institutes = DB::table('institutes')->select('institutes.name as institute_name', 'institutes.id as institute_id')->where('isActive','Active');
+        $hospitals = DB::table('hospitals')->select('hospitals.name as hospital_name', 'hospitals.id as hospital_id')->where('isActive','Active');
+        $hotels = DB::table('hotels')->select('hotels.name as hotel_name', 'hotels.id as hotel_id')->where('isActive','Active')->unionAll($institutes)->unionAll($hospitals)->get();
+        return $hotels;
+        $services = DB::table('institutes')
+                    ->crossJoin('hospitals')
+                    ->crossJoin('hotels')
+                    ->select('institutes.name as institute_name','hospitals.name as hospital_name','hotels.name as hotel_name')
+                    ->get();
+        return $services;
+    }*/
 
 }

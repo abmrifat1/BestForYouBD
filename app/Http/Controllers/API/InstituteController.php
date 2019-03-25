@@ -46,7 +46,7 @@ class InstituteController extends Controller
     {
         $this->validate($request,[
            'name'=>'required|string|max:191',
-           'main_img'=>'required|image',
+           'main_img'=>'required',
            'institute_type_id'=>'required',
            'district_id'=>'required',
            'sub_district_id'=>'required',
@@ -145,7 +145,9 @@ class InstituteController extends Controller
     {
         $institute = Institute::findOrFail($id);
         $this->validate($request,[
-            'name'=>'required|string|max:191'
+            'name'=>'required|string|max:191',
+            'district_id'=>'required',
+            'sub_district_id'=>'required',
         ]);
         $currentPhoto = $institute->main_img;
         $currentInstituteTypeId = $institute->institute_type_id;

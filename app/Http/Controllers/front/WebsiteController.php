@@ -8,6 +8,7 @@ use App\TourPlace;
 use App\District;
 use App\SubDistrict;
 use App\Department;
+use App\InstituteDepartments;
 use DB;
 use Illuminate\Http\Request;
 use IlluminateSupportFacadesInput;
@@ -45,8 +46,8 @@ class WebsiteController extends Controller
     
     public function institutes()
     {
-        $institutes = Institute::where('isActive' , 'Active')->latest()->paginate(6);
-        $departments = Department::orderBy('name','asc')->get();
+        $institutes = Institute::where('isActive' , 'Active')->latest()->paginate(7);
+        $departments = Department::where('isActive' , 'Active')->orderBy('name','asc')->get();
         return view('front.institute.home',['institutes'=>$institutes,'departments'=>$departments]);
     }
 
@@ -178,34 +179,31 @@ class WebsiteController extends Controller
         }
         return $deptName;*/
         return view('front.institute.compare',['institutes'=>$institutes,'departments'=>$departments]);
-        //$institute = Institute::findOrfail($id);
-       // return $request->id;
-        /*$institutes = DB::table('institutes')
-        ->join('institute_departments','institute_departments.institute_id','=','institutes.id')
-        ->join('departments','departments.id','=','institute_departments.department_id')
-        ->whereIn('institutes.id',$request->id)
-        ->select('departments.name','institute_departments.*')
-        ->get();
-
-        return $institutes;
-        */
     }
-    /*public function allServices()
-    {
-        $institutes = DB::table('institutes')->select('institutes.name as institute_name', 'institutes.id as institute_id')->where('isActive','Active');
-        $hospitals = DB::table('hospitals')->select('hospitals.name as hospital_name', 'hospitals.id as hospital_id')->where('isActive','Active');
-        $hotels = DB::table('hotels')->select('hotels.name as hotel_name', 'hotels.id as hotel_id')->where('isActive','Active')->unionAll($institutes)->unionAll($hospitals)->get();
-        return $hotels;
-        $services = DB::table('institutes')
-                    ->crossJoin('hospitals')
-                    ->crossJoin('hotels')
-                    ->select('institutes.name as institute_name','hospitals.name as hospital_name','hotels.name as hotel_name')
-                    ->get();
-        return $services;
-    }*/
     public function filterInstitute(Request $request)
     {
-        return Institute::with('institute_departments')->with('departments')->whereIn('institutes.id',$request->id)->get();
+        $departments = Department::where('isActive','Active')->get();
+        if(!empty($request->department_id) && empty($request->IEEB)){
+            $institutes = DB::table('institutes')
+            ->join('institute_departments','institute_departments.institute_id','=','institutes.id')
+            ->where('institute_departments.department_id',$request->department_id)->paginate(12);
+        }
+            
+        elseif(empty($request->department_id) && !empty($request->IEEB)){
+            $institutes = DB::table('institutes')
+            ->join('institute_departments','institute_departments.institute_id','=','institutes.id')
+            ->where('institute_departments.IEEB',$request->IEEB)->paginate(12);
+        }
+        elseif(!empty($request->department_id) && !empty($request->IEEB)){
+            $institutes = DB::table('institutes')
+            ->join('institute_departments','institute_departments.institute_id','=','institutes.id')
+            ->where('institute_departments.department_id',$request->department_id)
+            ->where('institute_departments.IEEB',$request->IEEB)->paginate(12);
+        }else{
+            $institutes = Institute::where('isActive' , 'Active')->latest()->paginate(7);
+        }
+        return view('front.institute.home',['institutes'=>$institutes,'departments'=>$departments]);
+
     }
     public function searchInstitute(Request $request)
     {

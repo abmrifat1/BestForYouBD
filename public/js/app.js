@@ -75404,6 +75404,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -75535,6 +75536,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 _this5.institute_departments = data;
             });
             this.institute_id = institute.id;
+            axios.get("api/departments").then(function (_ref7) {
+                var data = _ref7.data;
+                return _this5.departments = data;
+            });
+
             $('#instututeDepartments').modal('show');
         },
         departmentNewModal: function departmentNewModal() {
@@ -75670,8 +75676,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             this.$Progress.start();
             if (this.$gate.isAdminOrAuthor()) {
-                axios.get("api/education").then(function (_ref7) {
-                    var data = _ref7.data;
+                axios.get("api/education").then(function (_ref8) {
+                    var data = _ref8.data;
                     return _this13.institutes = data;
                 });
             }
@@ -77685,12 +77691,16 @@ var render = function() {
                           }
                         },
                         [
+                          _c("option", { attrs: { value: "" } }, [
+                            _vm._v("Select if have")
+                          ]),
+                          _vm._v(" "),
                           _c("option", { attrs: { value: "IEEB" } }, [
                             _vm._v("IEEB")
                           ]),
                           _vm._v(" "),
-                          _c("option", { attrs: { value: "Farmachiest" } }, [
-                            _vm._v("Farmachiest")
+                          _c("option", { attrs: { value: "Pharmacists" } }, [
+                            _vm._v("Pharmacists")
                           ])
                         ]
                       )

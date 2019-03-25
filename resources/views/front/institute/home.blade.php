@@ -102,7 +102,7 @@
 						<!--==========Sub Category Filter============-->
 						<div class="dir-alp-con-left-1"><h3>Departments</h3> </div>
 						<div class="dir-hom-pre dir-alp-left-ner-notb">
-							<select name='department_id[]' id="department" style="display:block;">
+							<select name='department_id' id="department" style="display:block;">
 								<option value="">Select a Department</option>
 								@foreach($departments as $department)
 									<option value="{{$department->id}}" id="ld{{$department->id}}">{{$department->name}}</option>
@@ -121,8 +121,8 @@
 										<label for="IEEB">IEEB</label>
 									</li>
 									<li>
-										<input class="with-gap" name="IEEB" value="Farmacy" type="radio" id="Farmacy" />
-										<label for="Farmacy">Farmacy</label>
+										<input class="with-gap" name="IEEB" value="Pharmacists" type="radio" id="Pharmacists" />
+										<label for="Pharmacists">Pharmacists</label>
 									</li>
 								</ul>
 							</div>

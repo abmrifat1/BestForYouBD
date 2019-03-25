@@ -28,7 +28,6 @@ Route::post('/filter-institutes','front\WebsiteController@filterInstitute');
 Route::post('/institute-compare','front\WebsiteController@instituteCompare');
 
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/discuss', 'Forum\ForumController@index')->name('forum');
 Route::get('/single', 'Forum\ForumController@single');

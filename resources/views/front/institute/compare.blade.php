@@ -265,6 +265,7 @@
 				</div>
 			</div>
 		</div>
+		<a href="/institute/{{$institute->id}}" class="btn btn-success text-center" style="display:block;" align="center">Go For Full View</a>
 	</section>
 	<!--QUOTS POPUP-->
 	<hr><hr>

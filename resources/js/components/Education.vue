@@ -368,8 +368,9 @@
                             <div class="form-group">
                                 <label for="degree" class="col-form-label">Degree:</label>
                                 <select v-model="departmentForm.IEEB" class="form-control">
+                                    <option value="">Select if have</option>
                                     <option value="IEEB">IEEB</option>
-                                    <option value="Farmachiest">Farmachiest</option>
+                                    <option value="Pharmacists">Pharmacists</option>
                                 </select>
                             </div>
                             <!--<div class="form-group"><input type="hidden" v-model="departmentForm.department_id" class="form-control"></div>
@@ -496,6 +497,8 @@
                     data => {this.institute_departments = data;
                 });
                 this.institute_id = institute.id;
+                axios.get("api/departments").then(({ data }) => (this.departments = data));
+
                 $('#instututeDepartments').modal('show');
             },
             departmentNewModal()

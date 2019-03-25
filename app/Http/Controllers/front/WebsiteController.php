@@ -165,17 +165,30 @@ class WebsiteController extends Controller
     }
     public function instituteCompare(Request $request)
     {
-        return Institute::with('institute_departments')->with('departments')->whereIn('institutes.id',$request->id)->get();
-        //return Institute::with('departments')->where('isActive','Active')->whereIn('id',$request->id)->get();
-        /*$tourPlaces = DB::table('institutes')
-            ->join('institute_departments','institute_departments.institute_id','=','institutes.id')
-            ->join('departments','departments.id','=','institutes.id')
-            ->orderBy('institutes.name','asc')
-            ->orderBy('departments.name','asc')
-            ->where('institutes.id',$request->id)
-            ->select('institutes.*','departments.name as departmentName','institute_departments.*')
-            ->get();
-            return $tourPlaces;*/
+        $institutes = Institute::with('institute_departments')->whereIn('institutes.id',$request->id)->get();
+        $departments = Department::select('id','name as departmentName')->get();
+        /*foreach($institutes as $institute){
+            foreach($institute->institute_departments as $insDepartment){
+                foreach ($departments as $department) {
+                    if($department->id == $insDepartment->department_id){
+                        $deptName[] = $department->departmentName;
+                    }
+                }
+            }
+        }
+        return $deptName;*/
+        return view('front.institute.compare',['institutes'=>$institutes,'departments'=>$departments]);
+        //$institute = Institute::findOrfail($id);
+       // return $request->id;
+        /*$institutes = DB::table('institutes')
+        ->join('institute_departments','institute_departments.institute_id','=','institutes.id')
+        ->join('departments','departments.id','=','institute_departments.department_id')
+        ->whereIn('institutes.id',$request->id)
+        ->select('departments.name','institute_departments.*')
+        ->get();
+
+        return $institutes;
+        */
     }
     /*public function allServices()
     {
@@ -190,5 +203,14 @@ class WebsiteController extends Controller
                     ->get();
         return $services;
     }*/
+    public function filterInstitute(Request $request)
+    {
+        return Institute::with('institute_departments')->with('departments')->whereIn('institutes.id',$request->id)->get();
+    }
+    public function searchInstitute(Request $request)
+    {
+        $id = $request->id;
+        return redirect('institute/'.$id);
+    }
 
 }

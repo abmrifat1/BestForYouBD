@@ -55,7 +55,7 @@
     }
     .ts-menu-5 {
         width: 15%;
-        float: left;
+        float: right;
         /*margin-top: -15px;*/
     }
     .ts-menu-5 span {} .ts-menu-5 span i {
@@ -578,7 +578,10 @@
 		width: 100%;
 	}
 	.tourz-top-search-form div:nth-child(3) {
-		display:none;
+		width: 50px;
+        position: relative;
+        top: -57px;
+        left: 227px;
 	}	
 	.log-in-pop-left{
 		display:none;

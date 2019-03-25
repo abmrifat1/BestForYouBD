@@ -1,6 +1,87 @@
 @extends('front.master')
+@section('style')
+<link href="{{asset('front/css/select2.min.css')}}" rel="stylesheet" />
+<style>
+.form-control{
+	height: 45px !important;
+    line-height: 2 !important;
+}
+.select2-container .select2-selection--single {
+	height:45px;
+	line-height: 2 !important;
+}.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 42px;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    top: 8px;
+}
+</style>
+@endsection
 @section('content')
-
+<!--TOP SEARCH SECTION-->
+<section class="bottomMenu dir-il-top-fix">
+		<div class="container top-search-main">
+			<div class="row">
+				<div class="ts-menu">
+					<!--SECTION: LOGO-->
+					<div class="ts-menu-1">
+						<a href="index.html"><img src="images/aff-logo.png" alt=""> </a>
+					</div>
+					<!--SECTION: BROWSE CATEGORY(NOTE:IT'S HIDE ON MOBILE & TABLET VIEW)-->
+					<div class="ts-menu-2"><a href="/" class="t-bb">Best4You</a>
+						
+					</div>
+					<div class="ts-menu-3">
+					<div class="">
+					<form action="{{url('/search-institute')}}" class="tourz-search-form tourz-top-search-form" id="service_search" method="POST">
+								
+						<div class="">
+								</div>
+								<div class="">
+										<select name='id' id="institutes" style="display:block;" required>
+												<option value="">Search a Institute</option>
+												@foreach($institutes as $institute)
+													<option value="{{$institute->id}}">{{$institute->name}}</option>
+												@endforeach
+										</select>
+								</div>
+								<div class="">
+									<button type="submit" value="" class="waves-effect waves-light tourz-top-sear-btn"></button> </div>
+									@csrf
+							</form>
+						</div>
+					</div>
+					<!--SECTION: REGISTER,SIGNIN AND ADD YOUR BUSINESS-->
+					<div class="ts-menu-4" style="float:right;">
+						<div class="v3-top-ri">
+							<ul>
+								<li><a href="/institutes" class="v3-menu-sign">Institutes</a> </li>
+								<li><a href="/hospitals" class="v3-add-bus">Hospitals</a> </li>
+								<li><a href="/hotels" class="v3-add-bus">Hotels</a> </li>
+								<li><a href="/tour-places" class="v3-add-bus">Tour Places</a> </li>
+								<li><a href="/discuss" class="v3-add-bus">Discuss Forum</a> </li>
+							</ul>
+						</div>
+					</div>
+					<!--MOBILE MENU ICON:IT'S ONLY SHOW ON MOBILE & TABLET VIEW-->
+					<div class="ts-menu-5"><span><i class="fa fa-bars" aria-hidden="true"></i></span> </div>
+					<!--MOBILE MENU CONTAINER:IT'S ONLY SHOW ON MOBILE & TABLET VIEW-->
+					<div class="mob-right-nav" data-wow-duration="0.5s">
+						<div class="mob-right-nav-close"><i class="fa fa-times" aria-hidden="true"></i> </div>
+						<h5>Menu</h5>
+						<ul class="mob-menu-icon">
+							<li><a href="/">Home</a> </li>
+							<li><a href="/institutes">Institutes</a> </li>
+							<li><a href="/hospitals">Hospitals</a> </li>
+							<li><a href="/hotels">Hotels</a> </li>
+							<li><a href="/tour-places">Tour Places</a> </li>
+							<li><a href="/discuss">Discuss Forum</a> </li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 	<section class="dir-alp dir-pa-sp-top">
 		<div class="container">
 			<div class="row">
@@ -14,33 +95,42 @@
 			</div>
 			<div class="row">
 				<div class="dir-alp-con">
+					
+					<form action="{{url('/filter-institutes')}}" method="POST">
+						@csrf
 					<div class="col-md-3 dir-alp-con-left">
 						<!--==========Sub Category Filter============-->
 						<div class="dir-alp-con-left-1"><h3>Departments</h3> </div>
 						<div class="dir-hom-pre dir-alp-left-ner-notb">
-							<ul>
+							<select name='department_id[]' id="department" style="display:block;">
+								<option value="">Select a Department</option>
 								@foreach($departments as $department)
-									<li>
-										<input type="checkbox" id="scf{{$department->id}}" value="{{$department->id}}" name=department_id[]/>
-										<label for="scf{{$department->id}}">{{$department->name}}</label>
-									</li>
+									<option value="{{$department->id}}" id="ld{{$department->id}}">{{$department->name}}</option>
 								@endforeach
-							</ul>
+							</select>
 						</div>
+						
 						<!--==========End Sub Category Filter============-->
 						<!--==========Sub Category Filter============-->
-						<div class="dir-alp-l3 dir-alp-l-com">
-							<h4>Distance</h4>
+						<div class="dir-alp-l3 dir-alp-l-com" style="margin-top:10px;">
+							<h4>Certification</h4>
 							<div class="dir-alp-l-com1 dir-alp-p3">
-								<form>
-									<ul>
-										<li>
-											<input class="with-gap" name="group1" type="radio" id="ldis1" />
-											<label for="ldis1">00 to 02km</label>
-										</li>
-									</ul>
-								</form> <a href="#!" class="list-view-more-btn">view more</a> </div>
+								<ul>
+									<li>
+										<input class="with-gap" name="IEEB" value="IEEB" type="radio" id="IEEB" />
+										<label for="IEEB">IEEB</label>
+									</li>
+									<li>
+										<input class="with-gap" name="IEEB" value="Farmacy" type="radio" id="Farmacy" />
+										<label for="Farmacy">Farmacy</label>
+									</li>
+								</ul>
+							</div>
 						</div>
+						<div class="form-control">
+							<input type="submit" class="btn btn-submit" style="width:100%" value="Filter">
+						</div>
+						{{--
 						<!--==========End Sub Category Filter============-->
 						<!--==========Sub Category Filter============-->
 						<div class="dir-alp-l3 dir-alp-l-com">
@@ -55,9 +145,10 @@
 										</li>
 									</ul>
 								</form> <a href="#!" class="list-view-more-btn">view more</a> </div>
-						</div>
+						</div>--}}
 						<!--==========End Sub Category Filter============-->
 					</div>
+					</form>
 					<div class="col-md-9 dir-alp-con-right">
 						<div class="dir-alp-con-right-1">
 							<div class="row">
@@ -89,7 +180,7 @@
 									<!--== BOTTOM FLOAT ICON ==-->
 									<section>
 										<div class="fixed-action-btn vertical">
-											<button type="submit" class="btn-floating btn-large red pulse"> <i class="large material-icons">visibility</i> </button>
+											<button type="submit" class="btn-floating btn-large red pulse" title="Click for Compare with selected items"> <i class="large material-icons">visibility</i> </button>
 											{{--<ul>
 												<li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a> </li>
 												<li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a> </li>
@@ -110,4 +201,13 @@
 			</div>
 		</div>
 	</section>
+@endsection
+@section('script')
+<script src="{{asset('front/js/select2.min.js')}}"></script>
+<script>
+  $(document).ready(function() {
+	  $("#department").select2();
+	  $("#institutes").select2();
+  });
+</script>
 @endsection

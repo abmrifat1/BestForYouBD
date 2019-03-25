@@ -20,6 +20,22 @@
 @section('content')
 	<!--BANNER AND SERACH BOX-->
 	<section class="dir3-home-head">
+		<div class="container">
+				<div class="row">
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="dir-ho-tl">
+							<ul>
+								<li>
+									<a href="index.html"><h3>Best<span>4</span>You</h3></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-6">
+						
+					</div>
+				</div>
+			</div>
 		<div class="container dir-ho-t-sp">
 			<div class="row">
 				<div class="dir-hr1 dir-cat-search">
@@ -133,14 +149,14 @@
                                     <div class="col-md-9 home-list-pop-desc"> <a href="/institute/{{$institute->id}}"><h3>{{ $institute->name }}</h3></a>
                                         <h4>{{ $institute->departments_count }} Departments</h4>
                                         <p>{{ $institute->address }}</p> <!--<span class="home-list-pop-rat">4.2</span>-->
-                                        <div class="hom-list-share">
+                                        {{--<div class="hom-list-share">
                                             <ul>
                                                 <li><a href="#!"><i class="fa fa-bar-chart" aria-hidden="true"></i> 52</a> </li>
                                                 <li><a href="#!"><i class="fa fa-heart-o" aria-hidden="true"></i> 32</a> </li>
                                                 <li><a href="#!"><i class="fa fa-eye" aria-hidden="true"></i> 420</a> </li>
                                                 <li><a href="#!"><i class="fa fa-share-alt" aria-hidden="true"></i> 570</a> </li>
                                             </ul>
-                                        </div>
+                                        </div>--}}
                                     </div>
                                 </div>
                             @endif
@@ -159,14 +175,14 @@
                                     <div class="col-md-9 home-list-pop-desc"> <a href="/institute/{{$institute->id}}"><h3>{{ $institute->name }}</h3></a>
                                         <h4>{{ $institute->departments_count }} Departments</h4>
                                         <p>{{ $institute->address }}</p> <!--<span class="home-list-pop-rat">4.2</span>-->
-                                        <div class="hom-list-share">
+                                        {{--<div class="hom-list-share">
                                             <ul>
                                                 <li><a href="#!"><i class="fa fa-bar-chart" aria-hidden="true"></i> 52</a> </li>
                                                 <li><a href="#!"><i class="fa fa-heart-o" aria-hidden="true"></i> 32</a> </li>
                                                 <li><a href="#!"><i class="fa fa-eye" aria-hidden="true"></i> 420</a> </li>
                                                 <li><a href="#!"><i class="fa fa-share-alt" aria-hidden="true"></i> 570</a> </li>
                                             </ul>
-                                        </div>
+                                        </div>--}}
                                     </div>
                                 </div>
                             @endif
@@ -199,7 +215,6 @@
                                             <div class="dir-hli-2">
                                                 <h4>{{ $hospital->name}}</h4> 
                                                 <p>{{ $hospital->address}}</p> 
-                                                <a href="#" class="dir-ho-cat">Show All (940)</a>
                                             </div>
                                         </div>
                                     </a>
@@ -224,7 +239,6 @@
                                             <div class="dir-hli-2">
                                                 <h4>{{ $hospital->name}}</h4> 
                                                 <p>{{ $hospital->address}}</p> 
-                                                <a href="#" class="dir-ho-cat">Show All (940)</a>
                                             </div>
                                         </div>
                                     </a>

@@ -152,7 +152,7 @@
 											<div class="col-md-9 home-list-pop-desc inn-list-pop-desc list-room-deta"> <a href="{{ url('/hotel/'.$hotel->id)}}"><h3>
 													@php 
 													foreach ($hotels as $mainHotel) {
-														if($mainHotel->id == $hotel->hotel_id){
+														if($mainHotel->id == $hotel->hotel_id)
 															echo $mainHotel->hotelName;
 														}
 													}

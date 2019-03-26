@@ -185,8 +185,9 @@ class WebsiteController extends Controller
         if(count($request->id) > 1){
 
             $tour_places = TourPlace::with('tourPlaceHotels')->whereIn('id',$request->id)->get();
-            //return $tour_places;
+            return $tour_places;
             $hotels = Hotel::select('id','name as hotelName')->get();
+            return $hotels;
             return view('front.tourPlace.compare',['tour_places'=>$tour_places,'hotels'=>$hotels]);
         }else{
             return redirect()->back()->with('error','Please select at lease 2 institutes');

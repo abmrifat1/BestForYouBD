@@ -9,6 +9,7 @@ use App\TourPlace;
 use App\District;
 use App\SubDistrict;
 use App\Department;
+use App\HospitalDepartment;
 use App\InstituteDepartments;
 use DB;
 use Illuminate\Http\Request;
@@ -68,7 +69,8 @@ class WebsiteController extends Controller
     public function hospitals()
     {
         $hospitals = Hospital::where('isActive' , 'Active')->latest()->paginate(6);
-        return view('front.hospital.home',['hospitals'=>$hospitals]);
+        $departments = HospitalDepartment::where('isActive' , 'Active')->orderBy('name','asc')->get();
+        return view('front.hospital.home',['hospitals'=>$hospitals,'departments'=>$departments]);
     }
 
     public function showHospital($id)
@@ -173,19 +175,32 @@ class WebsiteController extends Controller
 
             $institutes = Institute::with('institute_departments')->whereIn('institutes.id',$request->id)->get();
             $departments = Department::select('id','name as departmentName')->get();
-            /*foreach($institutes as $institute){
-                foreach($institute->institute_departments as $insDepartment){
-                    foreach ($departments as $department) {
-                        if($department->id == $insDepartment->department_id){
-                            $deptName[] = $department->departmentName;
-                        }
-                    }
-                }
-            }
-            return $deptName;*/
             return view('front.institute.compare',['institutes'=>$institutes,'departments'=>$departments]);
         }else{
             return redirect()->back()->with('error','Please select at lease 2 institutes');
+        }
+    }
+    public function tourPlaceCompare(Request $request)
+    {
+        if(count($request->id) > 1){
+
+            $tour_places = TourPlace::with('tourPlaceHotels')->whereIn('id',$request->id)->get();
+            //return $tour_places;
+            $hotels = Hotel::select('id','name as hotelName')->get();
+            return view('front.tourPlace.compare',['tour_places'=>$tour_places,'hotels'=>$hotels]);
+        }else{
+            return redirect()->back()->with('error','Please select at lease 2 institutes');
+        }
+    }
+    public function hospitalCompare(Request $request)
+    {
+        if(count($request->id) > 1){
+
+            $hospitals = Hospital::with('hospital_departments')->whereIn('hospitals.id',$request->id)->get();
+            $departments = HospitalDepartment::select('id','name as departmentName')->get();
+            return view('front.hospital.compare',['hospitals'=>$hospitals,'departments'=>$departments]);
+        }else{
+            return redirect()->back()->with('error','Please select at lease 2 hospitals');
         }
     }
     public function hotelCompare(Request $request)
@@ -233,7 +248,30 @@ class WebsiteController extends Controller
             $institutes = Institute::where('isActive' , 'Active')->latest()->paginate(7);
         }
         return view('front.institute.home',['institutes'=>$institutes,'departments'=>$departments]);
-
+    }
+    public function filterHospital(Request $request)
+    {
+        $departments = Department::where('isActive','Active')->get();
+        if(!empty($request->department_id) && empty($request->IEEB)){
+            $institutes = DB::table('institutes')
+            ->join('institute_departments','institute_departments.institute_id','=','institutes.id')
+            ->where('institute_departments.department_id',$request->department_id)->paginate(12);
+        }
+            
+        elseif(empty($request->department_id) && !empty($request->IEEB)){
+            $institutes = DB::table('institutes')
+            ->join('institute_departments','institute_departments.institute_id','=','institutes.id')
+            ->where('institute_departments.IEEB',$request->IEEB)->paginate(12);
+        }
+        elseif(!empty($request->department_id) && !empty($request->IEEB)){
+            $institutes = DB::table('institutes')
+            ->join('institute_departments','institute_departments.institute_id','=','institutes.id')
+            ->where('institute_departments.department_id',$request->department_id)
+            ->where('institute_departments.IEEB',$request->IEEB)->paginate(12);
+        }else{
+            $institutes = Institute::where('isActive' , 'Active')->latest()->paginate(7);
+        }
+        return view('front.institute.home',['institutes'=>$institutes,'departments'=>$departments]);
     }
     public function filterHotel(Request $request)
     {
@@ -257,7 +295,6 @@ class WebsiteController extends Controller
             $hotels = Hotel::where('isActive' , 'Active')->latest()->paginate(7);
         }
         return view('front.hotel.home',['hotels'=>$hotels,'rooms'=>$rooms]);
-
     }
     public function searchInstitute(Request $request)
     {
@@ -268,6 +305,16 @@ class WebsiteController extends Controller
     {
         $id = $request->id;
         return redirect('hotel/'.$id);
+    }
+    public function searchHospital(Request $request)
+    {
+        $id = $request->id;
+        return redirect('hospital/'.$id);
+    }
+    public function searchTourPlace(Request $request)
+    {
+        $id = $request->id;
+        return redirect('tour-place/'.$id);
     }
     public function error()
     {

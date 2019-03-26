@@ -47,6 +47,8 @@ Route::post('hospital-departments/{hospital_id}','API\HospitalController@addHosp
 Route::apiResources(['dashboard-hospital-departments'=>'API\HospitalDepartmentController']);
 //Start Hotel
 Route::apiResources(['dashboard/hotel'=>'API\HotelController']);
+Route::get('get-hotels/{sub_district_id}','API\HotelController@getHotel');
+
 //Sub District
 Route::apiResources(['admin-subdistrict'=>'API\SubDistrictController']);
 Route::get('admin-getdistrict','API\SubDistrictController@getDistrict');

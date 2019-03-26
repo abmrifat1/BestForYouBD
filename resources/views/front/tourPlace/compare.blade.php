@@ -44,28 +44,6 @@
 			</div>
 		</div>
 	</section>
-	<section>
-		<div class="v3-list-ql">
-			<div class="container">
-				<div class="row">
-					<div class="v3-list-ql-inn">
-						<ul>
-							<li class="active"><a href="#ld-abour"><i class="fa fa-user"></i> About</a>
-							</li>
-							<li><a href="#ld-ser"><i class="fa fa-cog"></i> Services</a>
-							</li>
-							<li><a href="#ld-gal"><i class="fa fa-photo"></i> Gallery</a>
-							</li>
-							<!--<li><a href="#ld-roo"><i class="fa fa-ticket"></i> Departments</a>
-							</li>
-							<li><a href="#ld-vie"><i class="fa fa-street-view"></i> 360 View</a>
-							</li>-->
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
 	{{--<!--LISTING DETAILS-->
 	<section class="pg-list-1">
 		<div class="container">
@@ -82,6 +60,7 @@
 			</div>
 		</div>
 	</section>--}}
+	@foreach($tour_places as $tour_place)
 	<section class="list-pg-bg">
 		<div class="container">
 			<div class="row">
@@ -162,33 +141,28 @@
 						</div>
 						<!--END LISTING DETAILS: LEFT PART 3-->
 						<!--LISTING DETAILS: LEFT PART 4-->
-						{{--<div class="pglist-p3 pglist-bg pglist-p-com" id="ld-roo">
+						<div class="pglist-p3 pglist-bg pglist-p-com" id="ld-roo">
 							<div class="pglist-p-com-ti">
-								<h3><span>Institute</span> Departments</h3> </div>
+								<h3><span>Nearest</span> Hotels</h3> </div>
 							<div class="list-pg-inn-sp">
-								@foreach ($institute_departments as $department)
+								@foreach ($tour_place->tour_place_hotels as $hotel)
 									<div class="home-list-pop list-spac list-spac-1 list-room-mar-o">
-										<!--LISTINGS IMAGE-->
-										<div class="col-md-3"> <img src="/front/images/Dept_Ed.jpg" alt="" style="height:200px"> </div>
-										<!--LISTINGS: CONTENT-->
-										<div class="col-md-9 home-list-pop-desc inn-list-pop-desc list-room-deta"> <a href="#!"><h3>{{$department->name}}</h3></a>
-											<div class="list-room-type list-rom-ami">
-												<ul>
-													<li>
-														<p><b>Amenities:</b> </p>
-													</li>
-													@if($department->credit > 0)<li><img src="/front/images/icon/a9.png" alt=""> Credit: {{$department->credit}}</li>@endif
-													<li><img src="/front/images/icon/a10.png" alt=""> Faculty Member: {{$department->faculty_members}} </li>
-													<li><img src="/front/images/icon/a3.png" alt=""> Students: {{$department->students}}</li>
-													<li><img src="/front/images/icon/a6.png" alt=""> Computer: {{$department->computer}}</li>
-													@if($department->IEEB)<li><img src="/front/images/icon/a2.png" alt=""> Certification: {{$department->IEEB}}</li>@endif
-												</ul>
-											</div> <span class="home-list-pop-rat list-rom-pric green-bg">Cost: ${{$department->cost}}</span>
-										</div>
+											<div class="col-md-3"> <img src="/front/images/hotel_room.png" alt="" style="height:100%;width:100%"> </div>
+											<!--LISTINGS: CONTENT-->
+											<div class="col-md-9 home-list-pop-desc inn-list-pop-desc list-room-deta"> <a href="{{ url('/hotel/'.$hotel->id)}}"><h3>
+													@php 
+													foreach ($hotels as $mainHotel) {
+														if($mainHotel->id == $hotel->hotel_id){
+															echo $mainHotel->hotelName;
+														}
+													}
+													@endphp
+												</h3></a>
+											</div>
 									</div>
 								@endforeach
 							</div>
-						</div>--}}
+						</div>
 						{{--
 						<!--END 360 DEGREE MAP: LEFT PART 8-->
 						<div class="pglist-p3 pglist-bg pglist-p-com" id="ld-vie">
@@ -217,23 +191,6 @@
 								</div>
 							</div>
 						</div>
-						<!--END LISTING DETAILS: LEFT PART 9-->
-						<!--LISTING DETAILS: LEFT PART 10-->
-						<div class="list-mig-like">
-							<div class="list-ri-spec-tit">
-								<h3><span>You might</span> like this</h3> </div>
-							@foreach($tour_places as $randomTourPlace)
-								<a href="/tour-place/{{$randomTourPlace->id}}">
-									<div class="list-mig-like-com">
-										<div class="list-mig-lc-img"> <img src="/img/tour_places/{{$randomTourPlace->main_img}}" alt="" /><!-- <span class="home-list-pop-rat list-mi-pr">$720</span> --></div>
-										<div class="list-mig-lc-con">
-											<h5>{{$randomTourPlace->name}}</h5>
-											<p>{{$randomTourPlace->address}}</p>
-										</div>
-									</div>
-								</a>
-							@endforeach
-						</div>
 						<!--END LISTING DETAILS: LEFT PART 10-->
 					</div>
 				</div>
@@ -241,5 +198,6 @@
 		</div>
 	</section>
 	<!--QUOTS POPUP-->
+	@endforeach
 	
 @endsection

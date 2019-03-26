@@ -24,6 +24,9 @@ Route::post('/institute-compare','front\WebsiteController@instituteCompare');
 //Hospital routes
 Route::get('/hospitals','front\WebsiteController@hospitals');
 Route::get('/hospital/{id}','front\WebsiteController@showHospital');
+Route::post('/search-hospital','front\WebsiteController@searchHospital');
+Route::post('/filter-hospitals','front\WebsiteController@filterHospital');
+Route::post('/hospital-compare','front\WebsiteController@hospitalCompare');
 //Hotel rountes
 Route::get('/hotels','front\WebsiteController@hotels');
 Route::get('/hotel/{id}','front\WebsiteController@showhotel');
@@ -33,6 +36,9 @@ Route::post('/hotel-compare','front\WebsiteController@hotelCompare');
 //Tour Place route
 Route::get('/tour-places','front\WebsiteController@tourPlaces');
 Route::get('/tour-place/{id}','front\WebsiteController@showTourPlace');
+Route::post('/search-tour-place','front\WebsiteController@searchTourPlace');
+Route::post('/filter-tour-places','front\WebsiteController@filterTourPlace');
+Route::post('/tour-place-compare','front\WebsiteController@tourPlaceCompare');
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');

@@ -31,6 +31,11 @@ class HotelController extends Controller
             return Hotel::with('rooms')->orderBy('name','asc')->paginate(10);
         }
     }
+    public function getHotel($sub_district_id)
+    {
+        return Hotel::where('sub_district_id',$sub_district_id)->where('isActive','=','Active')->orderby('name','asc')->get();
+    }
+    
     public function getRoom()
     {
         return RoomType::where('isActive','=','Active')->orderby('name','asc')->get();

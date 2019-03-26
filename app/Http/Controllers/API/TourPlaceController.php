@@ -40,10 +40,6 @@ class TourPlaceController extends Controller
             return $tourPlaces;
         }
     }
-    public function getHotel()
-    {
-        return Hotel::where('isActive','=','Active')->orderby('name','asc')->get();
-    }
     public function getDistricts()
     {
         return District::select('id','name')->orderby('name','asc')->get();
@@ -86,6 +82,7 @@ class TourPlaceController extends Controller
         }
         $request['user_id'] = Auth::user()->id;
         $tourPlace = TourPlace::create($request->all());
+        $tourPlace->hotels()->sync($request->hotels);
         return ['update' => "Tour Place information stored"];
     }
     /**
@@ -136,7 +133,8 @@ class TourPlaceController extends Controller
             }
         }
         $tourPlace->update($request->all());
-        return ['update' => "tourPlace information updated"];
+        $tourPlace->hotels()->syncWithoutDetaching($request->hotels);
+        return ['update' => "TourPlace information updated"];
     }
 
     /**

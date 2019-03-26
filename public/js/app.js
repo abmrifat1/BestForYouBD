@@ -85953,6 +85953,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -85965,6 +85973,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             tourPlaces: {},
             districts: {},
             subDistricts: {},
+            hotels: {},
             form: new Form({
                 id: '',
                 name: '',
@@ -85982,7 +85991,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 isActive: 'Active',
                 restaurant: 'Yes',
                 cafe: 'Yes',
-                car_parking: 'Yes'
+                car_parking: 'Yes',
+                hotels: []
             })
         };
     },
@@ -86008,51 +86018,67 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 return _this.subDistricts = data;
             });
         },
-        newModal: function newModal() {
+        getHotels: function getHotels(e) {
             var _this2 = this;
+
+            axios.get("api/get-hotels/" + this.form.sub_district_id).then(function (_ref2) {
+                var data = _ref2.data;
+                return _this2.hotels = data;
+            });
+        },
+        newModal: function newModal() {
+            var _this3 = this;
 
             this.editMode = false;
             this.McreateMode = true;
             this.Mg1createMode = true;
             this.Mg2createMode = true;
             this.form.reset();
-            axios.get("api/get-districts").then(function (_ref2) {
-                var data = _ref2.data;
-                return _this2.districts = data;
+            axios.get("api/get-districts").then(function (_ref3) {
+                var data = _ref3.data;
+                return _this3.districts = data;
             });
 
             $('#addNew').modal('show');
         },
         editModal: function editModal(tourPlace) {
-            var _this3 = this;
+            var _this4 = this;
 
             this.McreateMode = false;
             this.Mg1createMode = false;
             this.Mg2createMode = false;
             this.editMode = true;
             this.form.reset();
-            $('#addNew').modal('show');
-            axios.get("api/get-districts").then(function (_ref3) {
-                var data = _ref3.data;
-                return _this3.districts = data;
-            });
             this.form.fill(tourPlace);
+            axios.get("api/get-districts").then(function (_ref4) {
+                var data = _ref4.data;
+                return _this4.districts = data;
+            });
+            axios.get("api/get-sub-districts/" + this.form.district_id).then(function (_ref5) {
+                var data = _ref5.data;
+                return _this4.subDistricts = data;
+            });
+            axios.get("api/get-hotels/" + this.form.sub_district_id).then(function (_ref6) {
+                var data = _ref6.data;
+                return _this4.hotels = data;
+            });
+            $('#addNew').modal('show');
         },
         update: function update() {
-            var _this4 = this;
+            var _this5 = this;
 
             this.$Progress.start();
             this.form.put('api/dashboard/tour-place/' + this.form.id).then(function () {
                 $('#addNew').modal('hide');
                 swal('Updated!', 'Your information has been updated.', 'success');
-                _this4.$Progress.finish();
+                _this5.$Progress.finish();
                 Fire.$emit('takePageLoad');
             }).catch(function () {
-                _this4.$Progress.fail();
+                _this5.$Progress.fail();
             });
         },
         Main_Image: function Main_Image(e) {
-            var _this5 = this;
+            var _this6 = this;
 
             // console.log('uploading');
             this.McreateMode = false;
@@ -86062,12 +86088,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             reader.onloadend = function (file) {
                 // console.log('RESULT', reader.result)
-                _this5.form.main_img = reader.result;
+                _this6.form.main_img = reader.result;
             };
             reader.readAsDataURL(file);
         },
         Gallery_image_1: function Gallery_image_1(e) {
-            var _this6 = this;
+            var _this7 = this;
 
             // console.log('uploading');
             this.Mg1createMode = false;
@@ -86077,45 +86103,45 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             reader.onloadend = function (file) {
                 // console.log('RESULT', reader.result)
-                _this6.form.gallery_img_1 = reader.result;
+                _this7.form.gallery_img_1 = reader.result;
             };
             reader.readAsDataURL(file);
         },
         Gallery_image_2: function Gallery_image_2(e) {
-            var _this7 = this;
+            var _this8 = this;
 
             this.Mg2createMode = false;
             var file = e.target.files[0];
             //console.log(file);
             var reader = new FileReader();
             reader.onloadend = function (file) {
-                _this7.form.gallery_img_2 = reader.result;
+                _this8.form.gallery_img_2 = reader.result;
             };
             reader.readAsDataURL(file);
         },
         load: function load() {
-            var _this8 = this;
+            var _this9 = this;
 
             this.$Progress.start();
             if (this.$gate.isAdminOrAuthor()) {
-                axios.get("api/dashboard/tour-place").then(function (_ref4) {
-                    var data = _ref4.data;
-                    return _this8.tourPlaces = data;
+                axios.get("api/dashboard/tour-place").then(function (_ref7) {
+                    var data = _ref7.data;
+                    return _this9.tourPlaces = data;
                 });
             }
             this.$Progress.finish();
         },
         getResults: function getResults() {
-            var _this9 = this;
+            var _this10 = this;
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
             axios.get('api/dashboard/tour-place?page=' + page).then(function (response) {
-                _this9.tourPlaces = response.data;
+                _this10.tourPlaces = response.data;
             });
         },
         create: function create() {
-            var _this10 = this;
+            var _this11 = this;
 
             this.$Progress.start();
             this.form.post('api/dashboard/tour-place').then(function () {
@@ -86125,13 +86151,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                     type: 'success',
                     title: 'Tour place created successfully'
                 });
-                _this10.$Progress.finish();
+                _this11.$Progress.finish();
             }).catch(function () {
-                _this10.$Progress.fail();
+                _this11.$Progress.fail();
             });
         },
         deleted: function deleted(id) {
-            var _this11 = this;
+            var _this12 = this;
 
             this.$Progress.start();
             swal({
@@ -86144,15 +86170,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 confirmButtonText: 'Yes, delete it!'
             }).then(function (result) {
                 if (result.value) {
-                    _this11.form.delete('api/dashboard/tour-place/' + id).then(function () {
+                    _this12.form.delete('api/dashboard/tour-place/' + id).then(function () {
                         swal('Deleted!', 'Your file has been deleted.', 'success');
                         Fire.$emit('takePageLoad');
                     }).catch(function () {
-                        _this11.$Progress.fail();
+                        _this12.$Progress.fail();
                         swal("Failed", "There was something wrong.", "warning");
                     });
                 }
-                _this11.$Progress.finish();
+                _this12.$Progress.finish();
             });
         }
     }, 'getMainPhoto', function getMainPhoto() {
@@ -86160,17 +86186,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return photo;
     }),
     created: function created() {
-        var _this12 = this;
+        var _this13 = this;
 
         Fire.$on('searching', function () {
-            var query = _this12.$parent.search;
+            var query = _this13.$parent.search;
             axios.get('api/find-tour-places?q=' + query).then(function (data) {
-                _this12.tourPlaces = data.data;
+                _this13.tourPlaces = data.data;
             }).catch(function () {});
         });
         this.load();
         Fire.$on('takePageLoad', function () {
-            _this12.load();
+            _this13.load();
         });
 
         //    setInterval(() => this.loadinstitutes(), 3000);
@@ -86629,31 +86655,33 @@ var render = function() {
                             },
                             staticStyle: { width: "100%" },
                             on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.$set(
-                                  _vm.form,
-                                  "sub_district_id",
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
-                              }
+                              change: [
+                                function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.form,
+                                    "sub_district_id",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                },
+                                _vm.getHotels
+                              ]
                             }
                           },
                           [
-                            _c(
-                              "option",
-                              { attrs: { value: "", disabled: "" } },
-                              [_vm._v("Select a sub district")]
-                            ),
+                            _c("option", { attrs: { value: "" } }, [
+                              _vm._v("Select a sub district")
+                            ]),
                             _vm._v(" "),
                             _vm._l(_vm.subDistricts, function(subDistrict) {
                               return _c(
@@ -86671,6 +86699,77 @@ var render = function() {
                         _vm._v(" "),
                         _c("has-error", {
                           attrs: { form: _vm.form, field: "sub_district_id" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", [_vm._v("Nearest Hotel List")]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.hotels,
+                                expression: "form.hotels"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("hotel")
+                            },
+                            staticStyle: { width: "100%" },
+                            attrs: { multiple: "multiple" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.form,
+                                  "hotels",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "option",
+                              { attrs: { value: "", disabled: "" } },
+                              [_vm._v("Select the Hotels")]
+                            ),
+                            _vm._v(" "),
+                            _vm._l(_vm.hotels, function(hotel) {
+                              return _c(
+                                "option",
+                                {
+                                  key: hotel.id,
+                                  domProps: { value: hotel.id }
+                                },
+                                [_vm._v(_vm._s(hotel.name))]
+                              )
+                            })
+                          ],
+                          2
+                        ),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "hotel" }
                         })
                       ],
                       1

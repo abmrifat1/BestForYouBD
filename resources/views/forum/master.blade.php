@@ -6,6 +6,29 @@
         <title>@yield('title')</title>
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <link href="{{asset('front/css/select2.min.css')}}" rel="stylesheet" />
+        <style>
+            .form-control{
+                height: 40px !important;
+                line-height: 1 !important;
+            }   
+            .select2-container .select2-selection--single {
+                height:40px;
+                line-height: 1 !important;
+            }
+        /*.form-control{
+            height: 40px !important;
+            line-height: 1.8 !important;
+        }.select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 2.5;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            top: 8px;
+        }
+        .select2-container {
+            width: 527px !important;
+        }*/
+        </style>
         <link href="{{asset('img/favicon.ico')}}" rel="icon" type="image/x-icon" />
         <!-- Bootstrap -->
         <link href="{{asset('forum/css/bootstrap.min.css')}}" rel="stylesheet">
@@ -37,16 +60,27 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-2 col-xs-2 col-sm-2 col-md-2 logo "><a href="{{url('/discuss')}}" style="text-decoration:none;font-weight:600;font-size:18px;"><img src="{{asset('forum/images/bestforyoubd.png')}}" alt=""  />  BestInBD</a></div>
-                        <div class="col-lg-6 col-xs-6 col-sm-6 search col-md-6">
-                            <div class="wrap">
-                                <form action="#" method="post" class="form searchForm">
-                                    <div class="pull-left txt"><input type="text" class="form-control" placeholder="Search Topics"></div>
-                                    <div class="pull-right"><button class="btn btn-default" type="button"><i class="fa fa-search"></i></button></div>
-                                    <div class="clearfix"></div>
-                                </form>
-                            </div>
+                        <div class="col-lg-7 col-xs-4 col-sm-4 col-md-7">
+                         
+                            <form action="{{url('/search-question')}}" method="post" style="height: 40px;margin-top:15px">
+                                @csrf
+                                <div class="form-row">
+                                    <div class="form-group col-md-10 col-sm-8">
+                                        <select name="id" id="forum_id" class="form-control" required>
+                                            <option value="">Search here</option>
+                                            @foreach($forumPosts as $post)
+                                                <option value="{{$post->id}}">{{$post->description}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-2 col-sm-4">
+                                        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="clearfix"></div>
                         </div>
-                        <div class="col-lg-4 col-xs-4 col-sm-4 col-md-4 avt">
+                        <div class="col-lg-2 col-xs-2 col-sm-2 col-md-2 avt" align="right">
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#questionModal">
                                         Ask a question!
                                 </button>
@@ -174,7 +208,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="description" class="col-form-label">Question</label>
-                                <textarea type="text" name="description" class="form-control" id="description" rows="6"></textarea>
+                                <textarea type="text" name="description" class="form-control" id="description" style="min-height:100px;""></textarea>
                                 <span class="error">
                                     <strong style="color: red;" id="descriptionErrorMsg"></strong>
                                 </span>
@@ -190,9 +224,9 @@
         </div>
         <!-- End form modal -->
         <!-- get jQuery from the google apis -->
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script type="text/javascript" src="{{asset('forum/js/jquery-3.3.1.min.js')}}"></script>
         <script src="{{asset('forum/js/bootstrap.min.js')}}"></script>
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script src="{{asset('forum/js/sweetalert.min.js')}}"></script>
         @yield('script')
         <script>
                 $.ajaxSetup({
@@ -228,10 +262,16 @@
                             $('#nameErrorMsg').append(error['name']);
                             $('#emailErrorMsg').append(error['email']);
                             $('#descriptionErrorMsg').append(error['description']);
-                            $('#categoryErrorMsg').append(error['email']);
+                            $('#categoryErrorMsg').append(error['category_id']);
                         }
                     });
                 });
+        </script>
+        <script src="{{asset('front/js/select2.min.js')}}"></script>
+        <script>
+          $(document).ready(function() {
+              $("#forum_id").select2();
+          });
         </script>
     </body>
 </html>

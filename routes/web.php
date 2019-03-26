@@ -34,4 +34,5 @@ Route::get('/single', 'Forum\ForumController@single');
 Route::resource('discuss/post','Forum\ForumController');
 Route::get('/discuss/category-post/{id}', 'Forum\ForumController@category_posts');
 Route::post('/discuss/comment', 'Forum\ForumController@storeComment');
+Route::post('/search-question','Forum\ForumController@searchQuestion');
 Route::get('{path}',"HomeController@index")->where( 'path', '([A-z\d-\/_.]+)?' );

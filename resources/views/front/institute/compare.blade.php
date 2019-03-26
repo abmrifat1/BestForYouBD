@@ -7,7 +7,7 @@
 				<div class="ts-menu">
 					<!--SECTION: LOGO-->
 					<div class="ts-menu-1">
-						<a href="index.html"><img src="images/aff-logo.png" alt=""> </a>
+						<a href="/"><img src="/img/bestforyoubd2.png" alt=""> </a>
 					</div>
 					<!--SECTION: BROWSE CATEGORY(NOTE:IT'S HIDE ON MOBILE & TABLET VIEW)-->
 					<div class="ts-menu-2"><a href="/" class="t-bb">Best In BD</a>
@@ -113,7 +113,7 @@
 										@endif
 										@if($institute->hostel > 0)
 										<li class="col-md-4">
-											<div class="pg-list-ser-p1"><img src="/front/images/services/ser2.jpg" alt="" /> </div>
+											<div class="pg-list-ser-p1"><img src="/front/images/services/hostel.jpg" alt="" /> </div>
 											<div class="pg-list-ser-p2">
 												<h4>Hostel</h4> </div>
 										</li>
@@ -200,11 +200,12 @@
 													<li>
 														<p><b>Amenities:</b> </p>
 													</li>
-													@if($department->credit > 0)<li><img src="/front/images/icon/a9.png" alt=""> Credit: {{$department->credit}}</li>@endif
-													<li><img src="/front/images/icon/a10.png" alt=""> Faculty Member: {{$department->faculty_members}} </li>
-													<li><img src="/front/images/icon/a3.png" alt=""> Students: {{$department->students}}</li>
+													@if($department->credit > 0)<li><img src="/front/images/icon/book.jpg" alt=""> Credit: {{$department->credit}}</li>@endif
+													<li><img src="/front/images/icon/teacher-icon.png" alt=""> Faculty Teacher: {{$department->faculty_members}} </li>
+													<li><img src="/front/images/icon/hcat8.png" alt=""> PhD Holder: {{$department->total_phd_teacher}} </li>
+													<li><img src="/front/images/icon/d4.png" alt=""> Students: {{$department->students}}</li>
 													<li><img src="/front/images/icon/a6.png" alt=""> Computer: {{$department->computer}}</li>
-													<li><img src="/front/images/icon/a2.png" alt=""> Certification: {{$department->IEEB}}</li>
+													<li><img src="/front/images/icon/certification.png" alt=""> Certification: {{$department->IEEB}}</li>
 												</ul>
 											</div> <span class="home-list-pop-rat list-rom-pric green-bg">Cost: ${{$department->cost}}</span>
 										</div>
@@ -232,7 +233,13 @@
 							<div class="list-pg-inn-sp">
 								<div class="list-pg-oth-info">
 									<ul>
-										<li>Hostel <span class="green-bg">{{$institute->hostel}}</span> </li>
+										<li>World Ranking <span class="green-bg">{{$institute->world_ranking}}</span> </li>
+										<li>Bangladesh Ranking <span class="green-bg">{{$institute->bangladesh_ranking}}</span> </li>
+										<li>PhD Teacher <span class="green-bg">{{$institute->total_phd_teacher}}</span> </li>
+										<li>Total Teacher <span class="green-bg">{{$institute->total_faculty}}</span> </li>
+										<li>Total Departments <span>{{$institute->total_department}}</span> </li>
+										<li>library <span>{{$institute->library}}</span> </li>
+										<li>Hostel <span>{{$institute->hostel}}</span> </li>
 										<li>Bus <span>{{$institute->bus}}</span> </li>
 										<li>Auditorium <span>{{$institute->auditorium}}</span> </li>
 										<li>Play Ground <span>{{$institute->play_ground}}</span> </li>
@@ -265,7 +272,7 @@
 				</div>
 			</div>
 		</div>
-		<a href="/institute/{{$institute->id}}" class="btn btn-success text-center" style="display:block;" align="center">Go For Full View</a>
+		<a href="{{$institute->website_url}}" target="_blank" class="btn btn-success text-center" style="display:block;" align="center">Go to Institute Website</a>
 	</section>
 	<!--QUOTS POPUP-->
 	<hr><hr>

@@ -202,6 +202,45 @@
                                 <has-error :form="form" field="email"></has-error>
                             </div>
                             <div class="form-group">
+                                <label for="vice_chancellor">Vice Chancellor</label>
+                                <input v-model="form.vice_chancellor" type="text" id="vice_chancellor"
+                                       placeholder="Name"
+                                       class="form-control" :class="{ 'is-invalid': form.errors.has('vice_chancellor') }" required>
+                                <has-error :form="form" field="vice_chancellor"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label for="total_faculty" class="col-form-label">Total Faculty Members:</label>
+                                <input type="number" v-model="form.total_faculty" class="form-control" id="total_faculty" min="0" required :class="{ 'is-invalid': form.errors.has('total_faculty') }">
+                                <has-error :form="form" field="total_faculty"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label for="total_student" class="col-form-label">Total Students:</label>
+                                <input type="number" v-model="form.total_student" class="form-control" id="total_student" min="0" required :class="{ 'is-invalid': form.errors.has('total_student') }">
+                                <has-error :form="form" field="total_student"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label for="total_phd_teacher" class="col-form-label">Total PHD Holder Teacher:</label>
+                                <input type="number" v-model="form.total_phd_teacher" class="form-control" id="total_phd_teacher" min="0" required :class="{ 'is-invalid': form.errors.has('total_phd_teacher') }">
+                                <has-error :form="form" field="total_phd_teacher"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label for="total_department" class="col-form-label">Total Department:</label>
+                                <input type="number" v-model="form.total_department" class="form-control" id="total_department" min="0" required :class="{ 'is-invalid': form.errors.has('total_department') }">
+                                <has-error :form="form" field="total_department"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label for="computer" class="col-form-label">website URL:</label>
+                                <input type="text" v-model="form.website_url" class="form-control" id="website_url" required :class="{ 'is-invalid': form.errors.has('website_url') }">
+                                <has-error :form="form" field="website_url"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label for="degree" class="col-form-label">Library:</label>
+                                <select v-model="form.library" class="form-control">
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label for="email">Total Student Bus</label>
                                 <input v-model="form.bus" type="number" id="bus"
                                        placeholder="Total bus"
@@ -246,6 +285,16 @@
                                 <has-error :form="form" field="events"></has-error>
                             </div>
                             <div class="form-group">
+                                <label for="world_ranking" class="col-form-label">World Ranking:</label>
+                                <input type="number" v-model="form.world_ranking" class="form-control" id="world_ranking" min="0" required :class="{ 'is-invalid': form.errors.has('world_ranking') }">
+                                <has-error :form="form" field="world_ranking"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label for="bangladesh_ranking" class="col-form-label">Bangladesh Ranking:</label>
+                                <input type="number" v-model="form.bangladesh_ranking" class="form-control" id="bangladesh_ranking" min="0" :class="{ 'is-invalid': form.errors.has('bangladesh_ranking') }">
+                                <has-error :form="form" field="bangladesh_ranking"></has-error>
+                            </div>
+                            <div class="form-group">
                                 <label>Publication Status</label>
                                 <select v-model="form.isActive" id="isActive" class="form-control">
                                     <option value="Active">Publish</option>
@@ -286,6 +335,7 @@
                                     <th>Credit</th>
                                     <th>Cost</th>
                                     <th>Faculty Members</th>
+                                    <th>PhD Holder</th>
                                     <th>Students</th>
                                     <th>Degree</th>
                                     <th>Modify</th>
@@ -296,6 +346,7 @@
                                     <td>{{department.credit}}</td>
                                     <td>{{department.cost}}</td>
                                     <td>{{department.faculty_members}}</td>
+                                    <td>{{department.total_phd_teacher}}</td>
                                     <td>{{department.students}}</td>
                                     <td>{{department.IEEB}}</td>
 
@@ -343,27 +394,32 @@
                             <div class="form-group">
                                 <label for="credit" class="col-form-label">Credit:</label>
                                 <input type="number" v-model="departmentForm.credit" class="form-control" id="credit" min="0" :class="{ 'is-invalid': form.errors.has('credit') }">
-                                <has-error :form="form" field="credit"></has-error>
+                                <has-error :form="departmentForm" field="credit"></has-error>
                             </div>
                             <div class="form-group">
                                 <label for="faculty_members" class="col-form-label">Faculty Members:</label>
                                 <input type="number" v-model="departmentForm.faculty_members" class="form-control" id="faculty_members" min="0" required :class="{ 'is-invalid': form.errors.has('faculty_members') }">
-                                <has-error :form="form" field="faculty_members"></has-error>
+                                <has-error :form="departmentForm" field="faculty_members"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label for="total_phd_teacher" class="col-form-label">Total PHD Holder Teacher:</label>
+                                <input type="number" v-model="departmentForm.total_phd_teacher" class="form-control" id="total_phd_teacher" min="0" required :class="{ 'is-invalid': form.errors.has('total_phd_teacher') }">
+                                <has-error :form="departmentForm" field="total_phd_teacher"></has-error>
                             </div>
                             <div class="form-group">
                                 <label for="students" class="col-form-label">Students:</label>
                                 <input type="number" v-model="departmentForm.students" class="form-control" id="students" min="0" required :class="{ 'is-invalid': form.errors.has('students') }">
-                                <has-error :form="form" field="students"></has-error>
+                                <has-error :form="departmentForm" field="students"></has-error>
                             </div>
                             <div class="form-group">
                                 <label for="cost" class="col-form-label">Cost:</label>
                                 <input type="number" v-model="departmentForm.cost" class="form-control" id="cost" min="0" required :class="{ 'is-invalid': form.errors.has('cost') }">
-                                <has-error :form="form" field="cost"></has-error>
+                                <has-error :form="departmentForm" field="cost"></has-error>
                             </div>
                             <div class="form-group">
                                 <label for="computer" class="col-form-label">Computer:</label>
                                 <input type="number" v-model="departmentForm.computer" class="form-control" id="computer" min="0" :class="{ 'is-invalid': form.errors.has('computer') }">
-                                <has-error :form="form" field="computer"></has-error>
+                                <has-error :form="departmentForm" field="computer"></has-error>
                             </div>
                             <div class="form-group">
                                 <label for="degree" class="col-form-label">Degree:</label>
@@ -414,7 +470,6 @@
                     gallery_img_1: '',
                     gallery_img_2: '',
                     ownership_type: '',
-                    vice_chancellor: '',
                     address: '',
                     district_id: '',
                     sub_district_id: '',
@@ -422,11 +477,20 @@
                     phone: '',
                     email: '',
                     description: '',
+                    vice_chancellor: '',
+                    total_phd_teacher: '',
+                    total_faculty: '',
+                    total_student: '',
+                    total_department: '',
+                    website_url: '',
+                    library: 'Yes',
                     hostel: '',
                     restaurant: 'Yes',
                     bus: '',
                     auditorium: '',
                     play_ground: '',
+                    world_ranking: '',
+                    bangladesh_ranking: '',
                     events: 'Yes',
                     isActive: 'Active',
                     department: []
@@ -437,6 +501,7 @@
                     cost:'',
                     students:'',
                     faculty_members:'',
+                    total_phd_teacher:'',
                     IEEB:'',
                     credit:'',
                     computer:'',
@@ -486,11 +551,12 @@
                 this.editMode = true;
                 this.visible = false;
                 this.form.reset();
+                this.form.fill(institute);
                 axios.get("api/get-institute-types").then(({ data }) => (this.instituteTypes = data));
                 axios.get("api/get-districts").then(({ data }) => (this.districts = data));
+                axios.get("api/get-sub-districts/"+this.form.district_id).then(({ data }) => (this.subDistricts = data));
                 //axios.get("api/get-departments/"+institute.institute_type_id).then(({ data }) => (this.departments = data));
                 $('#addNew').modal('show');
-                this.form.fill(institute);
             },
             settingInstituteDepartments(institute){
                 axios.get("api/education-departments/"+institute.id).then( 

@@ -80,7 +80,7 @@ class ForumController extends Controller
     public function show($id)
     {
         $post = Forum::findOrfail($id);
-        DB::table('forums')->increment('views');
+        DB::table('forums')->where('id',$id)->increment('views');
         $comments = ForumComments::where('forum_id',$id)->latest()->paginate(8);
         return view('forum.single',['post'=>$post,'comments'=>$comments]);
     }
@@ -88,5 +88,10 @@ class ForumController extends Controller
     {
         $posts = Forum::where('category_id', $catId)->where('isActive','=','Active')->latest()->paginate(15);
         return view('forum.category_posts',['forumPosts'=> $posts]);
+    }
+    public function searchQuestion(Request $request)
+    {
+        $id = $request->id;
+        return redirect('discuss/post/'.$id);
     }
 }

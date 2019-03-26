@@ -75405,6 +75405,62 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -75430,7 +75486,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 gallery_img_1: '',
                 gallery_img_2: '',
                 ownership_type: '',
-                vice_chancellor: '',
                 address: '',
                 district_id: '',
                 sub_district_id: '',
@@ -75438,11 +75493,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 phone: '',
                 email: '',
                 description: '',
+                vice_chancellor: '',
+                total_phd_teacher: '',
+                total_faculty: '',
+                total_student: '',
+                total_department: '',
+                website_url: '',
+                library: 'Yes',
                 hostel: '',
                 restaurant: 'Yes',
                 bus: '',
                 auditorium: '',
                 play_ground: '',
+                world_ranking: '',
+                bangladesh_ranking: '',
                 events: 'Yes',
                 isActive: 'Active',
                 department: []
@@ -75453,6 +75517,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 cost: '',
                 students: '',
                 faculty_members: '',
+                total_phd_teacher: '',
                 IEEB: '',
                 credit: '',
                 computer: ''
@@ -75517,6 +75582,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             this.editMode = true;
             this.visible = false;
             this.form.reset();
+            this.form.fill(institute);
             axios.get("api/get-institute-types").then(function (_ref5) {
                 var data = _ref5.data;
                 return _this4.instituteTypes = data;
@@ -75525,9 +75591,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 var data = _ref6.data;
                 return _this4.districts = data;
             });
+            axios.get("api/get-sub-districts/" + this.form.district_id).then(function (_ref7) {
+                var data = _ref7.data;
+                return _this4.subDistricts = data;
+            });
             //axios.get("api/get-departments/"+institute.institute_type_id).then(({ data }) => (this.departments = data));
             $('#addNew').modal('show');
-            this.form.fill(institute);
         },
         settingInstituteDepartments: function settingInstituteDepartments(institute) {
             var _this5 = this;
@@ -75536,8 +75605,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 _this5.institute_departments = data;
             });
             this.institute_id = institute.id;
-            axios.get("api/departments").then(function (_ref7) {
-                var data = _ref7.data;
+            axios.get("api/departments").then(function (_ref8) {
+                var data = _ref8.data;
                 return _this5.departments = data;
             });
 
@@ -75676,8 +75745,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             this.$Progress.start();
             if (this.$gate.isAdminOrAuthor()) {
-                axios.get("api/education").then(function (_ref8) {
-                    var data = _ref8.data;
+                axios.get("api/education").then(function (_ref9) {
+                    var data = _ref9.data;
                     return _this13.institutes = data;
                 });
             }
@@ -76769,6 +76838,382 @@ var render = function() {
                       "div",
                       { staticClass: "form-group" },
                       [
+                        _c("label", { attrs: { for: "vice_chancellor" } }, [
+                          _vm._v("Vice Chancellor")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.vice_chancellor,
+                              expression: "form.vice_chancellor"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("vice_chancellor")
+                          },
+                          attrs: {
+                            type: "text",
+                            id: "vice_chancellor",
+                            placeholder: "Name",
+                            required: ""
+                          },
+                          domProps: { value: _vm.form.vice_chancellor },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.form,
+                                "vice_chancellor",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "vice_chancellor" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-form-label",
+                            attrs: { for: "total_faculty" }
+                          },
+                          [_vm._v("Total Faculty Members:")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.total_faculty,
+                              expression: "form.total_faculty"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("total_faculty")
+                          },
+                          attrs: {
+                            type: "number",
+                            id: "total_faculty",
+                            min: "0",
+                            required: ""
+                          },
+                          domProps: { value: _vm.form.total_faculty },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.form,
+                                "total_faculty",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "total_faculty" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-form-label",
+                            attrs: { for: "total_student" }
+                          },
+                          [_vm._v("Total Students:")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.total_student,
+                              expression: "form.total_student"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("total_student")
+                          },
+                          attrs: {
+                            type: "number",
+                            id: "total_student",
+                            min: "0",
+                            required: ""
+                          },
+                          domProps: { value: _vm.form.total_student },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.form,
+                                "total_student",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "total_student" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-form-label",
+                            attrs: { for: "total_phd_teacher" }
+                          },
+                          [_vm._v("Total PHD Holder Teacher:")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.total_phd_teacher,
+                              expression: "form.total_phd_teacher"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has(
+                              "total_phd_teacher"
+                            )
+                          },
+                          attrs: {
+                            type: "number",
+                            id: "total_phd_teacher",
+                            min: "0",
+                            required: ""
+                          },
+                          domProps: { value: _vm.form.total_phd_teacher },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.form,
+                                "total_phd_teacher",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "total_phd_teacher" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-form-label",
+                            attrs: { for: "total_department" }
+                          },
+                          [_vm._v("Total Department:")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.total_department,
+                              expression: "form.total_department"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has(
+                              "total_department"
+                            )
+                          },
+                          attrs: {
+                            type: "number",
+                            id: "total_department",
+                            min: "0",
+                            required: ""
+                          },
+                          domProps: { value: _vm.form.total_department },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.form,
+                                "total_department",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "total_department" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-form-label",
+                            attrs: { for: "computer" }
+                          },
+                          [_vm._v("website URL:")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.website_url,
+                              expression: "form.website_url"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("website_url")
+                          },
+                          attrs: {
+                            type: "text",
+                            id: "website_url",
+                            required: ""
+                          },
+                          domProps: { value: _vm.form.website_url },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.form,
+                                "website_url",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "website_url" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-form-label",
+                          attrs: { for: "degree" }
+                        },
+                        [_vm._v("Library:")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.library,
+                              expression: "form.library"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.form,
+                                "library",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "Yes" } }, [
+                            _vm._v("Yes")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "No" } }, [
+                            _vm._v("No")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
                         _c("label", { attrs: { for: "email" } }, [
                           _vm._v("Total Student Bus")
                         ]),
@@ -77069,6 +77514,115 @@ var render = function() {
                       1
                     ),
                     _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-form-label",
+                            attrs: { for: "world_ranking" }
+                          },
+                          [_vm._v("World Ranking:")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.world_ranking,
+                              expression: "form.world_ranking"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("world_ranking")
+                          },
+                          attrs: {
+                            type: "number",
+                            id: "world_ranking",
+                            min: "0",
+                            required: ""
+                          },
+                          domProps: { value: _vm.form.world_ranking },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.form,
+                                "world_ranking",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "world_ranking" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-form-label",
+                            attrs: { for: "bangladesh_ranking" }
+                          },
+                          [_vm._v("Bangladesh Ranking:")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.bangladesh_ranking,
+                              expression: "form.bangladesh_ranking"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has(
+                              "bangladesh_ranking"
+                            )
+                          },
+                          attrs: {
+                            type: "number",
+                            id: "bangladesh_ranking",
+                            min: "0"
+                          },
+                          domProps: { value: _vm.form.bangladesh_ranking },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.form,
+                                "bangladesh_ranking",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "bangladesh_ranking" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", [_vm._v("Publication Status")]),
                       _vm._v(" "),
@@ -77210,6 +77764,10 @@ var render = function() {
                             _vm._v(" "),
                             _c("td", [
                               _vm._v(_vm._s(department.faculty_members))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(_vm._s(department.total_phd_teacher))
                             ]),
                             _vm._v(" "),
                             _c("td", [_vm._v(_vm._s(department.students))]),
@@ -77431,7 +77989,7 @@ var render = function() {
                         }),
                         _vm._v(" "),
                         _c("has-error", {
-                          attrs: { form: _vm.form, field: "credit" }
+                          attrs: { form: _vm.departmentForm, field: "credit" }
                         })
                       ],
                       1
@@ -77487,7 +78045,71 @@ var render = function() {
                         }),
                         _vm._v(" "),
                         _c("has-error", {
-                          attrs: { form: _vm.form, field: "faculty_members" }
+                          attrs: {
+                            form: _vm.departmentForm,
+                            field: "faculty_members"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-form-label",
+                            attrs: { for: "total_phd_teacher" }
+                          },
+                          [_vm._v("Total PHD Holder Teacher:")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.departmentForm.total_phd_teacher,
+                              expression: "departmentForm.total_phd_teacher"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has(
+                              "total_phd_teacher"
+                            )
+                          },
+                          attrs: {
+                            type: "number",
+                            id: "total_phd_teacher",
+                            min: "0",
+                            required: ""
+                          },
+                          domProps: {
+                            value: _vm.departmentForm.total_phd_teacher
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.departmentForm,
+                                "total_phd_teacher",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: {
+                            form: _vm.departmentForm,
+                            field: "total_phd_teacher"
+                          }
                         })
                       ],
                       1
@@ -77541,7 +78163,7 @@ var render = function() {
                         }),
                         _vm._v(" "),
                         _c("has-error", {
-                          attrs: { form: _vm.form, field: "students" }
+                          attrs: { form: _vm.departmentForm, field: "students" }
                         })
                       ],
                       1
@@ -77593,7 +78215,7 @@ var render = function() {
                         }),
                         _vm._v(" "),
                         _c("has-error", {
-                          attrs: { form: _vm.form, field: "cost" }
+                          attrs: { form: _vm.departmentForm, field: "cost" }
                         })
                       ],
                       1
@@ -77642,7 +78264,7 @@ var render = function() {
                         }),
                         _vm._v(" "),
                         _c("has-error", {
-                          attrs: { form: _vm.form, field: "computer" }
+                          attrs: { form: _vm.departmentForm, field: "computer" }
                         })
                       ],
                       1
@@ -77868,6 +78490,8 @@ var staticRenderFns = [
       _c("th", [_vm._v("Cost")]),
       _vm._v(" "),
       _c("th", [_vm._v("Faculty Members")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("PhD Holder")]),
       _vm._v(" "),
       _c("th", [_vm._v("Students")]),
       _vm._v(" "),

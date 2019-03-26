@@ -47,16 +47,19 @@
 					<a href="/"><img src="/img/bestforyoubd2.png" alt=""> </a>
 				</div>
 				<!--SECTION: BROWSE CATEGORY(NOTE:IT'S HIDE ON MOBILE & TABLET VIEW)-->
-				<div class="ts-menu-2"><a href="/" class="t-bb">Best4You</a>
+				<div class="ts-menu-2"><a href="/" class="t-bb">Best nN BD</a>
 					
 				</div>
 				<!--SECTION: REGISTER,SIGNIN AND ADD YOUR BUSINESS-->
 				<div class="ts-menu-6">
 					<div class="v3-top-ri">
-						<ul>
-							<li><a href="/login" class="v3-menu-sign"><i class="fa fa-sign-in"></i> Sign In</a> </li>
-							<li><a href="/register" class="v3-add-bus"><i class="fa fa-plus" aria-hidden="true"></i> Add Listing</a> </li>
-						</ul>
+							<ul>
+								<li><a href="/institutes" class="v3-menu-sign">Institutes</a> </li>
+								<li><a href="/hospitals" class="v3-add-bus">Hospitals</a> </li>
+								<li><a href="/hotels" class="v3-add-bus">Hotels</a> </li>
+								<li><a href="/tour-places" class="v3-add-bus">Tour Places</a> </li>
+								<li><a href="/discuss" class="v3-add-bus">Discuss Forum</a> </li>
+							</ul>
 					</div>
 				</div>
 				<!--MOBILE MENU ICON:IT'S ONLY SHOW ON MOBILE & TABLET VIEW-->
@@ -64,12 +67,15 @@
 				<!--MOBILE MENU CONTAINER:IT'S ONLY SHOW ON MOBILE & TABLET VIEW-->
 				<div class="mob-right-nav" data-wow-duration="0.5s">
 					<div class="mob-right-nav-close"><i class="fa fa-times" aria-hidden="true"></i> </div>
-					<h5>Business</h5>
+					<h5>Menu</h5>
 					<ul class="mob-menu-icon">
-						<li><a href="/register">Add Business</a> </li>
-						<li><a href="/register">Register</a> </li>
-						<li><a href="/login">Sign In</a> </li>
-					</ul>
+							<li><a href="/">Home</a> </li>
+							<li><a href="/institutes">Institutes</a> </li>
+							<li><a href="/hospitals">Hospitals</a> </li>
+							<li><a href="/hotels">Hotels</a> </li>
+							<li><a href="/tour-places">Tour Places</a> </li>
+							<li><a href="/discuss">Discuss Forum</a> </li>
+						</ul>
 				</div>
 			</div>
 		</div>

@@ -118,6 +118,7 @@ class WebsiteController extends Controller
 
     public function showTourPlace($id)
     {
+        DB::table('tour_places')->where('id',$id)->increment('views');
         $tour_place = TourPlace::where('tour_places.id',$id)
         ->leftJoin('districts','districts.id','=','tour_places.district_id')
         ->leftJoin('sub_districts','sub_districts.id','=','tour_places.sub_district_id')

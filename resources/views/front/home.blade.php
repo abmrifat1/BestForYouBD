@@ -26,7 +26,7 @@
 						<div class="dir-ho-tl">
 							<ul>
 								<li>
-									<a href="index.html"><h3>Best<span>4</span>You</h3></a>
+									<a href="/"><h3>Best <span>in</span> BD</h3></a>
 								</li>
 							</ul>
 						</div>

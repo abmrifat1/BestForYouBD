@@ -25,12 +25,9 @@
 				<div class="ts-menu">
 					<!--SECTION: LOGO-->
 					<div class="ts-menu-1">
-						<a href="index.html"><img src="images/aff-logo.png" alt=""> </a>
+							<a href="/"><img src="/img/bestforyoubd2.png" alt=""> </a>
 					</div>
 					<!--SECTION: BROWSE CATEGORY(NOTE:IT'S HIDE ON MOBILE & TABLET VIEW)-->
-					<div class="ts-menu-2"><a href="/" class="t-bb">Best4You</a>
-						
-					</div>
 					<div class="ts-menu-3">
 					<div class="">
 					<form action="{{url('/search-institute')}}" class="tourz-search-form tourz-top-search-form" id="service_search" method="POST">

@@ -69,11 +69,11 @@
                     </div>
 
                     <div class="pull-left">
-                        <label for="note"> Email me when some one post a reply</label>
+                        <!--<label for="note"> Email me when some one post a reply</label>-->
                     </div>
 
                     <div class="pull-right postreply">
-                        <div class="pull-left smile"><a href="#"><i class="fa fa-smile-o"></i></a></div>
+                        <div class="pull-left smile"><a href="javascript:void(0)"><i class="fa fa-smile-o"></i></a></div>
                         <div class="pull-left"><button type="submit" class="btn btn-primary">Post Reply</button></div>
                         <div class="clearfix"></div>
                     </div>
@@ -142,11 +142,29 @@
             success:function (data) {
                 $('#commentForm').trigger('reset');
                 swal({
-                title: "Great job!",
-                text: "You have successfully added your reply, we will review it quickly and after then we will publish it in public and send you a confirmation email!, Thank you.",
-                icon: "success",
+                    title: "You have successfully added your reply, Thank You?",
+                    icon: "success",
+                })
+                .then((value) => {
+                    if (value) {
+                        $('#questionModal').modal('hide');
+                        location.reload();
+                    }else{
+                        $('#questionModal').modal('hide');
+                        location.reload();
+                    }
                 });
-                $('#questionModal').modal('hide');
+                /*swal({
+                    title: "You have successfully added your reply, Thank You?",
+                    icon: "success",
+                    buttons: true,
+                    })
+                    .then((willDelete) => {
+                    if (willDelete) {
+                        $('#questionModal').modal('hide');
+                        location.reload();
+                    }
+                });*/
             },
             error:function (errorData) {
                 var error = errorData.responseJSON.message;
@@ -158,5 +176,13 @@
             }
         });
     });
+    
+</script>
+<script>
+        <!--
+        function timedRefresh(timeoutPeriod) {
+            setTimeout("location.reload(true);",timeoutPeriod);
+        }
+        //window.onload = timedRefresh(5000);
 </script>
 @endsection

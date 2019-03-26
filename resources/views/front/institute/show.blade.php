@@ -198,11 +198,12 @@
 													<li>
 														<p><b>Amenities:</b> </p>
 													</li>
-													@if($department->credit > 0)<li><img src="/front/images/icon/a9.png" alt=""> Credit: {{$department->credit}}</li>@endif
-													<li><img src="/front/images/icon/a10.png" alt=""> Faculty Member: {{$department->faculty_members}} </li>
-													<li><img src="/front/images/icon/a3.png" alt=""> Students: {{$department->students}}</li>
+													@if($department->credit > 0)<li><img src="/front/images/icon/book.jpg" alt=""> Credit: {{$department->credit}}</li>@endif
+													<li><img src="/front/images/icon/teacher-icon.png" alt=""> Faculty Teacher: {{$department->faculty_members}} </li>
+													<li><img src="/front/images/icon/hcat8.png" alt=""> PhD Holder: {{$department->total_phd_teacher}} </li>
+													<li><img src="/front/images/icon/d4.png" alt=""> Students: {{$department->students}}</li>
 													<li><img src="/front/images/icon/a6.png" alt=""> Computer: {{$department->computer}}</li>
-													@if($department->IEEB)<li><img src="/front/images/icon/a2.png" alt=""> Certification: {{$department->IEEB}}</li>@endif
+													<li><img src="/front/images/icon/certification.png" alt=""> Certification: {{$department->IEEB}}</li>
 												</ul>
 											</div> <span class="home-list-pop-rat list-rom-pric green-bg">Cost: ${{$department->cost}}</span>
 										</div>
@@ -230,7 +231,13 @@
 							<div class="list-pg-inn-sp">
 								<div class="list-pg-oth-info">
 									<ul>
-										<li>Hostel <span class="green-bg">{{$institute->hostel}}</span> </li>
+										<li>World Ranking <span class="green-bg">{{$institute->world_ranking}}</span> </li>
+										<li>Bangladesh Ranking <span class="green-bg">{{$institute->bangladesh_ranking}}</span> </li>
+										<li>PhD Teacher <span class="green-bg">{{$institute->total_phd_teacher}}</span> </li>
+										<li>Total Teacher <span class="green-bg">{{$institute->total_faculty}}</span> </li>
+										<li>Total Departments <span>{{$institute->total_department}}</span> </li>
+										<li>library <span>{{$institute->library}}</span> </li>
+										<li>Hostel <span>{{$institute->hostel}}</span> </li>
 										<li>Bus <span>{{$institute->bus}}</span> </li>
 										<li>Auditorium <span>{{$institute->auditorium}}</span> </li>
 										<li>Play Ground <span>{{$institute->play_ground}}</span> </li>

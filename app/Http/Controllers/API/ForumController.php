@@ -81,15 +81,16 @@ class ForumController extends Controller
         return ['delete'=>"Deleted successfully"];
     }
     public function search(){
-
         if ($search = \Request::get('q')) {
-            $categories = Cateogry::where(function($query) use ($search){
+            $forumPosts = Forum::where(function($query) use ($search){
                 $query->where('name','LIKE',"%$search%");
-            })->paginate(8);
+                $query->orWhere('description','LIKE',"%$search%");
+                $query->orWhere('isActive','LIKE',"%$search%");
+            })->orderBy('isActive','Pending')->orderBy('created_at','ASC')->paginate(10);
         }else{
-            $categories = Forum::latest()->paginate(8);
+            $forumPosts = Forum::orderBy('isActive','Pending')->orderBy('created_at','ASC')->paginate(10);
         }
 
-        return $categories;
+        return $forumPosts;
     }
 }

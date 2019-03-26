@@ -198,12 +198,12 @@ class HotelController extends Controller
     public function search(){
 
         if ($search = \Request::get('q')) {
-            $hotels = Hotel::where(function($query) use ($search){
+            $hotels = Hotel::with('rooms')->orderBy('name','asc')->where(function($query) use ($search){
                 $query->where('name','LIKE',"%$search%")
-                    ->orWhere('address','LIKE',"%$search%");
-            })->paginate(15);
+                    ->orWhere('isActive','LIKE',"%$search%");
+            })->paginate(10);
         }else{
-            $hotels = Hotel::orderBy('name','asc')->paginate(15);
+            $hotels = Hotel::with('rooms')->orderBy('name','asc')->paginate(10);
         }
 
         return $hotels;

@@ -99,11 +99,23 @@ class SubDistrictController extends Controller
     public function search(){
 
         if ($search = \Request::get('q')) {
-            $sub_districts = SubDistrict::where(function($query) use ($search){
-                $query->where('name','LIKE',"%$search%");
-            })->orderBy('name','asc')->paginate(20);
+            $sub_districts = DB::table('sub_districts')
+            ->join('districts','districts.id','=','sub_districts.district_id')
+            ->where(function($query) use ($search){
+                $query->where('districts.name','LIKE',"%$search%")
+                ->orWhere('sub_districts.name','LIKE',"%$search%");
+            })
+            ->orderby('districts.name','asc')
+            ->orderby('sub_districts.name','asc')
+            ->select('sub_districts.*','districts.name as districtName')
+            ->paginate(20);
         }else{
-            $sub_districts = SubDistrict::orderBy('name','asc')->paginate(20);
+            $sub_districts = DB::table('sub_districts')
+            ->join('districts','districts.id','=','sub_districts.district_id')
+            ->orderby('districts.name','asc')
+            ->orderby('sub_districts.name','asc')
+            ->select('sub_districts.*','districts.name as districtName')
+            ->paginate(20);
         }
 
         return $sub_districts;

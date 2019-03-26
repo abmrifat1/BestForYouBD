@@ -198,6 +198,16 @@
             }
         },
         created() {
+            Fire.$on('searching',() => {
+                let query = this.$parent.search;
+                axios.get('api/find-sub-districts?q=' + query)
+                    .then((data) => {
+                        this.subDistricts = data.data
+                    })
+                    .catch(() => {
+
+                    })
+            })
             this.load();
             Fire.$on('takePageLoad',() => {
                 this.load();

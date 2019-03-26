@@ -100,13 +100,14 @@ class HospitalDepartmentController extends Controller
     public function search(){
 
         if ($search = \Request::get('q')) {
-            $categories = HospitalDepartment::where(function($query) use ($search){
+            $hospitalDepartments = HospitalDepartment::where(function($query) use ($search){
                 $query->where('name','LIKE',"%$search%");
-            })->paginate(8);
+                $query->orWhere('isActive','LIKE',"%$search%");
+            })->orderby('name','asc')->paginate(10);
         }else{
-            $categories = HospitalDepartment::latest()->paginate(8);
+            $hospitalDepartments = HospitalDepartment::orderby('name','asc')->paginate(10);
         }
 
-        return $categories;
+        return $hospitalDepartments;
     }
 }

@@ -184,6 +184,16 @@
             }
         },
         created() {
+            Fire.$on('searching',() => {
+                let query = this.$parent.search;
+                axios.get('api/find-districts?q=' + query)
+                    .then((data) => {
+                        this.districts = data.data
+                    })
+                    .catch(() => {
+
+                    })
+            })
             this.load();
             Fire.$on('takePageLoad',() => {
                 this.load();

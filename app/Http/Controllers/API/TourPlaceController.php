@@ -173,12 +173,25 @@ class TourPlaceController extends Controller
     public function search(){
 
         if ($search = \Request::get('q')) {
-            $tourPlaces = TourPlace::where(function($query) use ($search){
-                $query->where('name','LIKE',"%$search%")
-                    ->orWhere('address','LIKE',"%$search%");
+            $tourPlaces = DB::table('tour_places')
+            ->join('sub_districts','sub_districts.id','=','tour_places.sub_district_id')
+            ->join('districts','districts.id','=','sub_districts.district_id')
+            ->orderBy('districts.name','asc')
+            ->orderBy('sub_districts.name','asc')
+            ->select('tour_places.*','districts.name as districtName','sub_districts.name as subDistrictName')->where(function($query) use ($search){
+                $query->where('tour_places.name','LIKE',"%$search%")
+                    ->orWhere('sub_districts.name','LIKE',"%$search%")
+                    ->orWhere('tour_places.isActive','LIKE',"%$search%")
+                    ->orWhere('districts.name','LIKE',"%$search%");
             })->paginate(10);
         }else{
-            $tourPlaces = TourPlace::latest()->paginate(10);
+            $tourPlaces = DB::table('tour_places')
+            ->join('sub_districts','sub_districts.id','=','tour_places.sub_district_id')
+            ->join('districts','districts.id','=','sub_districts.district_id')
+            ->orderBy('districts.name','asc')
+            ->orderBy('sub_districts.name','asc')
+            ->select('tour_places.*','districts.name as districtName','sub_districts.name as subDistrictName')
+            ->paginate(10);
         }
 
         return $tourPlaces;

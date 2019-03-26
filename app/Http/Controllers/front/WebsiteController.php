@@ -4,6 +4,7 @@ namespace App\Http\Controllers\front;
 use App\Institute;
 use App\Hospital;
 use App\Hotel;
+use App\RoomType;
 use App\TourPlace;
 use App\District;
 use App\SubDistrict;
@@ -66,7 +67,7 @@ class WebsiteController extends Controller
 
     public function hospitals()
     {
-        $hospitals = Hospital::where('isActive' , 'Active')->orderByRaw('RAND()')->paginate(6);
+        $hospitals = Hospital::where('isActive' , 'Active')->latest()->paginate(6);
         return view('front.hospital.home',['hospitals'=>$hospitals]);
     }
 
@@ -94,8 +95,9 @@ class WebsiteController extends Controller
     }
     public function hotels()
     {
-        $hotels = Hotel::where('isActive' , 'Active')->orderByRaw('RAND()')->paginate(6);
-        return view('front.hotel.home',['hotels'=>$hotels]);
+        $hotels = Hotel::where('isActive' , 'Active')->latest()->paginate(6);
+        $rooms = RoomType::where('isActive' , 'Active')->orderBy('name','asc')->get();
+        return view('front.hotel.home',['hotels'=>$hotels,'rooms'=>$rooms]);
     }
 
     public function showHotel($id)
@@ -112,7 +114,7 @@ class WebsiteController extends Controller
     }
     public function tourPlaces()
     {
-        $tourPlaces = TourPlace::where('isActive' , 'Active')->orderByRaw('RAND()')->paginate(6);
+        $tourPlaces = TourPlace::where('isActive' , 'Active')->latest()->paginate(6);
         return view('front.tourPlace.home',['tourPlaces'=>$tourPlaces]);
     }
 
@@ -167,19 +169,46 @@ class WebsiteController extends Controller
     }
     public function instituteCompare(Request $request)
     {
-        $institutes = Institute::with('institute_departments')->whereIn('institutes.id',$request->id)->get();
-        $departments = Department::select('id','name as departmentName')->get();
-        /*foreach($institutes as $institute){
-            foreach($institute->institute_departments as $insDepartment){
-                foreach ($departments as $department) {
-                    if($department->id == $insDepartment->department_id){
-                        $deptName[] = $department->departmentName;
+        if(count($request->id) > 1){
+
+            $institutes = Institute::with('institute_departments')->whereIn('institutes.id',$request->id)->get();
+            $departments = Department::select('id','name as departmentName')->get();
+            /*foreach($institutes as $institute){
+                foreach($institute->institute_departments as $insDepartment){
+                    foreach ($departments as $department) {
+                        if($department->id == $insDepartment->department_id){
+                            $deptName[] = $department->departmentName;
+                        }
                     }
                 }
             }
+            return $deptName;*/
+            return view('front.institute.compare',['institutes'=>$institutes,'departments'=>$departments]);
+        }else{
+            return redirect()->back()->with('error','Please select at lease 2 institutes');
         }
-        return $deptName;*/
-        return view('front.institute.compare',['institutes'=>$institutes,'departments'=>$departments]);
+    }
+    public function hotelCompare(Request $request)
+    {
+        if(count($request->id) > 1){
+
+            $hotels = Hotel::with('hotel_rooms')->whereIn('hotels.id',$request->id)->get();
+            $rooms = RoomType::select('id','name as RoomName')->get();
+            /*foreach($institutes as $institute){
+                foreach($institute->institute_departments as $insDepartment){
+                    foreach ($departments as $department) {
+                        if($department->id == $insDepartment->department_id){
+                            $deptName[] = $department->departmentName;
+                        }
+                    }
+                }
+            }
+            return $deptName;*/
+            return view('front.hotel.compare',['hotels'=>$hotels,'rooms'=>$rooms]);
+        }else{
+            //return redirect('/hotels')->with('error','Please select at lease 2 hotels');
+            return redirect()->back()->with('error','Please select at lease 2 hotels');
+        }
     }
     public function filterInstitute(Request $request)
     {
@@ -206,10 +235,43 @@ class WebsiteController extends Controller
         return view('front.institute.home',['institutes'=>$institutes,'departments'=>$departments]);
 
     }
+    public function filterHotel(Request $request)
+    {
+        //return $request;
+        $rooms = RoomType::where('isActive','Active')->get();
+        if(!empty($request->room_type_id) && empty($request->star)){
+            $hotels = DB::table('hotels')
+            ->join('hotel_rooms','hotel_rooms.hotel_id','=','hotels.id')
+            ->whereIn('hotel_rooms.room_type_id',$request->room_type_id)->paginate(12);
+        }
+        elseif(empty($request->room_type_id) && !empty($request->star)){
+            $hotels = DB::table('hotels')
+            ->whereIn('star',$request->star)->paginate(12);
+        }
+        elseif(!empty($request->room_type_id) && !empty($request->star)){
+            $hotels = DB::table('hotels')
+            ->join('hotel_rooms','hotel_rooms.hotel_id','=','hotels.id')
+            ->whereIn('hotel_rooms.room_type_id',$request->room_type_id)
+            ->whereIn('hotels.star',$request->star)->paginate(12);
+        }else{
+            $hotels = Hotel::where('isActive' , 'Active')->latest()->paginate(7);
+        }
+        return view('front.hotel.home',['hotels'=>$hotels,'rooms'=>$rooms]);
+
+    }
     public function searchInstitute(Request $request)
     {
         $id = $request->id;
         return redirect('institute/'.$id);
+    }
+    public function searchHotel(Request $request)
+    {
+        $id = $request->id;
+        return redirect('hotel/'.$id);
+    }
+    public function error()
+    {
+        return view('front.404');
     }
 
 }

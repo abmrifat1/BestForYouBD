@@ -81,4 +81,16 @@ class DistrictController extends Controller
         $district->delete();
         return ['delete'=>"Deleted successfully"];
     }
+    public function search(){
+
+        if ($search = \Request::get('q')) {
+            $districts = District::where(function($query) use ($search){
+                $query->where('name','LIKE',"%$search%");
+            })->orderBy('name','asc')->paginate(10);
+        }else{
+            $districts = District::orderBy('name','asc')->paginate(10);
+        }
+
+        return $districts;
+    }
 }

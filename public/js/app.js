@@ -75819,8 +75819,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         Fire.$on('takePageLoad', function () {
             _this17.load();
         });
-
-        //    setInterval(() => this.loadinstitutes(), 3000);
     }
 });
 
@@ -79751,12 +79749,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             this.Mg2createMode = false;
             this.editMode = true;
             this.form.reset();
-            $('#addNew').modal('show');
+            this.form.fill(hospital);
             axios.get("api/get-districts").then(function (_ref3) {
                 var data = _ref3.data;
                 return _this3.districts = data;
             });
-            this.form.fill(hospital);
+            axios.get("api/get-sub-districts/" + this.form.district_id).then(function (_ref4) {
+                var data = _ref4.data;
+                return _this3.subDistricts = data;
+            });
+            $('#addNew').modal('show');
         },
         settingInstituteDepartments: function settingInstituteDepartments(hospital) {
             var _this4 = this;
@@ -79900,13 +79902,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             this.$Progress.start();
             if (this.$gate.isAdminOrAuthor()) {
-                axios.get("api/dashboard/hospital").then(function (_ref4) {
-                    var data = _ref4.data;
+                axios.get("api/dashboard/hospital").then(function (_ref5) {
+                    var data = _ref5.data;
                     return _this12.hospitals = data;
                 });
             }
-            axios.get("api/hospital/departments").then(function (_ref5) {
-                var data = _ref5.data;
+            axios.get("api/hospital/departments").then(function (_ref6) {
+                var data = _ref6.data;
                 return _this12.departments = data;
             });
             this.$Progress.finish();
@@ -79970,7 +79972,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         Fire.$on('searching', function () {
             var query = _this16.$parent.search;
-            axios.get('api/findhospital?q=' + query).then(function (data) {
+            axios.get('api/find-hospitals?q=' + query).then(function (data) {
                 _this16.hospitals = data.data;
             }).catch(function () {});
         });
@@ -82811,6 +82813,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -82847,6 +82856,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 restaurant: 'Yes',
                 cafe: 'Yes',
                 car_parking: 'Yes',
+                party_center: 'No',
                 total_room: '',
                 room: []
             }),
@@ -82917,12 +82927,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             this.Mg2createMode = false;
             this.editMode = true;
             this.form.reset();
-            $('#addNew').modal('show');
+            this.form.fill(hotel);
             axios.get("api/get-districts").then(function (_ref3) {
                 var data = _ref3.data;
                 return _this3.districts = data;
             });
-            this.form.fill(hotel);
+            axios.get("api/get-sub-districts/" + this.form.district_id).then(function (_ref4) {
+                var data = _ref4.data;
+                return _this3.subDistricts = data;
+            });
+            $('#addNew').modal('show');
         },
         settingHotelRooms: function settingHotelRooms(hotel) {
             var _this4 = this;
@@ -83066,13 +83080,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             this.$Progress.start();
             if (this.$gate.isAdminOrAuthor()) {
-                axios.get("api/dashboard/hotel").then(function (_ref4) {
-                    var data = _ref4.data;
+                axios.get("api/dashboard/hotel").then(function (_ref5) {
+                    var data = _ref5.data;
                     return _this12.hotels = data;
                 });
             }
-            axios.get("api/hotel-rooms").then(function (_ref5) {
-                var data = _ref5.data;
+            axios.get("api/hotel-rooms").then(function (_ref6) {
+                var data = _ref6.data;
                 return _this12.rooms = data;
             });
             this.$Progress.finish();
@@ -83136,7 +83150,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         Fire.$on('searching', function () {
             var query = _this16.$parent.search;
-            axios.get('api/findhospital?q=' + query).then(function (data) {
+            axios.get('api/find-hotels?q=' + query).then(function (data) {
                 _this16.hotels = data.data;
             }).catch(function () {});
         });
@@ -84282,6 +84296,55 @@ var render = function() {
                               _vm.$set(
                                 _vm.form,
                                 "cafe",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "Yes" } }, [
+                            _vm._v("Yes")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "No" } }, [
+                            _vm._v("No")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", [_vm._v("Party Center")]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.party_center,
+                              expression: "form.party_center"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "party_center" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.form,
+                                "party_center",
                                 $event.target.multiple
                                   ? $$selectedVal
                                   : $$selectedVal[0]
@@ -87433,6 +87496,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     created: function created() {
         var _this6 = this;
 
+        Fire.$on('searching', function () {
+            var query = _this6.$parent.search;
+            axios.get('api/find-sub-districts?q=' + query).then(function (data) {
+                _this6.subDistricts = data.data;
+            }).catch(function () {});
+        });
         this.load();
         Fire.$on('takePageLoad', function () {
             _this6.load();
@@ -88077,6 +88146,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     created: function created() {
         var _this6 = this;
 
+        Fire.$on('searching', function () {
+            var query = _this6.$parent.search;
+            axios.get('api/find-districts?q=' + query).then(function (data) {
+                _this6.districts = data.data;
+            }).catch(function () {});
+        });
         this.load();
         Fire.$on('takePageLoad', function () {
             _this6.load();

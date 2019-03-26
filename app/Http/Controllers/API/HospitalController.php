@@ -222,11 +222,13 @@ class HospitalController extends Controller
     public function search(){
 
         if ($search = \Request::get('q')) {
-            $hospitals = Hospital::where(function($query) use ($search){
-                $query->where('name','LIKE',"%$search%");
-            })->orderBy('name','asc')->paginate(15);
+            $hospitals = Hospital::with('departments')
+            ->where(function($query) use ($search){
+                $query->where('name','LIKE',"%$search%")
+                ->orWhere('isActive','LIKE',"%$search%");
+            })->orderBy('name','asc')->paginate(10);
         }else{
-            $hospitals = Hospital::orderBy('name','asc')->paginate(15);
+            $hospitals = Hospital::with('departments')->orderBy('name','asc')->paginate(10);
         }
 
         return $hospitals;

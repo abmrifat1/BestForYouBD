@@ -397,9 +397,10 @@
                 this.Mg2createMode = false;
                 this.editMode = true;
                 this.form.reset();
-                $('#addNew').modal('show');
-                axios.get("api/get-districts").then(({ data }) => (this.districts = data));
                 this.form.fill(hospital);
+                axios.get("api/get-districts").then(({ data }) => (this.districts = data));
+                axios.get("api/get-sub-districts/"+this.form.district_id).then(({ data }) => (this.subDistricts = data));
+                $('#addNew').modal('show');
             },
             settingInstituteDepartments(hospital){
                 axios.get("api/hospital-departments/"+hospital.id).then( 
@@ -612,7 +613,7 @@
         created() {
             Fire.$on('searching',() => {
                 let query = this.$parent.search;
-                axios.get('api/findhospital?q=' + query)
+                axios.get('api/find-hospitals?q=' + query)
                     .then((data) => {
                         this.hospitals = data.data
                     })

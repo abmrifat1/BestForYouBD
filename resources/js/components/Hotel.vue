@@ -228,6 +228,13 @@
                                 </select>
                             </div>
                             <div class="form-group">
+                                <label>Party Center</label><br/>
+                                <select v-model="form.party_center" id="party_center" class="form-control">
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label for="phone">Total Room</label>
                                 <input v-model="form.total_room" type="text" name="total_room"
                                        placeholder="Room Number"
@@ -481,6 +488,7 @@
                     restaurant: 'Yes',
                     cafe: 'Yes',
                     car_parking: 'Yes',
+                    party_center: 'No',
                     total_room: '',
                     room: []
                 }),
@@ -541,9 +549,10 @@
                 this.Mg2createMode = false;
                 this.editMode = true;
                 this.form.reset();
-                $('#addNew').modal('show');
-                axios.get("api/get-districts").then(({ data }) => (this.districts = data));
                 this.form.fill(hotel);
+                axios.get("api/get-districts").then(({ data }) => (this.districts = data));
+                axios.get("api/get-sub-districts/"+this.form.district_id).then(({ data }) => (this.subDistricts = data));
+                $('#addNew').modal('show');
             },
             settingHotelRooms(hotel){
                 axios.get("api/hotel-rooms/"+hotel.id).then( 
@@ -756,7 +765,7 @@
         created() {
             Fire.$on('searching',() => {
                 let query = this.$parent.search;
-                axios.get('api/findhospital?q=' + query)
+                axios.get('api/find-hotels?q=' + query)
                     .then((data) => {
                         this.hotels = data.data
                     })

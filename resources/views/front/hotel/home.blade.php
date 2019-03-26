@@ -30,15 +30,15 @@
 					<!--SECTION: BROWSE CATEGORY(NOTE:IT'S HIDE ON MOBILE & TABLET VIEW)-->
 					<div class="ts-menu-3">
 					<div class="">
-					<form action="{{url('/search-institute')}}" class="tourz-search-form tourz-top-search-form" id="service_search" method="POST">
+					<form action="{{url('/search-hotel')}}" class="tourz-search-form tourz-top-search-form" id="service_search" method="POST">
 								
 						<div class="">
 								</div>
 								<div class="">
-										<select name='id' id="institutes" style="display:block;" required>
-												<option value="">Search a Institute</option>
-												@foreach($institutes as $institute)
-													<option value="{{$institute->id}}">{{$institute->name}}</option>
+										<select name='id' id="hotels" style="display:block;" required>
+												<option value="">Search a Hotel</option>
+												@foreach($hotels as $hotel)
+													<option value="{{$hotel->id}}">{{$hotel->name}}</option>
 												@endforeach
 										</select>
 								</div>
@@ -68,7 +68,7 @@
 						<h5>Menu</h5>
 						<ul class="mob-menu-icon">
 							<li><a href="/">Home</a> </li>
-							<li><a href="/institutes">Institutes</a> </li>
+							<li><a href="/institutes">Hotels</a> </li>
 							<li><a href="/hospitals">Hospitals</a> </li>
 							<li><a href="/hotels">Hotels</a> </li>
 							<li><a href="/tour-places">Tour Places</a> </li>
@@ -83,31 +83,30 @@
 		<div class="container">
 			<div class="row">
 				<div class="dir-alp-tit">
-					<h1>Institute Lists in Bangladesh</h1>
+					<h1>Hotel Lists in Bangladesh</h1>
 					<ol class="breadcrumb">
 						<li><a href="/">Home</a> </li>
-						<li class="active">Institutes List</li>
+						<li class="active">Hotels List</li>
 					</ol>
 				</div>
 			</div>
 			<div class="row">
 				<div class="dir-alp-con">
 					
-					<form action="{{url('/filter-institutes')}}" method="POST">
+					<form action="{{url('/filter-hotels')}}" method="POST">
+						<div class="col-md-3 dir-alp-con-left">
 						@csrf
-					<div class="col-md-3 dir-alp-con-left">
 						<!--==========Sub Category Filter============-->
-						<div class="dir-alp-con-left-1"><h3>Departments</h3> </div>
+						<div class="dir-alp-con-left-1"><h3>Room Types</h3> </div>
 						<div class="dir-hom-pre dir-alp-left-ner-notb">
-							<select name='department_id' id="department" style="display:block;">
-								<option value="">Select a Department</option>
-								@foreach($departments as $department)
-									<option value="{{$department->id}}" id="ld{{$department->id}}">{{$department->name}}</option>
+							<select name='room_type_id[]' id="room" style="display:block;" multiple="multiple">
+								@foreach($rooms as $room)
+									<option value="{{$room->id}}" id="ld{{$room->id}}">{{$room->name}}</option>
 								@endforeach
 							</select>
 						</div>
 						
-						<!--==========End Sub Category Filter============-->
+						{{--<!--==========End Sub Category Filter============-->
 						<!--==========Sub Category Filter============-->
 						<div class="dir-alp-l3 dir-alp-l-com" style="margin-top:10px;">
 							<h4>Certification</h4>
@@ -124,25 +123,40 @@
 								</ul>
 							</div>
 						</div>
-						<div class="form-control">
-							<input type="submit" class="btn btn-submit" style="width:100%" value="Filter">
-						</div>
-						{{--
+						
+						{{----}}
 						<!--==========End Sub Category Filter============-->
 						<!--==========Sub Category Filter============-->
 						<div class="dir-alp-l3 dir-alp-l-com">
-							<h4>Ratings</h4>
+							<h4>Star</h4>
 							<div class="dir-alp-l-com1 dir-alp-p3">
-								<form>
-									<ul>
-										<li>
-											<input type="checkbox" class="filled-in" id="lr1" />
-											<label for="lr1"> <span class="list-rat-ch"> <span>5.0</span> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> </span>
-											</label>
-										</li>
-									</ul>
-								</form> <a href="#!" class="list-view-more-btn">view more</a> </div>
-						</div>--}}
+								<ul>
+									<li>
+										<input type="checkbox" name="star[]" value="2" class="filled-in" id="lr2" />
+										<label for="lr2"> <span class="list-rat-ch"> <span>2.0</span> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i></span>
+										</label>
+									</li>
+									<li>
+										<input type="checkbox" name="star[]" value="3" class="filled-in" id="lr3" />
+										<label for="lr3"> <span class="list-rat-ch"> <span>3.0</span> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> </span>
+										</label>
+									</li>
+									<li>
+										<input type="checkbox" name="star[]" value="4" class="filled-in" id="lr4" />
+										<label for="lr4"> <span class="list-rat-ch"> <span>4.0</span> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> </span>
+										</label>
+									</li>
+									<li>
+										<input type="checkbox" name="star[]" value="5" class="filled-in" id="lr5" />
+										<label for="lr5"> <span class="list-rat-ch"> <span>4.0</span> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> </span>
+										</label>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="form-control">
+								<input type="submit" class="btn btn-submit" style="width:100%" value="Filter">
+						</div>
 						<!--==========End Sub Category Filter============-->
 					</div>
 					</form>
@@ -150,27 +164,26 @@
 						<div class="dir-alp-con-right-1">
 							<div class="row">
 								<!--LISTINGS-->
-								
-							<form action="{{url('/institute-compare')}}" method="POST">
+							<form action="{{url('/hotel-compare')}}" method="POST">
 								@csrf
-								@foreach($institutes->unique('name') as $institute)
+								@foreach($hotels as $hotel)
 									<div class="home-list-pop list-spac">
 										<!--LISTINGS IMAGE-->
-										<div class="col-md-3 list-ser-img"> <img src="img/institutes/{{ $institute->main_img }}" alt="" /> </div>
+										<div class="col-md-3 list-ser-img"> <img src="img/hotels/{{ $hotel->main_img }}" alt="" /> </div>
 										<!--LISTINGS: CONTENT-->
-										<div class="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="{{ url('/institute/'.$institute->id)}}"><h3>{{ $institute->name }}</h3></a>
+										<div class="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="{{ url('/hotel/'.$hotel->id)}}"><h3>{{ $hotel->name }}</h3></a>
 											
-											<p><b>Address:</b> {{ $institute->address }}, Bangladesh.</p>
+											<p><b>Address:</b> {{ $hotel->address }}, Bangladesh.</p>
 											<div class="list-number">
 												<ul>
-													<li><img src="{{asset('front/images/icon/phone.png')}}" alt=""> {{ $institute->phone }}</li>
-													<li><img src="{{asset('front/images/icon/mail.png')}}" alt=""> {{ $institute->email }}</li>
+													<li><img src="{{asset('front/images/icon/phone.png')}}" alt=""> {{ $hotel->phone }}</li>
+													<li><img src="{{asset('front/images/icon/mail.png')}}" alt=""> {{ $hotel->email }}</li>
 												</ul>
 											</div>
 											<div class="list-enqu-btn" align="right">
-												@if(!empty(session('error')))<span style="color:red"> {{ session('error') }} </span>@endif
-												<input type="checkbox" name="id[]" class="filled-in" value="{{ $institute->id }}" id="filled-{{ $institute->id }}"/>
-												<label for="filled-{{ $institute->id }}"></label>
+													@if(!empty(session('error')))<span style="color:red"> {{ session('error') }} </span>@endif
+												<input type="checkbox" name="id[]" class="filled-in" value="{{ $hotel->id }}" id="filled-{{ $hotel->id }}"/>
+												<label for="filled-{{ $hotel->id }}"></label>
 												
 											</div>
 										</div>
@@ -192,7 +205,7 @@
 								<!--LISTINGS END-->
 							</div>
 							<div class="row">
-								{{$institutes->links()}}
+								{{$hotels->links()}}
 							</div>
 						</div>
 					</div>
@@ -205,8 +218,10 @@
 <script src="{{asset('front/js/select2.min.js')}}"></script>
 <script>
   $(document).ready(function() {
-	  $("#department").select2();
-	  $("#institutes").select2();
+	  $("#room").select2({
+		placeholder: "Select the room types"
+	  });
+	  $("#hotels").select2();
   });
 </script>
 @endsection

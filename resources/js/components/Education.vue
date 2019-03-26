@@ -782,8 +782,6 @@
             Fire.$on('takePageLoad',() => {
                 this.load();
             });
-            
-            //    setInterval(() => this.loadinstitutes(), 3000);
         }
         
     }

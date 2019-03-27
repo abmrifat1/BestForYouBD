@@ -40,8 +40,10 @@ Route::post('/search-tour-place','front\WebsiteController@searchTourPlace');
 //Route::post('/filter-tour-places','front\WebsiteController@filterTourPlace');
 Route::get('/tour-place-compare','front\WebsiteController@tourPlaceCompare');
 
+Auth::routes(['verify' => true]);
 Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
 Route::get('/discuss', 'Forum\ForumController@index')->name('forum');
 Route::get('/single', 'Forum\ForumController@single');
 Route::resource('discuss/post','Forum\ForumController');

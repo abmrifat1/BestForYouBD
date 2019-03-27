@@ -3,7 +3,7 @@
         <a href="index.php" class="brand-link">
             <img src="{{asset('img/bestforyoubd.png')}}" alt="MSoft Logo" class="brand-image img-circle elevation-3"
                  style="opacity: .8">
-            <span class="brand-text font-weight-light text-center text-bold">BEST4UBD</span>
+            <span class="brand-text font-weight-light text-center text-bold">Best In BD</span>
         </a>
 
         <!-- Sidebar -->
@@ -23,15 +23,17 @@
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
-                    {{--<li class="nav-item">
+                    @can('isAdminOrAuthorOrEditor')
+                    <li class="nav-item">
                         <router-link to="/dashboard" class="nav-link">
                             <i class="nav-icon fas fa-tachometer-alt green"></i>
                             <p>
                                 Dashboard
                             </p>
                         </router-link>
-                    </li>--}}
-                    @can('isAdminOrAuthor')
+                    </li>
+                    @endcan
+                    @can('isAuthor')
                     <li class="nav-item has-treeview">
                         <router-link to="/dashboard-users" class="nav-link">
                             <i class="nav-icon fa fa-user green"></i>
@@ -42,7 +44,7 @@
                         </router-link>
                     </li>
                     @endcan
-                    @can('isAdminOrAuthor')
+                    @can('isAdminOrAuthorOrEditor')
                     <li class="nav-item has-treeview">
                         <a href="javascript:void(0)" class="nav-link">
                             <i class="nav-icon fas fa-question-circle green"></i>
@@ -67,7 +69,7 @@
                         </ul>
                     </li>
                     @endcan
-                    @can('isAdminOrAuthor')
+                    @can('isAdminOrAuthorOrEditor')
                     <li class="nav-item has-treeview">
                         <a href="javascript:void(0)" class="nav-link">
                             <i class="nav-icon fas fa-university green"></i>
@@ -92,7 +94,7 @@
                         </ul>
                     </li>
                     @endcan
-                    @can('isAdminOrAuthor')
+                    @can('isAdminOrAuthorOrEditor')
                     <li class="nav-item has-treeview">
                         <a href="javascript:void(0)" class="nav-link">
                             <i class="fas fa-hospital-symbol nav-icon green"></i>
@@ -117,7 +119,7 @@
                         </ul>
                     </li>
                     @endcan
-                    @can('isAdminOrAuthor')
+                    @can('isAdminOrAuthorOrEditor')
                     <li class="nav-item has-treeview">
                         <a href="javascript:void(0)" class="nav-link">
                             <i class="fas fa-hotel nav-icon green"></i>
@@ -142,7 +144,7 @@
                         </ul>
                     </li>
                     @endcan
-                    @can('isAdminOrAuthor')
+                    @can('isAdminOrAuthorOrEditor')
                     <li class="nav-item">
                             <router-link to="/dashboard-tour-places" class="nav-link">
                                 <i class="fas fa-umbrella-beach nav-icon green"></i>
@@ -150,7 +152,7 @@
                             </router-link>
                         </li>
                     @endcan
-                    @can('isAdminOrAuthor')
+                    @can('isAdminOrAuthorOrEditor')
                     <li class="nav-item has-treeview">
                         <a href="javascript:void(0)" class="nav-link">
                             <i class="fas fa-map-marked-alt nav-icon green"></i>

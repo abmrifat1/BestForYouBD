@@ -93,9 +93,8 @@
 			<div class="row">
 				<div class="dir-alp-con">
 					
-					<form action="{{url('/filter-hotels')}}" method="POST">
+					<form action="{{url('/filter-hotels')}}" method="GET">
 						<div class="col-md-3 dir-alp-con-left">
-						@csrf
 						<!--==========Sub Category Filter============-->
 						<div class="dir-alp-con-left-1"><h3>Room Types</h3> </div>
 						<div class="dir-hom-pre dir-alp-left-ner-notb">
@@ -148,7 +147,7 @@
 									</li>
 									<li>
 										<input type="checkbox" name="star[]" value="5" class="filled-in" id="lr5" />
-										<label for="lr5"> <span class="list-rat-ch"> <span>4.0</span> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> </span>
+										<label for="lr5"> <span class="list-rat-ch"> <span>5.0</span> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> </span>
 										</label>
 									</li>
 								</ul>
@@ -164,8 +163,7 @@
 						<div class="dir-alp-con-right-1">
 							<div class="row">
 								<!--LISTINGS-->
-							<form action="{{url('/hotel-compare')}}" method="POST">
-								@csrf
+							<form action="{{url('/hotel-compare')}}" method="get">
 								@foreach($hotels as $hotel)
 									<div class="home-list-pop list-spac">
 										<!--LISTINGS IMAGE-->

@@ -48,7 +48,7 @@ class WebsiteController extends Controller
     
     public function institutes()
     {
-        $institutes = Institute::where('isActive' , 'Active')->latest()->paginate(7);
+        $institutes = Institute::where('isActive' , 'Active')->latest()->paginate(20);
         $departments = Department::where('isActive' , 'Active')->orderBy('name','asc')->get();
         return view('front.institute.home',['institutes'=>$institutes,'departments'=>$departments]);
     }
@@ -68,7 +68,7 @@ class WebsiteController extends Controller
 
     public function hospitals()
     {
-        $hospitals = Hospital::where('isActive' , 'Active')->latest()->paginate(6);
+        $hospitals = Hospital::where('isActive' , 'Active')->latest()->paginate(20);
         $departments = HospitalDepartment::where('isActive' , 'Active')->orderBy('name','asc')->get();
         return view('front.hospital.home',['hospitals'=>$hospitals,'departments'=>$departments]);
     }
@@ -97,7 +97,7 @@ class WebsiteController extends Controller
     }
     public function hotels()
     {
-        $hotels = Hotel::where('isActive' , 'Active')->latest()->paginate(6);
+        $hotels = Hotel::where('isActive' , 'Active')->latest()->paginate(20);
         $rooms = RoomType::where('isActive' , 'Active')->orderBy('name','asc')->get();
         return view('front.hotel.home',['hotels'=>$hotels,'rooms'=>$rooms]);
     }
@@ -116,14 +116,14 @@ class WebsiteController extends Controller
     }
     public function tourPlaces()
     {
-        $tourPlaces = TourPlace::where('isActive' , 'Active')->latest()->paginate(6);
+        $tourPlaces = TourPlace::where('isActive' , 'Active')->latest()->paginate(20);
         return view('front.tourPlace.home',['tourPlaces'=>$tourPlaces]);
     }
 
     public function showTourPlace($id)
     {
         DB::table('tour_places')->where('id',$id)->increment('views');
-        $tour_place = TourPlace::where('tour_places.id',$id)
+        $tour_place = TourPlace::with('hotels')->where('tour_places.id',$id)
         ->leftJoin('districts','districts.id','=','tour_places.district_id')
         ->leftJoin('sub_districts','sub_districts.id','=','tour_places.sub_district_id')
         ->select('districts.name as districtName','sub_districts.name as subDistrictName','tour_places.*')
@@ -144,30 +144,29 @@ class WebsiteController extends Controller
     public function search(Request $request)
     {
         if(!empty($request->service) && empty($request->district_id) && empty($request->sub_district_id)){
-            $services = DB::table($request->service)->where('isActive','Active')->paginate(10);
+            $services = DB::table($request->service)->where('isActive','Active')->paginate(20);
         }
         elseif(!empty($request->service) && !empty($request->district_id) && empty($request->sub_district_id)){
             $services = DB::table($request->service)->where('isActive','Active')->where('district_id',$request->district_id)->paginate(10);
         }else{
             $services = DB::table($request->service)->where('isActive','Active')->where('district_id',$request->district_id)->where('sub_district_id',$request->sub_district_id)->paginate(10);
         }
-        if($services->isNotEmpty()){
-            if($request->service === 'institutes'){
+
+        if($request->service === 'institutes'){
                 $departments = Department::where('isActive','Active')->get();
                 return view('front.institute.home',['institutes'=>$services,'departments'=>$departments]);
-            }
-            elseif($request->service === 'hospitals'){
-                return view('front.hospital.home',['hospitals'=>$services]);
-            }
-            elseif($request->service === 'hotels'){
-                return view('front.hotel.home',['hotels'=>$services]);
-            }
-            elseif($request->service === 'tour_places'){
-                return view('front.tourPlace.home',['tourPlaces'=>$services]);
-            }
         }
-        else 
-            return view('front.404');
+        elseif($request->service === 'hospitals'){
+            $departments = HospitalDepartment::where('isActive' , 'Active')->orderBy('name','asc')->get();
+            return view('front.hospital.home',['hospitals'=>$services,'departments'=>$departments]);
+        }
+        elseif($request->service === 'hotels'){
+            $rooms = RoomType::where('isActive' , 'Active')->orderBy('name','asc')->get();
+            return view('front.hotel.home',['hotels'=>$services,'rooms'=>$rooms]);
+        }
+        elseif($request->service === 'tour_places'){
+            return view('front.tourPlace.home',['tourPlaces'=>$services]);
+        }
     }
     public function instituteCompare(Request $request)
     {
@@ -184,7 +183,11 @@ class WebsiteController extends Controller
     {
         if(count($request->id) > 1){
 
-            $tour_places = TourPlace::with('hotels')->whereIn('id',$request->id)->get();
+            $tour_places = TourPlace::with('hotels')->whereIn('tour_places.id',$request->id)
+            ->leftJoin('districts','districts.id','=','tour_places.district_id')
+            ->leftJoin('sub_districts','sub_districts.id','=','tour_places.sub_district_id')
+            ->select('districts.name as districtName','sub_districts.name as subDistrictName','tour_places.*')
+            ->get();
             return view('front.tourPlace.compare',['tour_places'=>$tour_places]);
         }else{
             return redirect()->back()->with('error','Please select at lease 2 institutes');
@@ -249,28 +252,27 @@ class WebsiteController extends Controller
     }
     public function filterHospital(Request $request)
     {
-        return 
+        //return $request;
         $departments = HospitalDepartment::where('isActive','Active')->get();
-        if(!empty($request->department_id) && empty($request->IEEB)){
+        if(!empty($request->department_id) && empty($request->ownership_type)){
             $hospitals = DB::table('hospitals')
-            ->join('institute_departments','institute_departments.institute_id','=','hospitals.id')
-            ->where('institute_departments.department_id',$request->department_id)->paginate(12);
+            ->join('hospital_department_relations','hospital_department_relations.hospital_id','=','hospitals.id')
+            ->where('hospital_department_relations.hospital_department_id',$request->department_id)->where('hospitals.isActive','Active')->paginate(12);
         }
             
-        elseif(empty($request->department_id) && !empty($request->IEEB)){
+        elseif(empty($request->department_id) && !empty($request->ownership_type)){
             $hospitals = DB::table('hospitals')
-            ->join('institute_departments','institute_departments.institute_id','=','hospitals.id')
-            ->where('institute_departments.IEEB',$request->IEEB)->paginate(12);
+            ->where('ownership_type',$request->ownership_type)->where('isActive','Active')->paginate(2);
         }
-        elseif(!empty($request->department_id) && !empty($request->IEEB)){
+        elseif(!empty($request->department_id) && !empty($request->ownership_type)){
             $hospitals = DB::table('hospitals')
-            ->join('institute_departments','institute_departments.institute_id','=','hospitals.id')
-            ->where('institute_departments.department_id',$request->department_id)
-            ->where('institute_departments.IEEB',$request->IEEB)->paginate(12);
+            ->join('hospital_department_relations','hospital_department_relations.hospital_id','=','hospitals.id')
+            ->where('hospital_department_relations.hospital_department_id',$request->department_id)
+            ->where('hospitals.ownership_type',$request->ownership_type)->where('hospitals.isActive','Active')->paginate(12);
         }else{
-            $hospitals = Institute::where('isActive' , 'Active')->latest()->paginate(7);
+            return redirect('/hospitals')->with('message','Please Select at least one item');
         }
-        return view('front.institute.home',['hospitals'=>$hospitals,'departments'=>$departments]);
+        return view('front.hospital.home',['hospitals'=>$hospitals,'departments'=>$departments]);
     }
     public function filterHotel(Request $request)
     {

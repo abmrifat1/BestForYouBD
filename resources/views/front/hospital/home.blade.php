@@ -94,7 +94,6 @@
 				<div class="dir-alp-con">
 					
 					<form action="{{url('/filter-hospitals')}}" method="GET">
-						@csrf
 					<div class="col-md-3 dir-alp-con-left">
 						<!--==========Sub Category Filter============-->
 						<div class="dir-alp-con-left-1"><h3>Departments</h3> </div>
@@ -110,11 +109,11 @@
 						<!--==========End Sub Category Filter============-->
 						<!--==========Sub Category Filter============-->
 						<div class="dir-alp-l3 dir-alp-l-com" style="margin-top:10px;">
-							<h4>Certification</h4>
+							<h4>Ownership Type</h4>
 							<div class="dir-alp-l-com1 dir-alp-p3">
 								<ul>
 									<li>
-										<input class="with-gap" name="ownership_type" value="Government" type="radio" id="government" />
+										<input class="with-gap" name="ownership_type" value="Public" type="radio" id="government" />
 										<label for="government">Government</label>
 									</li>
 									<li>
@@ -151,8 +150,7 @@
 							<div class="row">
 								<!--LISTINGS-->
 								
-							<form action="{{url('/hospital-compare')}}" method="POST">
-								@csrf
+							<form action="{{url('/hospital-compare')}}" method="GET">
 								@foreach($hospitals->unique('name') as $hospital)
 									<div class="home-list-pop list-spac">
 										<!--LISTINGS IMAGE-->

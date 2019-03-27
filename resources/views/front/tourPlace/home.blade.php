@@ -97,8 +97,7 @@
 							<div class="row">
 								<!--LISTINGS-->
 								
-							<form action="{{url('/tour-place-compare')}}" method="POST">
-								@csrf
+							<form action="{{url('/tour-place-compare')}}" method="GET">
 								@foreach($tourPlaces->unique('name') as $tourPlace)
 									<div class="home-list-pop list-spac">
 										<!--LISTINGS IMAGE-->

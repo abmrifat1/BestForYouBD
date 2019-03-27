@@ -141,7 +141,7 @@
 								@foreach ($tour_place->hotels as $hotel)
 									<div class="home-list-pop list-spac list-spac-1 list-room-mar-o">
 										<!--LISTINGS IMAGE-->
-										<div class="col-md-3"> <img src="img/hotels/{{ $hotel->main_img }}" alt="" style="height:200px"> </div>
+										<div class="col-md-3"> <img src="/img/hotels/{{ $hotel->main_img }}" alt="" style="height:200px"> </div>
 										<!--LISTINGS: CONTENT-->
 										<div class="col-md-9 home-list-pop-desc inn-list-pop-desc list-room-deta"> <a href="{{url('/hotel/'.$hotel->id)}}" target="_blank"><h3>{{$hotel->name}}</h3></a>
 											<div class="list-room-type list-rom-ami">
@@ -149,10 +149,10 @@
 													<li>
 														<p><b>Amenities:</b> </p>
 													</li>
-													<li><img src="/front/images/icon/a9.png" alt=""> Address: {{$hotel->address}}</li>
-													<li><img src="/front/images/icon/a10.png" alt=""> Star: {{$hotel->star}} </li>
-													<li><img src="/front/images/icon/a3.png" alt=""> Car parking: {{$hotel->car_parking}}</li>
-													<li><img src="/front/images/icon/a6.png" alt=""> Total room: {{$hotel->total_room}}</li>
+													<li><img src="/front/images/icon/3.png" alt=""> Address: {{$hotel->address}}</li>
+													<li><img src="/front/images/icon/dbl13.png" alt=""> Star: {{$hotel->star}} </li>
+													<li><img src="/front/images/icon/a11.png" alt=""> Car Parking: {{$hotel->car_parking}}</li>
+													<li><img src="/front/images/icon/hcat2.png" alt=""> Total Room: {{$hotel->total_room}}</li>
 													<li><img src="/front/images/icon/a2.png" alt=""> Cafe: {{$hotel->cafe}}</li>
 												</ul>
 											</div>

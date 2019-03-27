@@ -162,33 +162,33 @@
 						</div>
 						<!--END LISTING DETAILS: LEFT PART 3-->
 						<!--LISTING DETAILS: LEFT PART 4-->
-						{{--<div class="pglist-p3 pglist-bg pglist-p-com" id="ld-roo">
+						<div class="pglist-p3 pglist-bg pglist-p-com" id="ld-roo">
 							<div class="pglist-p-com-ti">
-								<h3><span>Institute</span> Departments</h3> </div>
+								<h3><span>Nearest</span> Hotels</h3> </div>
 							<div class="list-pg-inn-sp">
-								@foreach ($institute_departments as $department)
+								@foreach ($tour_place->hotels as $hotel)
 									<div class="home-list-pop list-spac list-spac-1 list-room-mar-o">
 										<!--LISTINGS IMAGE-->
-										<div class="col-md-3"> <img src="/front/images/Dept_Ed.jpg" alt="" style="height:200px"> </div>
+										<div class="col-md-3"> <img src="/img/hotels/{{ $hotel->main_img }}" alt="" style="height:200px"> </div>
 										<!--LISTINGS: CONTENT-->
-										<div class="col-md-9 home-list-pop-desc inn-list-pop-desc list-room-deta"> <a href="#!"><h3>{{$department->name}}</h3></a>
+										<div class="col-md-9 home-list-pop-desc inn-list-pop-desc list-room-deta"> <a href="{{url('/hotel/'.$hotel->id)}}" target="_blank"><h3>{{$hotel->name}}</h3></a>
 											<div class="list-room-type list-rom-ami">
 												<ul>
 													<li>
 														<p><b>Amenities:</b> </p>
 													</li>
-													@if($department->credit > 0)<li><img src="/front/images/icon/a9.png" alt=""> Credit: {{$department->credit}}</li>@endif
-													<li><img src="/front/images/icon/a10.png" alt=""> Faculty Member: {{$department->faculty_members}} </li>
-													<li><img src="/front/images/icon/a3.png" alt=""> Students: {{$department->students}}</li>
-													<li><img src="/front/images/icon/a6.png" alt=""> Computer: {{$department->computer}}</li>
-													@if($department->IEEB)<li><img src="/front/images/icon/a2.png" alt=""> Certification: {{$department->IEEB}}</li>@endif
+													<li><img src="/front/images/icon/3.png" alt=""> Address: {{$hotel->address}}</li>
+													<li><img src="/front/images/icon/dbl13.png" alt=""> Star: {{$hotel->star}} </li>
+													<li><img src="/front/images/icon/a11.png" alt=""> Car Parking: {{$hotel->car_parking}}</li>
+													<li><img src="/front/images/icon/hcat2.png" alt=""> Total Room: {{$hotel->total_room}}</li>
+													<li><img src="/front/images/icon/a2.png" alt=""> Cafe: {{$hotel->cafe}}</li>
 												</ul>
-											</div> <span class="home-list-pop-rat list-rom-pric green-bg">Cost: ${{$department->cost}}</span>
+											</div>
 										</div>
 									</div>
 								@endforeach
 							</div>
-						</div>--}}
+						</div>
 						{{--
 						<!--END 360 DEGREE MAP: LEFT PART 8-->
 						<div class="pglist-p3 pglist-bg pglist-p-com" id="ld-vie">

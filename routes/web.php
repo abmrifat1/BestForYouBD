@@ -12,33 +12,33 @@
 */
 
 Route::get('/','front\WebsiteController@index');
-Route::post('/search','front\WebsiteController@search');
+Route::get('/search','front\WebsiteController@search');
 Route::get('/get-districts','front\WebsiteController@districts');
 Route::get('/get-subdistricts/{district_id}', 'front\WebsiteController@subDistricts');
 //Institute routes
 Route::get('/institutes','front\WebsiteController@institutes');
 Route::get('/institute/{id}','front\WebsiteController@showInstitute');
 Route::post('/search-institute','front\WebsiteController@searchInstitute');
-Route::post('/filter-institutes','front\WebsiteController@filterInstitute');
-Route::post('/institute-compare','front\WebsiteController@instituteCompare');
+Route::get('/filter-institutes','front\WebsiteController@filterInstitute');
+Route::get('/institute-compare','front\WebsiteController@instituteCompare');
 //Hospital routes
 Route::get('/hospitals','front\WebsiteController@hospitals');
 Route::get('/hospital/{id}','front\WebsiteController@showHospital');
 Route::post('/search-hospital','front\WebsiteController@searchHospital');
 Route::get('/filter-hospitals','front\WebsiteController@filterHospital');
-Route::post('/hospital-compare','front\WebsiteController@hospitalCompare');
+Route::get('/hospital-compare','front\WebsiteController@hospitalCompare');
 //Hotel rountes
 Route::get('/hotels','front\WebsiteController@hotels');
 Route::get('/hotel/{id}','front\WebsiteController@showhotel');
 Route::post('/search-hotel','front\WebsiteController@searchHotel');
-Route::post('/filter-hotels','front\WebsiteController@filterHotel');
-Route::post('/hotel-compare','front\WebsiteController@hotelCompare');
+Route::get('/filter-hotels','front\WebsiteController@filterHotel');
+Route::get('/hotel-compare','front\WebsiteController@hotelCompare');
 //Tour Place route
 Route::get('/tour-places','front\WebsiteController@tourPlaces');
 Route::get('/tour-place/{id}','front\WebsiteController@showTourPlace');
 Route::post('/search-tour-place','front\WebsiteController@searchTourPlace');
 //Route::post('/filter-tour-places','front\WebsiteController@filterTourPlace');
-Route::post('/tour-place-compare','front\WebsiteController@tourPlaceCompare');
+Route::get('/tour-place-compare','front\WebsiteController@tourPlaceCompare');
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');

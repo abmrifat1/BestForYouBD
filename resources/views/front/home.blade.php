@@ -43,8 +43,7 @@
 						<h1>Get The Best <br>Services & Places In Bangladesh</h1> 
 						<!--<p>Find Institute, Hospital & Hotel Infromations with contact addresses, and phone numbers.<br> Get a suggestion of beautiful tour places in BD.</p>-->
 					</div>
-					<form action="{{url('/search')}}" method="POST">
-						@csrf
+					<form action="{{url('/search')}}" method="GET">
 						<div class="form-row">
 							<div class="form-group col-md-3">
 								<select id="service" name="service" class="form-control" required>

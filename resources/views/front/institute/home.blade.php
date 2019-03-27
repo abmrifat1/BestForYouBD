@@ -93,8 +93,7 @@
 			<div class="row">
 				<div class="dir-alp-con">
 					
-					<form action="{{url('/filter-institutes')}}" method="POST">
-						@csrf
+					<form action="{{url('/filter-institutes')}}" method="GET">
 					<div class="col-md-3 dir-alp-con-left">
 						<!--==========Sub Category Filter============-->
 						<div class="dir-alp-con-left-1"><h3>Departments</h3> </div>
@@ -151,8 +150,7 @@
 							<div class="row">
 								<!--LISTINGS-->
 								
-							<form action="{{url('/institute-compare')}}" method="POST">
-								@csrf
+							<form action="{{url('/institute-compare')}}" method="GET">
 								@foreach($institutes->unique('name') as $institute)
 									<div class="home-list-pop list-spac">
 										<!--LISTINGS IMAGE-->

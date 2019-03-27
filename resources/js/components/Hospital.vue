@@ -102,11 +102,19 @@
                             </div>
                             <div class="form-group">
                                 <label>Sub Location of District</label>
-                                <select class="form-control" v-model="form.sub_district_id" style="width:100%;" :class="{ 'is-invalid': form.errors.has('sub_district_id') }">
+                                <select class="form-control" v-model="form.sub_district_id" style="width:100%;" @change="getHotels" :class="{ 'is-invalid': form.errors.has('sub_district_id') }">
                                     <option value="" disabled>Select a sub district</option>
                                     <option v-for="subDistrict in subDistricts" :value="subDistrict.id" :key="subDistrict.id">{{subDistrict.name}}</option>
                                 </select>
                                 <has-error :form="form" field="sub_district_id"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label>Nearest Hotel List</label>
+                                <select class="form-control" v-model="form.hotels" style="width:100%;" multiple="multiple" :class="{ 'is-invalid': form.errors.has('hotel') }">
+                                    <option value="" disabled>Select the Hotels</option>
+                                    <option v-for="hotel in hotels" :value="hotel.id" :key="hotel.id">{{hotel.name}}</option>
+                                </select>
+                                <has-error :form="form" field="hotel"></has-error>
                             </div>
                             <div class="widget-user-image" v-if="McreateMode">
                                 <label for="main_img"><img class="mt-1" src="img/hospitals/default.jpg" style="width:80%;height:25%;" alt="Main Image"></label>
@@ -200,6 +208,16 @@
                                     <option value="Yes">Yes</option>
                                     <option value="No">No</option>
                                 </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="world_ranking" class="col-form-label">World Ranking:</label>
+                                <input type="number" v-model="form.world_ranking" class="form-control" id="world_ranking" min="0" required :class="{ 'is-invalid': form.errors.has('world_ranking') }">
+                                <has-error :form="form" field="world_ranking"></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label for="bangladesh_ranking" class="col-form-label">Bangladesh Ranking:</label>
+                                <input type="number" v-model="form.bangladesh_ranking" class="form-control" id="bangladesh_ranking" min="0" :class="{ 'is-invalid': form.errors.has('bangladesh_ranking') }">
+                                <has-error :form="form" field="bangladesh_ranking"></has-error>
                             </div>
                             <div class="form-group">
                                 <label>Publication Status</label>
@@ -330,6 +348,7 @@
                 hospitals: {},
                 departments:{},
                 districts: {},
+                hotels: {},
                 subDistricts: {},
                 hospital_id:'',
                 hospital_departments:{},
@@ -350,8 +369,11 @@
                     address: '',
                     district_id: '',
                     sub_district_id: '',
-                    isActive: '',
-                    department: []
+                    bangladesh_ranking: '',
+                    world_ranking: '',
+                    isActive: 'Active',
+                    department: [],
+                    hotels: [],
                 }),
                 departmentForm: new Form({
                     hospital_id:'',
@@ -381,6 +403,10 @@
             {
                 axios.get("api/get-sub-districts/"+this.form.district_id).then(({ data }) => (this.subDistricts = data));  
             },
+            getHotels(e)
+            {
+                axios.get("api/get-hotels/"+this.form.sub_district_id).then(({ data }) => (this.hotels = data));  
+            },
             newModal(){
                 this.editMode = false;
                 this.McreateMode = true;
@@ -400,6 +426,7 @@
                 this.form.fill(hospital);
                 axios.get("api/get-districts").then(({ data }) => (this.districts = data));
                 axios.get("api/get-sub-districts/"+this.form.district_id).then(({ data }) => (this.subDistricts = data));
+                axios.get("api/get-hotels/"+this.form.sub_district_id).then(({ data }) => (this.hotels = data));
                 $('#addNew').modal('show');
             },
             settingInstituteDepartments(hospital){

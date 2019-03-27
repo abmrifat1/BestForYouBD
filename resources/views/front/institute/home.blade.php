@@ -149,7 +149,7 @@
 						<div class="dir-alp-con-right-1">
 							<div class="row">
 								<!--LISTINGS-->
-								
+							@if(isset($institutes) && count($institutes) > 0)
 							<form action="{{url('/institute-compare')}}" method="GET">
 								@foreach($institutes->unique('name') as $institute)
 									<div class="home-list-pop list-spac">
@@ -188,6 +188,11 @@
 									</section>
 								</form>	
 								<!--LISTINGS END-->
+								@else
+									<div>
+										<h2 style="color:crimson">{{$message}}</h2>
+										<img src="/front/images/preloader.gif" alt="">
+								@endif
 							</div>
 							<div class="row">
 								{{$institutes->links()}}

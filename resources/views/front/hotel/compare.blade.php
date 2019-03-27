@@ -44,6 +44,21 @@
 			</div>
 		</div>
 	</section>
+	<div class="container" style="margin-top:60px;">
+		<div class="row" style="color: #000000;border: 1px solid #dedede">
+			<div class="offset-3 col-md-3"></div>
+			<div class="col-md-8">
+					<h2>We're providing the result based on following rules.</h2>
+					<ul class="list-group">
+						<a href="#"><li class="list-group-item">Ranking of Bangladesh Hotels</li></a>
+						<li class="list-group-item">Personal Opinions</li>
+						<li class="list-group-item">We're not best but we're trying to give best information</li>
+						<li class="list-group-item">We're providing many information bellow Please See All and Choose</li>
+					</ul>
+			</div>
+			<div class="offset-1 col-md-1"></div>
+		</div>
+	</div>
 	{{--<section>
 		<div class="v3-list-ql">
 			<div class="container">
@@ -82,7 +97,7 @@
 			</div>
 		</div>
 	</section>--}}
-	@foreach($hotels as $hotel)
+	@foreach($hotels as $i=>$hotel)
 	<section class="list-pg-bg">
 			<div class="container">
 				<div class="row">
@@ -91,7 +106,7 @@
 							<!--LISTING DETAILS: LEFT PART 1-->
 							<div class="pglist-p1 pglist-bg pglist-p-com" id="ld-abour">
 								<div class="pglist-p-com-ti">
-									<h3><span>About</span> {{$hotel->name}}</h3> </div>
+										<h3><span style="font-weight:bold;color:darkgreen">@if ($loop->first) <i class="fa fa-star"></i> @endif {{$i+1}}: </span>About</span> {{$hotel->name}}</h3> </div>
 								<div class="list-pg-inn-sp">
 									<p>{{$hotel->description}}</p>
 								</div>
@@ -220,6 +235,7 @@
 								<div class="list-pg-inn-sp">
 									<div class="list-pg-oth-info">
 										<ul>
+											<li>Rank <span class="green-bg">{{$hotel->bangladesh_ranking}}</span> </li>
 											<li>Star <span class="green-bg">{{$hotel->star}}</span> </li>
 											<li>Car Parking <span>{{$hotel->car_parking}}</span> </li>
 											<li>Restaurant <span>{{$hotel->restaurant}}</span> </li>

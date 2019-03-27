@@ -79660,6 +79660,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -79672,6 +79690,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             hospitals: {},
             departments: {},
             districts: {},
+            hotels: {},
             subDistricts: {},
             hospital_id: '',
             hospital_departments: {},
@@ -79692,8 +79711,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 address: '',
                 district_id: '',
                 sub_district_id: '',
-                isActive: '',
-                department: []
+                bangladesh_ranking: '',
+                world_ranking: '',
+                isActive: 'Active',
+                department: [],
+                hotels: []
             }),
             departmentForm: new Form({
                 hospital_id: '',
@@ -79726,8 +79748,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 return _this.subDistricts = data;
             });
         },
-        newModal: function newModal() {
+        getHotels: function getHotels(e) {
             var _this2 = this;
+
+            axios.get("api/get-hotels/" + this.form.sub_district_id).then(function (_ref2) {
+                var data = _ref2.data;
+                return _this2.hotels = data;
+            });
+        },
+        newModal: function newModal() {
+            var _this3 = this;
 
             this.editMode = false;
             this.McreateMode = true;
@@ -79735,14 +79765,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             this.Mg2createMode = true;
             this.form.reset();
             //axios.get("api/education/create").then( response => (this.departments = response));
-            axios.get("api/get-districts").then(function (_ref2) {
-                var data = _ref2.data;
-                return _this2.districts = data;
+            axios.get("api/get-districts").then(function (_ref3) {
+                var data = _ref3.data;
+                return _this3.districts = data;
             });
             $('#addNew').modal('show');
         },
         editModal: function editModal(hospital) {
-            var _this3 = this;
+            var _this4 = this;
 
             this.McreateMode = false;
             this.Mg1createMode = false;
@@ -79750,21 +79780,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             this.editMode = true;
             this.form.reset();
             this.form.fill(hospital);
-            axios.get("api/get-districts").then(function (_ref3) {
-                var data = _ref3.data;
-                return _this3.districts = data;
-            });
-            axios.get("api/get-sub-districts/" + this.form.district_id).then(function (_ref4) {
+            axios.get("api/get-districts").then(function (_ref4) {
                 var data = _ref4.data;
-                return _this3.subDistricts = data;
+                return _this4.districts = data;
+            });
+            axios.get("api/get-sub-districts/" + this.form.district_id).then(function (_ref5) {
+                var data = _ref5.data;
+                return _this4.subDistricts = data;
+            });
+            axios.get("api/get-hotels/" + this.form.sub_district_id).then(function (_ref6) {
+                var data = _ref6.data;
+                return _this4.hotels = data;
             });
             $('#addNew').modal('show');
         },
         settingInstituteDepartments: function settingInstituteDepartments(hospital) {
-            var _this4 = this;
+            var _this5 = this;
 
             axios.get("api/hospital-departments/" + hospital.id).then(function (data) {
-                _this4.hospital_departments = data;
+                _this5.hospital_departments = data;
             });
             this.hospital_id = hospital.id;
             $('#hospitalDepartments').modal('show');
@@ -79775,7 +79809,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             $('#departmentFormModal').modal('show');
         },
         addHospitalDepartment: function addHospitalDepartment() {
-            var _this5 = this;
+            var _this6 = this;
 
             this.$Progress.start();
             this.departmentForm.post('api/hospital-departments/' + this.hospital_id).then(function () {
@@ -79783,10 +79817,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 $('#hospitalDepartments').modal('hide');
                 Fire.$emit('takePageLoad');
                 swal('Inserted!', 'Your hospital department information has been stored.', 'success');
-                _this5.$Progress.finish();
+                _this6.$Progress.finish();
             }).catch(function () {
                 swal("Failed", "Hospital Department Already Stored", "warning");
-                _this5.$Progress.fail();
+                _this6.$Progress.fail();
             });
         },
         editDepartment: function editDepartment(department) {
@@ -79796,22 +79830,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             this.departmentForm.fill(department);
         },
         DepartmentUpdate: function DepartmentUpdate() {
-            var _this6 = this;
+            var _this7 = this;
 
             this.$Progress.start();
             this.departmentForm.put('api/hospital-departments/').then(function () {
                 swal('Updated!', 'Your information has been updated.', 'success');
                 $('#departmentFormModal').modal('hide');
                 $('#hospitalDepartments').modal('hide');
-                _this6.$Progress.finish();
+                _this7.$Progress.finish();
                 Fire.$emit('takePageLoad');
             }).catch(function () {
                 swal("Failed", "There was something wrong.", "warning");
-                _this6.$Progress.fail();
+                _this7.$Progress.fail();
             });
         },
         departmentDeleted: function departmentDeleted(department) {
-            var _this7 = this;
+            var _this8 = this;
 
             this.$Progress.start();
             this.departmentForm.reset();
@@ -79826,34 +79860,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             }).then(function (result) {
                 if (result.value) {
 
-                    _this7.departmentForm.fill(department);
-                    _this7.departmentForm.delete('api/delete_hospital_department').then(function () {
+                    _this8.departmentForm.fill(department);
+                    _this8.departmentForm.delete('api/delete_hospital_department').then(function () {
                         swal('Deleted!', 'Hospital Deparment has been deleted.', 'success');
                         $('#hospitalDepartments').modal('hide');
                         Fire.$emit('takePageLoad');
                     }).catch(function () {
-                        _this7.$Progress.fail();
+                        _this8.$Progress.fail();
                         swal("Failed", "There was something wrong.", "warning");
                     });
                 }
-                _this7.$Progress.finish();
+                _this8.$Progress.finish();
             });
         },
         update: function update() {
-            var _this8 = this;
+            var _this9 = this;
 
             this.$Progress.start();
             this.form.put('api/dashboard/hospital/' + this.form.id).then(function () {
                 $('#addNew').modal('hide');
                 swal('Updated!', 'Your information has been updated.', 'success');
-                _this8.$Progress.finish();
+                _this9.$Progress.finish();
                 Fire.$emit('takePageLoad');
             }).catch(function () {
-                _this8.$Progress.fail();
+                _this9.$Progress.fail();
             });
         },
         Main_Image: function Main_Image(e) {
-            var _this9 = this;
+            var _this10 = this;
 
             // console.log('uploading');
             this.McreateMode = false;
@@ -79863,12 +79897,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             reader.onloadend = function (file) {
                 // console.log('RESULT', reader.result)
-                _this9.form.main_img = reader.result;
+                _this10.form.main_img = reader.result;
             };
             reader.readAsDataURL(file);
         },
         Gallery_image_1: function Gallery_image_1(e) {
-            var _this10 = this;
+            var _this11 = this;
 
             // console.log('uploading');
             this.Mg1createMode = false;
@@ -79878,12 +79912,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             reader.onloadend = function (file) {
                 // console.log('RESULT', reader.result)
-                _this10.form.gallery_img_1 = reader.result;
+                _this11.form.gallery_img_1 = reader.result;
             };
             reader.readAsDataURL(file);
         },
         Gallery_image_2: function Gallery_image_2(e) {
-            var _this11 = this;
+            var _this12 = this;
 
             // console.log('uploading');
             this.Mg2createMode = false;
@@ -79893,37 +79927,37 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             reader.onloadend = function (file) {
                 // console.log('RESULT', reader.result)
-                _this11.form.gallery_img_2 = reader.result;
+                _this12.form.gallery_img_2 = reader.result;
             };
             reader.readAsDataURL(file);
         },
         load: function load() {
-            var _this12 = this;
+            var _this13 = this;
 
             this.$Progress.start();
             if (this.$gate.isAdminOrAuthor()) {
-                axios.get("api/dashboard/hospital").then(function (_ref5) {
-                    var data = _ref5.data;
-                    return _this12.hospitals = data;
+                axios.get("api/dashboard/hospital").then(function (_ref7) {
+                    var data = _ref7.data;
+                    return _this13.hospitals = data;
                 });
             }
-            axios.get("api/hospital/departments").then(function (_ref6) {
-                var data = _ref6.data;
-                return _this12.departments = data;
+            axios.get("api/hospital/departments").then(function (_ref8) {
+                var data = _ref8.data;
+                return _this13.departments = data;
             });
             this.$Progress.finish();
         },
         getResults: function getResults() {
-            var _this13 = this;
+            var _this14 = this;
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
             axios.get('api/dashboard/hospital?page=' + page).then(function (response) {
-                _this13.hospitals = response.data;
+                _this14.hospitals = response.data;
             });
         },
         create: function create() {
-            var _this14 = this;
+            var _this15 = this;
 
             this.$Progress.start();
             this.form.post('api/dashboard/hospital').then(function () {
@@ -79933,13 +79967,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                     type: 'success',
                     title: 'Hospital created successfully'
                 });
-                _this14.$Progress.finish();
+                _this15.$Progress.finish();
             }).catch(function () {
-                _this14.$Progress.fail();
+                _this15.$Progress.fail();
             });
         },
         deleted: function deleted(id) {
-            var _this15 = this;
+            var _this16 = this;
 
             this.$Progress.start();
             swal({
@@ -79952,15 +79986,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 confirmButtonText: 'Yes, delete it!'
             }).then(function (result) {
                 if (result.value) {
-                    _this15.form.delete('api/dashboard/hospital/' + id).then(function () {
+                    _this16.form.delete('api/dashboard/hospital/' + id).then(function () {
                         swal('Deleted!', 'Your file has been deleted.', 'success');
                         Fire.$emit('takePageLoad');
                     }).catch(function () {
-                        _this15.$Progress.fail();
+                        _this16.$Progress.fail();
                         swal("Failed", "There was something wrong.", "warning");
                     });
                 }
-                _this15.$Progress.finish();
+                _this16.$Progress.finish();
             });
         }
     }, 'getMainPhoto', function getMainPhoto() {
@@ -79968,17 +80002,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return photo;
     }),
     created: function created() {
-        var _this16 = this;
+        var _this17 = this;
 
         Fire.$on('searching', function () {
-            var query = _this16.$parent.search;
+            var query = _this17.$parent.search;
             axios.get('api/find-hospitals?q=' + query).then(function (data) {
-                _this16.hospitals = data.data;
+                _this17.hospitals = data.data;
             }).catch(function () {});
         });
         this.load();
         Fire.$on('takePageLoad', function () {
-            _this16.load();
+            _this17.load();
         });
 
         //    setInterval(() => this.loadinstitutes(), 3000);
@@ -80413,23 +80447,27 @@ var render = function() {
                             },
                             staticStyle: { width: "100%" },
                             on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.$set(
-                                  _vm.form,
-                                  "sub_district_id",
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
-                              }
+                              change: [
+                                function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.form,
+                                    "sub_district_id",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                },
+                                _vm.getHotels
+                              ]
                             }
                           },
                           [
@@ -80455,6 +80493,77 @@ var render = function() {
                         _vm._v(" "),
                         _c("has-error", {
                           attrs: { form: _vm.form, field: "sub_district_id" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", [_vm._v("Nearest Hotel List")]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.hotels,
+                                expression: "form.hotels"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("hotel")
+                            },
+                            staticStyle: { width: "100%" },
+                            attrs: { multiple: "multiple" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.form,
+                                  "hotels",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "option",
+                              { attrs: { value: "", disabled: "" } },
+                              [_vm._v("Select the Hotels")]
+                            ),
+                            _vm._v(" "),
+                            _vm._l(_vm.hotels, function(hotel) {
+                              return _c(
+                                "option",
+                                {
+                                  key: hotel.id,
+                                  domProps: { value: hotel.id }
+                                },
+                                [_vm._v(_vm._s(hotel.name))]
+                              )
+                            })
+                          ],
+                          2
+                        ),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "hotel" }
                         })
                       ],
                       1
@@ -81013,6 +81122,115 @@ var render = function() {
                         ]
                       )
                     ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-form-label",
+                            attrs: { for: "world_ranking" }
+                          },
+                          [_vm._v("World Ranking:")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.world_ranking,
+                              expression: "form.world_ranking"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("world_ranking")
+                          },
+                          attrs: {
+                            type: "number",
+                            id: "world_ranking",
+                            min: "0",
+                            required: ""
+                          },
+                          domProps: { value: _vm.form.world_ranking },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.form,
+                                "world_ranking",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "world_ranking" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-form-label",
+                            attrs: { for: "bangladesh_ranking" }
+                          },
+                          [_vm._v("Bangladesh Ranking:")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.bangladesh_ranking,
+                              expression: "form.bangladesh_ranking"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has(
+                              "bangladesh_ranking"
+                            )
+                          },
+                          attrs: {
+                            type: "number",
+                            id: "bangladesh_ranking",
+                            min: "0"
+                          },
+                          domProps: { value: _vm.form.bangladesh_ranking },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.form,
+                                "bangladesh_ranking",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "bangladesh_ranking" }
+                        })
+                      ],
+                      1
+                    ),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", [_vm._v("Publication Status")]),
@@ -82820,6 +83038,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -82852,6 +83075,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 description: '',
                 district_id: '',
                 sub_district_id: '',
+                bangladesh_ranking: '',
                 isActive: 'Active',
                 restaurant: 'Yes',
                 cafe: 'Yes',
@@ -84412,6 +84636,61 @@ var render = function() {
                       1
                     ),
                     _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-form-label",
+                            attrs: { for: "bangladesh_ranking" }
+                          },
+                          [_vm._v("Bangladesh Ranking:")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.bangladesh_ranking,
+                              expression: "form.bangladesh_ranking"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has(
+                              "bangladesh_ranking"
+                            )
+                          },
+                          attrs: {
+                            type: "number",
+                            id: "bangladesh_ranking",
+                            min: "0"
+                          },
+                          domProps: { value: _vm.form.bangladesh_ranking },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.form,
+                                "bangladesh_ranking",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "bangladesh_ranking" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", [_vm._v("Publication Status")]),
                       _vm._v(" "),
@@ -85961,6 +86240,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -85986,6 +86270,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 website_url: '',
                 address: '',
                 description: '',
+                bangladesh_ranking: '',
                 district_id: '',
                 sub_district_id: '',
                 isActive: 'Active',
@@ -86442,7 +86727,7 @@ var render = function() {
                           staticClass: "form-control",
                           class: { "is-invalid": _vm.form.errors.has("star") },
                           attrs: {
-                            type: "number",
+                            type: "text",
                             name: "star",
                             placeholder: "Star"
                           },
@@ -87150,6 +87435,61 @@ var render = function() {
                         ]
                       )
                     ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-form-label",
+                            attrs: { for: "bangladesh_ranking" }
+                          },
+                          [_vm._v("Bangladesh Ranking:")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.bangladesh_ranking,
+                              expression: "form.bangladesh_ranking"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has(
+                              "bangladesh_ranking"
+                            )
+                          },
+                          attrs: {
+                            type: "number",
+                            id: "bangladesh_ranking",
+                            min: "0"
+                          },
+                          domProps: { value: _vm.form.bangladesh_ranking },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.form,
+                                "bangladesh_ranking",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "bangladesh_ranking" }
+                        })
+                      ],
+                      1
+                    ),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", [_vm._v("Publication Status")]),

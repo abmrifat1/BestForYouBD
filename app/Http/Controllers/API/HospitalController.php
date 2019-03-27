@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 use App\Hospital;
 use App\HospitalDepartment;
 use DB;
+use Auth;
+use App\Hotel;
 use App\HospitalDepartmentRelation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -74,6 +76,7 @@ class HospitalController extends Controller
         }else{
             $request->merge(['gallery_img_2' => 'default.jpg']);
         }
+        $request['user_id'] = Auth::user()->id;
         $hospital = Hospital::create($request->all());
         /*$hospital = Hospital::create([
             'name' => $request['name'],
@@ -87,6 +90,7 @@ class HospitalController extends Controller
             'isActive' => $request['isActive'],
         ]);*/
         $hospital->departments()->sync($request->department);
+        $hospital->hotels()->sync($request->hotels);
         return ['update' => "Hospital information stored"];
     }
     /**
@@ -181,6 +185,7 @@ class HospitalController extends Controller
         
         $hospital->update($request->all());
         $hospital->departments()->syncWithoutDetaching($request->department);
+        $hospital->hotels()->syncWithoutDetaching($request->hotels);
         return ['update' => "Hospital information updated"];
     }
 

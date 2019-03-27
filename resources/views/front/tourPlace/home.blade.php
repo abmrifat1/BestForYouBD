@@ -96,7 +96,7 @@
 						<div class="dir-alp-con-right-1">
 							<div class="row">
 								<!--LISTINGS-->
-								
+							@if(isset($tourPlaces) && count($tourPlaces) > 0)
 							<form action="{{url('/tour-place-compare')}}" method="GET">
 								@foreach($tourPlaces->unique('name') as $tourPlace)
 									<div class="home-list-pop list-spac">
@@ -127,6 +127,11 @@
 									</section>
 								</form>	
 								<!--LISTINGS END-->
+								@else
+									<div align="center">
+										<h2 style="color:crimson">{{$message}}</h2>
+										<img src="/front/images/preloader.gif" alt="">
+								@endif
 							</div>
 							<div class="row">
 								{{$tourPlaces->links()}}

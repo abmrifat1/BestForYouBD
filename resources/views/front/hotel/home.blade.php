@@ -163,6 +163,7 @@
 						<div class="dir-alp-con-right-1">
 							<div class="row">
 								<!--LISTINGS-->
+							@if(isset($hotels) && count($hotels) > 0)
 							<form action="{{url('/hotel-compare')}}" method="get">
 								@foreach($hotels as $hotel)
 									<div class="home-list-pop list-spac">
@@ -200,6 +201,11 @@
 										</div>
 									</section>
 								</form>	
+								@else
+									<div>
+										<h2 style="color:crimson">{{$message}}</h2>
+										<img src="/front/images/preloader.gif" alt="">
+								@endif
 								<!--LISTINGS END-->
 							</div>
 							<div class="row">

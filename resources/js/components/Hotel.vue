@@ -242,6 +242,11 @@
                                 <has-error :form="form" field="total_room"></has-error>
                             </div>
                             <div class="form-group">
+                                <label for="bangladesh_ranking" class="col-form-label">Bangladesh Ranking:</label>
+                                <input type="number" v-model="form.bangladesh_ranking" class="form-control" id="bangladesh_ranking" min="0" :class="{ 'is-invalid': form.errors.has('bangladesh_ranking') }">
+                                <has-error :form="form" field="bangladesh_ranking"></has-error>
+                            </div>
+                            <div class="form-group">
                                 <label>Publication Status</label>
                                 <select v-model="form.isActive" id="isActive" class="form-control">
                                     <option value="Active">Publish</option>
@@ -484,6 +489,7 @@
                     description: '',
                     district_id: '',
                     sub_district_id: '',
+                    bangladesh_ranking: '',
                     isActive: 'Active',
                     restaurant: 'Yes',
                     cafe: 'Yes',

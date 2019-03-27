@@ -44,6 +44,21 @@
 			</div>
 		</div>
 	</section>
+	<div class="container" style="margin-top:60px;">
+		<div class="row" style="color: #000000;border: 1px solid #dedede">
+			<div class="offset-3 col-md-3"></div>
+			<div class="col-md-8">
+					<h2>We're providing the result based on following rules.</h2>
+					<ul class="list-group">
+						<li class="list-group-item">Ranking of Bangladesh Tour Places</li>
+						<li class="list-group-item">Personal Opinion</li>
+						<li class="list-group-item">We're not best but we're trying to give best information</li>
+						<li class="list-group-item">We're providing many information bellow Please See All and Choose</li>
+					</ul>
+			</div>
+			<div class="offset-1 col-md-1"></div>
+		</div>
+	</div>
 	{{--<!--LISTING DETAILS-->
 	<section class="pg-list-1">
 		<div class="container">
@@ -60,7 +75,7 @@
 			</div>
 		</div>
 	</section>--}}
-	@foreach($tour_places as $tour_place)
+	@foreach($tour_places as $i=>$tour_place)
 	<section class="list-pg-bg">
 		<div class="container">
 			<div class="row">
@@ -69,7 +84,7 @@
 						<!--LISTING DETAILS: LEFT PART 1-->
 						<div class="pglist-p1 pglist-bg pglist-p-com" id="ld-abour">
 							<div class="pglist-p-com-ti">
-								<h3><span>About</span> {{$tour_place->name}}</h3> </div>
+									<h3><span style="font-weight:bold;color:darkgreen">@if ($loop->first) <i class="fa fa-star"></i> @endif {{$i+1}}: </span>About</span> {{$tour_place->name}}</h3> </div>
 							<div class="list-pg-inn-sp">
 								<p>{{$tour_place->description}}</p>
 							</div>
@@ -181,6 +196,7 @@
 							<div class="list-pg-inn-sp">
 								<div class="list-pg-oth-info">
 									<ul>
+										<li>Rank <span class="green-bg">{{$tour_place->bangladesh_ranking}}</span> </li>
 										<li>City <span class="green-bg">{{$tour_place->districtName}}</span> </li>
 										<li>Sub Place of City <span class="green-bg">{{$tour_place->subDistrictName}}</span> </li>
 										<li>Views <span class="green-bg">{{$tour_place->views}}</span> </li>

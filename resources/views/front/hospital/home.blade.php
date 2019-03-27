@@ -104,6 +104,7 @@
 									<option value="{{$department->id}}" id="ld{{$department->id}}">{{$department->name}}</option>
 								@endforeach
 							</select>
+							<span style="color:crimson">@php(if($selectError != '') echo $selectError) @endphp</span>
 						</div>
 						
 						<!--==========End Sub Category Filter============-->
@@ -121,10 +122,12 @@
 										<label for="private">Private</label>
 									</li>
 								</ul>
+								<span style="color:crimson">@php(if($selectError != '') echo $selectError) @endphp</span>
 							</div>
 						</div>
 						<div class="form-control">
 							<input type="submit" class="btn btn-submit" style="width:100%" value="Filter">
+						
 						</div>
 						{{--
 						<!--==========End Sub Category Filter============-->
@@ -149,7 +152,7 @@
 						<div class="dir-alp-con-right-1">
 							<div class="row">
 								<!--LISTINGS-->
-								
+							@if(isset($hospitals) && count($hospitals) > 0)
 							<form action="{{url('/hospital-compare')}}" method="GET">
 								@foreach($hospitals->unique('name') as $hospital)
 									<div class="home-list-pop list-spac">
@@ -188,6 +191,11 @@
 									</section>
 								</form>	
 								<!--LISTINGS END-->
+								@else
+									<div>
+										<h2 style="color:crimson">{{$message}}</h2>
+										<img src="/front/images/preloader.gif" alt="">
+								@endif
 							</div>
 							<div class="row">
 								{{$hospitals->links()}}

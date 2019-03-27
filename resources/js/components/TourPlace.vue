@@ -79,7 +79,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="date">Star</label>
-                                <input v-model="form.star" type="number" name="star"
+                                <input v-model="form.star" type="text" name="star"
                                        placeholder="Star"
                                        class="form-control" :class="{ 'is-invalid': form.errors.has('star') }">
                                 <has-error :form="form" field="star"></has-error>
@@ -201,6 +201,11 @@
                                 </select>
                             </div>
                             <div class="form-group">
+                                <label for="bangladesh_ranking" class="col-form-label">Bangladesh Ranking:</label>
+                                <input type="number" v-model="form.bangladesh_ranking" class="form-control" id="bangladesh_ranking" min="0" :class="{ 'is-invalid': form.errors.has('bangladesh_ranking') }">
+                                <has-error :form="form" field="bangladesh_ranking"></has-error>
+                            </div>
+                            <div class="form-group">
                                 <label>Publication Status</label>
                                 <select v-model="form.isActive" id="isActive" class="form-control">
                                     <option value="Active">Publish</option>
@@ -248,6 +253,7 @@
                     website_url: '',
                     address: '',
                     description: '',
+                    bangladesh_ranking: '',
                     district_id: '',
                     sub_district_id: '',
                     isActive: 'Active',

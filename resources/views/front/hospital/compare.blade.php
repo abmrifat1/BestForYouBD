@@ -44,7 +44,21 @@
 			</div>
 		</div>
 	</section>
-	@foreach($hospitals as $hospital)
+	<div class="container" style="margin-top:60px;">
+		<div class="row" style="color: #000000;border: 1px solid #dedede">
+			<div class="offset-3 col-md-3"></div>
+			<div class="col-md-8">
+					<h2>We're providing the result based on following rules.</h2>
+					<ul class="list-group">
+						<a href="http://hospitals.webometrics.info/en/Asia/Bangladesh%20" target="_blank"><li class="list-group-item">Ranking of Bangladesh Hospitals</li></a>
+						<li class="list-group-item">We're not best but we're trying to give best information</li>
+						<li class="list-group-item">We're providing many information bellow Please See All and Choose</li>
+					</ul>
+			</div>
+			<div class="offset-1 col-md-1"></div>
+		</div>
+	</div>
+	@foreach($hospitals as $i=>$hospital)
 	<section class="list-pg-bg">
 		<div class="container">
 			<div class="row">
@@ -53,7 +67,7 @@
 						<!--LISTING DETAILS: LEFT PART 1-->
 						<div class="pglist-p1 pglist-bg pglist-p-com" id="ld-abour">
 							<div class="pglist-p-com-ti">
-								<h3><span>About</span> {{$hospital->name}}</h3> </div>
+							<h3><span style="font-weight:bold;color:darkgreen">@if ($loop->first) <i class="fa fa-star"></i> @endif {{$i+1}}: </span>About {{$hospital->name}}</h3> </div>
 							{{--<div class="list-pg-inn-sp">
 								<div class="share-btn">
 									<ul>
@@ -179,6 +193,33 @@
 								@endforeach
 							</div>
 						</div>
+						<div class="pglist-p3 pglist-bg pglist-p-com" id="ld-roo">
+								<div class="pglist-p-com-ti">
+									<h3><span>Nearest</span> Hotels</h3> </div>
+								<div class="list-pg-inn-sp">
+									@foreach ($hospital->hotels as $hotel)
+										<div class="home-list-pop list-spac list-spac-1 list-room-mar-o">
+											<!--LISTINGS IMAGE-->
+											<div class="col-md-3"> <img src="/img/hotels/{{ $hotel->main_img }}" alt="" style="height:200px"> </div>
+											<!--LISTINGS: CONTENT-->
+											<div class="col-md-9 home-list-pop-desc inn-list-pop-desc list-room-deta"> <a href="{{url('/hotel/'.$hotel->id)}}" target="_blank"><h3>{{$hotel->name}}</h3></a>
+												<div class="list-room-type list-rom-ami">
+													<ul>
+														<li>
+															<p><b>Amenities:</b> </p>
+														</li>
+														<li><img src="/front/images/icon/3.png" alt=""> Address: {{$hotel->address}}</li>
+														<li><img src="/front/images/icon/dbl13.png" alt=""> Star: {{$hotel->star}} </li>
+														<li><img src="/front/images/icon/a11.png" alt=""> Car Parking: {{$hotel->car_parking}}</li>
+														<li><img src="/front/images/icon/hcat2.png" alt=""> Total Room: {{$hotel->total_room}}</li>
+														<li><img src="/front/images/icon/a2.png" alt=""> Cafe: {{$hotel->cafe}}</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									@endforeach
+								</div>
+							</div>
 						{{--
 						<!--END 360 DEGREE MAP: LEFT PART 8-->
 						<div class="pglist-p3 pglist-bg pglist-p-com" id="ld-vie">
@@ -199,6 +240,7 @@
 							<div class="list-pg-inn-sp">
 								<div class="list-pg-oth-info">
 									<ul>
+										<li>Rank <span class="green-bg">{{$hospital->bangladesh_ranking}}</span> </li>
 										<li>City <span class="green-bg">{{$hospital->districtName}}</span> </li>
 										<li>Sub Place of City <span class="green-bg">{{$hospital->subDistrictName}}</span> </li>
 										<li>Departments <span>{{$hospital->total_departments}}</span> </li>
@@ -214,7 +256,7 @@
 			</div>
 		</div>
 		<hr>
-		<a href="{{$hospital->website_url}}" target="_blank" class="btn btn-success text-center" style="display:block;" align="center">Go to Hospital Website</a>
+		<p class="btn btn-success text-center" style="display:block;" align="center">*****</a>
 	</section>
 	<hr>
 	@endforeach

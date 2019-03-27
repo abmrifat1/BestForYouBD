@@ -208,6 +208,33 @@
 								@endforeach
 							</div>
 						</div>
+						<div class="pglist-p3 pglist-bg pglist-p-com" id="ld-roo">
+								<div class="pglist-p-com-ti">
+									<h3><span>Nearest</span> Hotels</h3> </div>
+								<div class="list-pg-inn-sp">
+									@foreach ($hospital->hotels as $hotel)
+										<div class="home-list-pop list-spac list-spac-1 list-room-mar-o">
+											<!--LISTINGS IMAGE-->
+											<div class="col-md-3"> <img src="/img/hotels/{{ $hotel->main_img }}" alt="" style="height:200px"> </div>
+											<!--LISTINGS: CONTENT-->
+											<div class="col-md-9 home-list-pop-desc inn-list-pop-desc list-room-deta"> <a href="{{url('/hotel/'.$hotel->id)}}" target="_blank"><h3>{{$hotel->name}}</h3></a>
+												<div class="list-room-type list-rom-ami">
+													<ul>
+														<li>
+															<p><b>Amenities:</b> </p>
+														</li>
+														<li><img src="/front/images/icon/3.png" alt=""> Address: {{$hotel->address}}</li>
+														<li><img src="/front/images/icon/dbl13.png" alt=""> Star: {{$hotel->star}} </li>
+														<li><img src="/front/images/icon/a11.png" alt=""> Car Parking: {{$hotel->car_parking}}</li>
+														<li><img src="/front/images/icon/hcat2.png" alt=""> Total Room: {{$hotel->total_room}}</li>
+														<li><img src="/front/images/icon/a2.png" alt=""> Cafe: {{$hotel->cafe}}</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									@endforeach
+								</div>
+							</div>
 						{{--
 						<!--END 360 DEGREE MAP: LEFT PART 8-->
 						<div class="pglist-p3 pglist-bg pglist-p-com" id="ld-vie">
@@ -228,6 +255,7 @@
 							<div class="list-pg-inn-sp">
 								<div class="list-pg-oth-info">
 									<ul>
+										<li>Rank <span class="green-bg">{{$hospital->bangladesh_ranking}}</span> </li>
 										<li>City <span class="green-bg">{{$hospital->districtName}}</span> </li>
 										<li>Sub Place of City <span class="green-bg">{{$hospital->subDistrictName}}</span> </li>
 										<li>Departments <span>{{$hospital->total_departments}}</span> </li>

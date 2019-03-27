@@ -71,13 +71,6 @@
 							<div class="pglist-p-com-ti">
 								<h3><span>About</span> {{$tour_place->name}}</h3> </div>
 							<div class="list-pg-inn-sp">
-								<div class="share-btn">
-									<ul>
-										<li><a href="#"><i class="fa fa-facebook fb1"></i> Share On Facebook</a> </li>
-										<li><a href="#"><i class="fa fa-twitter tw1"></i> Share On Twitter</a> </li>
-										<li><a href="#"><i class="fa fa-google-plus gp1"></i> Share On Google Plus</a> </li>
-									</ul>
-								</div>
 								<p>{{$tour_place->description}}</p>
 							</div>
 						</div>
@@ -145,20 +138,25 @@
 							<div class="pglist-p-com-ti">
 								<h3><span>Nearest</span> Hotels</h3> </div>
 							<div class="list-pg-inn-sp">
-								@foreach ($tour_place->tour_place_hotels as $hotel)
+								@foreach ($tour_place->hotels as $hotel)
 									<div class="home-list-pop list-spac list-spac-1 list-room-mar-o">
-											<div class="col-md-3"> <img src="/front/images/hotel_room.png" alt="" style="height:100%;width:100%"> </div>
-											<!--LISTINGS: CONTENT-->
-											<div class="col-md-9 home-list-pop-desc inn-list-pop-desc list-room-deta"> <a href="{{ url('/hotel/'.$hotel->id)}}"><h3>
-													@php 
-													foreach ($hotels as $mainHotel) {
-														if($mainHotel->id == $hotel->hotel_id)
-															echo $mainHotel->hotelName;
-														}
-													}
-													@endphp
-												</h3></a>
+										<!--LISTINGS IMAGE-->
+										<div class="col-md-3"> <img src="img/hotels/{{ $hotel->main_img }}" alt="" style="height:200px"> </div>
+										<!--LISTINGS: CONTENT-->
+										<div class="col-md-9 home-list-pop-desc inn-list-pop-desc list-room-deta"> <a href="{{url('/hotel/'.$hotel->id)}}" target="_blank"><h3>{{$hotel->name}}</h3></a>
+											<div class="list-room-type list-rom-ami">
+												<ul>
+													<li>
+														<p><b>Amenities:</b> </p>
+													</li>
+													<li><img src="/front/images/icon/a9.png" alt=""> Address: {{$hotel->address}}</li>
+													<li><img src="/front/images/icon/a10.png" alt=""> Star: {{$hotel->star}} </li>
+													<li><img src="/front/images/icon/a3.png" alt=""> Car parking: {{$hotel->car_parking}}</li>
+													<li><img src="/front/images/icon/a6.png" alt=""> Total room: {{$hotel->total_room}}</li>
+													<li><img src="/front/images/icon/a2.png" alt=""> Cafe: {{$hotel->cafe}}</li>
+												</ul>
 											</div>
+										</div>
 									</div>
 								@endforeach
 							</div>
@@ -196,7 +194,10 @@
 				</div>
 			</div>
 		</div>
+		<hr>
+		<a href="{{$tour_place->website_url}}" target="_blank" class="btn btn-success text-center" style="display:block;" align="center">Go to Tour Place Website</a>
 	</section>
+	<hr>
 	<!--QUOTS POPUP-->
 	@endforeach
 	

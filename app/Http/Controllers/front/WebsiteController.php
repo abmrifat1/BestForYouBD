@@ -184,11 +184,8 @@ class WebsiteController extends Controller
     {
         if(count($request->id) > 1){
 
-            $tour_places = TourPlace::with('tourPlaceHotels')->whereIn('id',$request->id)->get();
-            return $tour_places;
-            $hotels = Hotel::select('id','name as hotelName')->get();
-            return $hotels;
-            return view('front.tourPlace.compare',['tour_places'=>$tour_places,'hotels'=>$hotels]);
+            $tour_places = TourPlace::with('hotels')->whereIn('id',$request->id)->get();
+            return view('front.tourPlace.compare',['tour_places'=>$tour_places]);
         }else{
             return redirect()->back()->with('error','Please select at lease 2 institutes');
         }
@@ -252,27 +249,28 @@ class WebsiteController extends Controller
     }
     public function filterHospital(Request $request)
     {
-        $departments = Department::where('isActive','Active')->get();
+        return 
+        $departments = HospitalDepartment::where('isActive','Active')->get();
         if(!empty($request->department_id) && empty($request->IEEB)){
-            $institutes = DB::table('institutes')
-            ->join('institute_departments','institute_departments.institute_id','=','institutes.id')
+            $hospitals = DB::table('hospitals')
+            ->join('institute_departments','institute_departments.institute_id','=','hospitals.id')
             ->where('institute_departments.department_id',$request->department_id)->paginate(12);
         }
             
         elseif(empty($request->department_id) && !empty($request->IEEB)){
-            $institutes = DB::table('institutes')
-            ->join('institute_departments','institute_departments.institute_id','=','institutes.id')
+            $hospitals = DB::table('hospitals')
+            ->join('institute_departments','institute_departments.institute_id','=','hospitals.id')
             ->where('institute_departments.IEEB',$request->IEEB)->paginate(12);
         }
         elseif(!empty($request->department_id) && !empty($request->IEEB)){
-            $institutes = DB::table('institutes')
-            ->join('institute_departments','institute_departments.institute_id','=','institutes.id')
+            $hospitals = DB::table('hospitals')
+            ->join('institute_departments','institute_departments.institute_id','=','hospitals.id')
             ->where('institute_departments.department_id',$request->department_id)
             ->where('institute_departments.IEEB',$request->IEEB)->paginate(12);
         }else{
-            $institutes = Institute::where('isActive' , 'Active')->latest()->paginate(7);
+            $hospitals = Institute::where('isActive' , 'Active')->latest()->paginate(7);
         }
-        return view('front.institute.home',['institutes'=>$institutes,'departments'=>$departments]);
+        return view('front.institute.home',['hospitals'=>$hospitals,'departments'=>$departments]);
     }
     public function filterHotel(Request $request)
     {

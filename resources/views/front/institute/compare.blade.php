@@ -250,24 +250,6 @@
 								</div>
 							</div>
 						</div>
-						<!--END LISTING DETAILS: LEFT PART 9-->
-						<!--LISTING DETAILS: LEFT PART 10-->
-						{{--<div class="list-mig-like">
-							<div class="list-ri-spec-tit">
-								<h3><span>You might</span> like this</h3> </div>
-							@foreach($institutes as $randomInstitute)
-								<a href="/institute/{{$randomInstitute->id}}">
-									<div class="list-mig-like-com">
-										<div class="list-mig-lc-img"> <img src="/img/institutes/{{$randomInstitute->main_img}}" alt="" /><!-- <span class="home-list-pop-rat list-mi-pr">$720</span> --></div>
-										<div class="list-mig-lc-con">
-											<h5>{{$randomInstitute->name}}</h5>
-											<p>{{$randomInstitute->address}}</p>
-										</div>
-									</div>
-								</a>
-							@endforeach
-						</div>--}}
-						<!--END LISTING DETAILS: LEFT PART 10-->
 					</div>
 				</div>
 			</div>

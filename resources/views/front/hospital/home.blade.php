@@ -93,7 +93,7 @@
 			<div class="row">
 				<div class="dir-alp-con">
 					
-					<form action="{{url('/filter-hospitals')}}" method="POST">
+					<form action="{{url('/filter-hospitals')}}" method="GET">
 						@csrf
 					<div class="col-md-3 dir-alp-con-left">
 						<!--==========Sub Category Filter============-->
@@ -114,12 +114,12 @@
 							<div class="dir-alp-l-com1 dir-alp-p3">
 								<ul>
 									<li>
-										<input class="with-gap" name="IEEB" value="IEEB" type="radio" id="IEEB" />
-										<label for="IEEB">IEEB</label>
+										<input class="with-gap" name="ownership_type" value="Government" type="radio" id="government" />
+										<label for="government">Government</label>
 									</li>
 									<li>
-										<input class="with-gap" name="IEEB" value="Pharmacists" type="radio" id="Pharmacists" />
-										<label for="Pharmacists">Pharmacists</label>
+										<input class="with-gap" name="ownership_type" value="Private" type="radio" id="private" />
+										<label for="private">Private</label>
 									</li>
 								</ul>
 							</div>

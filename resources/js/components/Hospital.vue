@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="row mt-5 justify-content-center" v-if="$gate.isAdminOrAuthor()">
+        <div class="row mt-5 justify-content-center" v-if="$gate.isAdminOrAuthorOrEditor()">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
@@ -36,7 +36,7 @@
                                     <a href="javascript:void(0)" @click="editModal(hospital)">
                                         <i class="fa fa-edit blue"></i>
                                     </a>
-                                    <a href="javascript:void(0)" @click="deleted(hospital.id)">
+                                    <a href="javascript:void(0)" @click="deleted(hospital.id)" v-if="$gate.isAdminOrAuthor()">
                                         <i class="fa fa-trash red"></i>
                                     </a>
 
@@ -53,7 +53,7 @@
                 <!-- /.card -->
             </div>
         </div>
-        <div v-if="!$gate.isAdminOrAuthor()">
+        <div v-if="!$gate.isAdminOrAuthorOrEditor()">
             <not-found></not-found>
         </div>
         <!-- Modal -->
@@ -576,7 +576,7 @@
             },
             load(){
                 this.$Progress.start();
-                if(this.$gate.isAdminOrAuthor()){
+                if(this.$gate.isAdminOrAuthorOrEditor()){
                     axios.get("api/dashboard/hospital").then(({ data }) => (this.hospitals = data));
                 }
                 axios.get("api/hospital/departments").then(({ data }) => (this.departments = data));

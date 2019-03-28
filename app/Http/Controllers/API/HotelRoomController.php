@@ -24,7 +24,7 @@ class HotelRoomController extends Controller
      */
     public function index()
     {
-        if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
+        if (\Gate::allows('isAdminOrAuthorOrEditor')) {
             return RoomType::orderby('name','asc')->paginate(10);
         }
 

@@ -22,7 +22,7 @@ class DistrictController extends Controller
      */
     public function index()
     {
-        if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
+        if (\Gate::allows('isAdminOrAuthorOrEditor')) {
             return District::orderby('name','asc')->paginate(10);
         }
     }

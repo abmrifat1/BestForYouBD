@@ -25,7 +25,7 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
+        if (\Gate::allows('isAdminOrAuthorOrEditor')) {
             $departments = DB::table('departments')
             ->join('institute_types','institute_types.id','=','departments.institute_type_id')
             ->select('departments.*','institute_types.name as instituteTypeName')

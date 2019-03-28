@@ -26,7 +26,7 @@ class ForumController extends Controller
      */
     public function index()
     {
-        if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
+        if (\Gate::allows('isAdminOrAuthorOrEditor')) {
             //return Forum::latest()->paginate(10);
             return Forum::orderBy('isActive','Pending')->orderBy('created_at','ASC')->paginate(10);
         }

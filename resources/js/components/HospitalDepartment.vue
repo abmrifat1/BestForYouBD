@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="row mt-5 justify-content-center" v-if="$gate.isAdminOrAuthor()">
+        <div class="row mt-5 justify-content-center" v-if="$gate.isAdminOrAuthorOrEditor()">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
@@ -35,7 +35,7 @@
                                         <i class="fa fa-edit blue"></i>
                                     </a>
 
-                                    <a href="#" @click="deleted(department.id)">
+                                    <a href="#" @click="deleted(department.id)" v-if="$gate.isAdminOrAuthor()">
                                         <i class="fa fa-trash red"></i>
                                     </a>
 
@@ -52,7 +52,7 @@
                 <!-- /.card -->
             </div>
         </div>
-        <div v-if="!$gate.isAdminOrAuthor()">
+        <div v-if="!$gate.isAdminOrAuthorOrEditor()">
             <not-found></not-found>
         </div>
         <!-- Modal -->
@@ -149,7 +149,7 @@
             },
             load(){
                 this.$Progress.start();
-                if(this.$gate.isAdminOrAuthor()){
+                if(this.$gate.isAdminOrAuthorOrEditor()){
                     axios.get("api/dashboard-hospital-departments").then(({ data }) => (this.departments = data));
                 }
                 this.$Progress.finish();

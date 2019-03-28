@@ -66416,6 +66416,11 @@ var Gate = function () {
             return this.user.type === 'author';
         }
     }, {
+        key: 'isEditor',
+        value: function isEditor() {
+            return this.user.type === 'editor';
+        }
+    }, {
         key: 'isUser',
         value: function isUser() {
             return this.user.type === 'user';
@@ -66424,6 +66429,13 @@ var Gate = function () {
         key: 'isAdminOrAuthor',
         value: function isAdminOrAuthor() {
             if (this.user.type === 'admin' || this.user.type === 'author') {
+                return true;
+            }
+        }
+    }, {
+        key: 'isAdminOrAuthorOrEditor',
+        value: function isAdminOrAuthorOrEditor() {
+            if (this.user.type === 'admin' || this.user.type === 'author' || this.user.type === 'editor') {
                 return true;
             }
         }
@@ -72929,7 +72941,7 @@ var staticRenderFns = [
             _vm._v(" "),
             _c("div", { staticClass: "card-body" }, [
               _vm._v(
-                "\n                    I'm an example component.\n                "
+                "\n                    Welcome to the Best In BD Dashboard.\n                "
               )
             ])
           ])
@@ -73093,18 +73105,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -73112,12 +73112,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             users: {},
             form: new Form({
                 id: '',
-                name: '',
-                email: '',
-                email_verified_at: '',
-                type: '',
-                bio: '',
-                photo: ''
+                type: ''
             })
         };
     },
@@ -73153,7 +73148,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         loadUsers: function loadUsers() {
             var _this3 = this;
 
-            if (this.$gate.isAdminOrAuthor()) {
+            if (this.$gate.isAuthor()) {
                 axios.get("api/user").then(function (_ref) {
                     var data = _ref.data;
                     return _this3.users = data;
@@ -73228,7 +73223,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _vm.$gate.isAdminOrAuthor()
+    _vm.$gate.isAuthor()
       ? _c("div", { staticClass: "row mt-5 justify-content-center" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
@@ -73253,7 +73248,11 @@ var render = function() {
                             _vm._v(_vm._s(_vm._f("upText")(user.type)))
                           ]),
                           _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(user.email_verified_at))]),
+                          _c("td", [
+                            _vm._v(
+                              _vm._s(_vm._f("myDate")(user.email_verified_at))
+                            )
+                          ]),
                           _vm._v(" "),
                           _c("td", [
                             _vm._v(_vm._s(_vm._f("myDate")(user.created_at)))
@@ -73310,7 +73309,7 @@ var render = function() {
         ])
       : _vm._e(),
     _vm._v(" "),
-    !_vm.$gate.isAdminOrAuthor() ? _c("div", [_c("not-found")], 1) : _vm._e(),
+    !_vm.$gate.isAuthor() ? _c("div", [_c("not-found")], 1) : _vm._e(),
     _vm._v(" "),
     _c(
       "div",
@@ -73347,84 +73346,6 @@ var render = function() {
                 },
                 [
                   _c("div", { staticClass: "modal-body" }, [
-                    _c(
-                      "div",
-                      { staticClass: "form-group" },
-                      [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.form.name,
-                              expression: "form.name"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          class: { "is-invalid": _vm.form.errors.has("name") },
-                          attrs: {
-                            type: "text",
-                            name: "name",
-                            placeholder: "Name",
-                            required: ""
-                          },
-                          domProps: { value: _vm.form.name },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(_vm.form, "name", $event.target.value)
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("has-error", {
-                          attrs: { form: _vm.form, field: "name" }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "form-group" },
-                      [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.form.email,
-                              expression: "form.email"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          class: { "is-invalid": _vm.form.errors.has("email") },
-                          attrs: {
-                            type: "email",
-                            name: "email",
-                            placeholder: "Email Address",
-                            required: ""
-                          },
-                          domProps: { value: _vm.form.email },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(_vm.form, "email", $event.target.value)
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("has-error", {
-                          attrs: { form: _vm.form, field: "email" }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
                     _c(
                       "div",
                       { staticClass: "form-group" },
@@ -73476,6 +73397,10 @@ var render = function() {
                             _vm._v(" "),
                             _c("option", { attrs: { value: "editor" } }, [
                               _vm._v("Editor")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "user" } }, [
+                              _vm._v("Subscriber")
                             ])
                           ]
                         ),
@@ -74182,11 +74107,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            data: {},
             form: new Form({
                 id: '',
                 name: '',
@@ -74236,7 +74175,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 swal({
                     type: 'error',
                     title: 'Oops...',
-                    text: 'You are failed to update'
+                    text: 'Failed! Try Again'
                 });
             });
         },
@@ -74482,7 +74421,7 @@ var render = function() {
                             attrs: {
                               type: "password",
                               id: "password",
-                              placeholder: "Passport"
+                              placeholder: "New Password"
                             },
                             domProps: { value: _vm.form.password },
                             on: {
@@ -74514,7 +74453,7 @@ var render = function() {
                         "label",
                         {
                           staticClass: "col-sm-12 control-label",
-                          attrs: { for: "password" }
+                          attrs: { for: "password_confirmation" }
                         },
                         [_vm._v("Re Password")]
                       ),
@@ -74559,7 +74498,10 @@ var render = function() {
                           }),
                           _vm._v(" "),
                           _c("has-error", {
-                            attrs: { form: _vm.form, field: "password" }
+                            attrs: {
+                              form: _vm.form,
+                              field: "password_confirmation"
+                            }
                           })
                         ],
                         1
@@ -74601,7 +74543,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header p-2" }, [
       _c("ul", { staticClass: "nav nav-pills" }, [
-        _vm._v("\n                        <"),
         _c("li", { staticClass: "nav-item" }, [
           _c(
             "a",
@@ -75431,7 +75372,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             var _this13 = this;
 
             this.$Progress.start();
-            if (this.$gate.isAdminOrAuthor()) {
+            if (this.$gate.isAdminOrAuthorOrEditor()) {
                 axios.get("api/education").then(function (_ref9) {
                     var data = _ref9.data;
                     return _this13.institutes = data;
@@ -75518,7 +75459,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _vm.$gate.isAdminOrAuthor()
+    _vm.$gate.isAdminOrAuthorOrEditor()
       ? _c("div", { staticClass: "row mt-5 justify-content-center" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
@@ -75593,18 +75534,20 @@ var render = function() {
                               [_c("i", { staticClass: "fa fa-edit blue" })]
                             ),
                             _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                attrs: { href: "javascript:void(0)" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.deleted(institute.id)
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-trash red" })]
-                            )
+                            _vm.$gate.isAdminOrAuthor()
+                              ? _c(
+                                  "a",
+                                  {
+                                    attrs: { href: "javascript:void(0)" },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.deleted(institute.id)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-trash red" })]
+                                )
+                              : _vm._e()
                           ])
                         ])
                       })
@@ -75630,7 +75573,9 @@ var render = function() {
         ])
       : _vm._e(),
     _vm._v(" "),
-    !_vm.$gate.isAdminOrAuthor() ? _c("div", [_c("not-found")], 1) : _vm._e(),
+    !_vm.$gate.isAdminOrAuthorOrEditor()
+      ? _c("div", [_c("not-found")], 1)
+      : _vm._e(),
     _vm._v(" "),
     _c(
       "div",
@@ -78437,7 +78382,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this3 = this;
 
             this.$Progress.start();
-            if (this.$gate.isAdminOrAuthor()) {
+            if (this.$gate.isAdminOrAuthorOrEditor()) {
                 axios.get("api/admin-department").then(function (_ref) {
                     var data = _ref.data;
                     return _this3.departments = data;
@@ -78517,7 +78462,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _vm.$gate.isAdminOrAuthor()
+    _vm.$gate.isAdminOrAuthorOrEditor()
       ? _c("div", { staticClass: "row mt-5 justify-content-center" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
@@ -78576,18 +78521,20 @@ var render = function() {
                               [_c("i", { staticClass: "fa fa-edit blue" })]
                             ),
                             _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                attrs: { href: "#" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.deleted(department.id)
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-trash red" })]
-                            )
+                            _vm.$gate.isAdminOrAuthor()
+                              ? _c(
+                                  "a",
+                                  {
+                                    attrs: { href: "#" },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.deleted(department.id)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-trash red" })]
+                                )
+                              : _vm._e()
                           ])
                         ])
                       })
@@ -78613,7 +78560,9 @@ var render = function() {
         ])
       : _vm._e(),
     _vm._v(" "),
-    !_vm.$gate.isAdminOrAuthor() ? _c("div", [_c("not-found")], 1) : _vm._e(),
+    !_vm.$gate.isAdminOrAuthorOrEditor()
+      ? _c("div", [_c("not-found")], 1)
+      : _vm._e(),
     _vm._v(" "),
     _c(
       "div",
@@ -79622,7 +79571,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             var _this13 = this;
 
             this.$Progress.start();
-            if (this.$gate.isAdminOrAuthor()) {
+            if (this.$gate.isAdminOrAuthorOrEditor()) {
                 axios.get("api/dashboard/hospital").then(function (_ref7) {
                     var data = _ref7.data;
                     return _this13.hospitals = data;
@@ -79715,7 +79664,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _vm.$gate.isAdminOrAuthor()
+    _vm.$gate.isAdminOrAuthorOrEditor()
       ? _c("div", { staticClass: "row mt-5 justify-content-center" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
@@ -79790,18 +79739,20 @@ var render = function() {
                               [_c("i", { staticClass: "fa fa-edit blue" })]
                             ),
                             _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                attrs: { href: "javascript:void(0)" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.deleted(hospital.id)
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-trash red" })]
-                            )
+                            _vm.$gate.isAdminOrAuthor()
+                              ? _c(
+                                  "a",
+                                  {
+                                    attrs: { href: "javascript:void(0)" },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.deleted(hospital.id)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-trash red" })]
+                                )
+                              : _vm._e()
                           ])
                         ])
                       })
@@ -79827,7 +79778,9 @@ var render = function() {
         ])
       : _vm._e(),
     _vm._v(" "),
-    !_vm.$gate.isAdminOrAuthor() ? _c("div", [_c("not-found")], 1) : _vm._e(),
+    !_vm.$gate.isAdminOrAuthorOrEditor()
+      ? _c("div", [_c("not-found")], 1)
+      : _vm._e(),
     _vm._v(" "),
     _c(
       "div",
@@ -81771,7 +81724,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this3 = this;
 
             this.$Progress.start();
-            if (this.$gate.isAdminOrAuthor()) {
+            if (this.$gate.isAdminOrAuthorOrEditor()) {
                 axios.get("api/dashboard-hospital-departments").then(function (_ref) {
                     var data = _ref.data;
                     return _this3.departments = data;
@@ -81847,7 +81800,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _vm.$gate.isAdminOrAuthor()
+    _vm.$gate.isAdminOrAuthorOrEditor()
       ? _c("div", { staticClass: "row mt-5 justify-content-center" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
@@ -81906,18 +81859,20 @@ var render = function() {
                               [_c("i", { staticClass: "fa fa-edit blue" })]
                             ),
                             _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                attrs: { href: "#" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.deleted(department.id)
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-trash red" })]
-                            )
+                            _vm.$gate.isAdminOrAuthor()
+                              ? _c(
+                                  "a",
+                                  {
+                                    attrs: { href: "#" },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.deleted(department.id)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-trash red" })]
+                                )
+                              : _vm._e()
                           ])
                         ])
                       })
@@ -81943,7 +81898,9 @@ var render = function() {
         ])
       : _vm._e(),
     _vm._v(" "),
-    !_vm.$gate.isAdminOrAuthor() ? _c("div", [_c("not-found")], 1) : _vm._e(),
+    !_vm.$gate.isAdminOrAuthorOrEditor()
+      ? _c("div", [_c("not-found")], 1)
+      : _vm._e(),
     _vm._v(" "),
     _c(
       "div",
@@ -82990,7 +82947,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             var _this12 = this;
 
             this.$Progress.start();
-            if (this.$gate.isAdminOrAuthor()) {
+            if (this.$gate.isAdminOrAuthorOrEditor()) {
                 axios.get("api/dashboard/hotel").then(function (_ref5) {
                     var data = _ref5.data;
                     return _this12.hotels = data;
@@ -83083,7 +83040,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _vm.$gate.isAdminOrAuthor()
+    _vm.$gate.isAdminOrAuthorOrEditor()
       ? _c("div", { staticClass: "row mt-5 justify-content-center" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
@@ -83158,18 +83115,20 @@ var render = function() {
                               [_c("i", { staticClass: "fa fa-edit blue" })]
                             ),
                             _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                attrs: { href: "javascript:void(0)" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.deleted(hotel.id)
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-trash red" })]
-                            )
+                            _vm.$gate.isAdminOrAuthor()
+                              ? _c(
+                                  "a",
+                                  {
+                                    attrs: { href: "javascript:void(0)" },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.deleted(hotel.id)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-trash red" })]
+                                )
+                              : _vm._e()
                           ])
                         ])
                       })
@@ -83195,7 +83154,9 @@ var render = function() {
         ])
       : _vm._e(),
     _vm._v(" "),
-    !_vm.$gate.isAdminOrAuthor() ? _c("div", [_c("not-found")], 1) : _vm._e(),
+    !_vm.$gate.isAdminOrAuthorOrEditor()
+      ? _c("div", [_c("not-found")], 1)
+      : _vm._e(),
     _vm._v(" "),
     _c(
       "div",
@@ -86095,7 +86056,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             var _this9 = this;
 
             this.$Progress.start();
-            if (this.$gate.isAdminOrAuthor()) {
+            if (this.$gate.isAdminOrAuthorOrEditor()) {
                 axios.get("api/dashboard/tour-place").then(function (_ref7) {
                     var data = _ref7.data;
                     return _this9.tourPlaces = data;
@@ -86184,7 +86145,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _vm.$gate.isAdminOrAuthor()
+    _vm.$gate.isAdminOrAuthorOrEditor()
       ? _c("div", { staticClass: "row mt-5 justify-content-center" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
@@ -86241,18 +86202,20 @@ var render = function() {
                               [_c("i", { staticClass: "fa fa-edit blue" })]
                             ),
                             _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                attrs: { href: "javascript:void(0)" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.deleted(tourPlace.id)
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-trash red" })]
-                            )
+                            _vm.$gate.isAdminOrAuthor()
+                              ? _c(
+                                  "a",
+                                  {
+                                    attrs: { href: "javascript:void(0)" },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.deleted(tourPlace.id)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-trash red" })]
+                                )
+                              : _vm._e()
                           ])
                         ])
                       })
@@ -86278,7 +86241,9 @@ var render = function() {
         ])
       : _vm._e(),
     _vm._v(" "),
-    !_vm.$gate.isAdminOrAuthor() ? _c("div", [_c("not-found")], 1) : _vm._e(),
+    !_vm.$gate.isAdminOrAuthorOrEditor()
+      ? _c("div", [_c("not-found")], 1)
+      : _vm._e(),
     _vm._v(" "),
     _c(
       "div",
@@ -87565,7 +87530,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this3 = this;
 
             this.$Progress.start();
-            if (this.$gate.isAdminOrAuthor()) {
+            if (this.$gate.isAdminOrAuthorOrEditor()) {
                 axios.get("api/admin-subdistrict").then(function (_ref) {
                     var data = _ref.data;
                     return _this3.subDistricts = data;
@@ -87644,7 +87609,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _vm.$gate.isAdminOrAuthor()
+    _vm.$gate.isAdminOrAuthorOrEditor()
       ? _c("div", { staticClass: "row mt-5 justify-content-center" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
@@ -87700,18 +87665,20 @@ var render = function() {
                               [_c("i", { staticClass: "fa fa-edit blue" })]
                             ),
                             _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                attrs: { href: "javascript:void(0)" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.deleted(subDistrict.id)
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-trash red" })]
-                            )
+                            _vm.$gate.isAdminOrAuthor()
+                              ? _c(
+                                  "a",
+                                  {
+                                    attrs: { href: "javascript:void(0)" },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.deleted(subDistrict.id)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-trash red" })]
+                                )
+                              : _vm._e()
                           ])
                         ])
                       })
@@ -87737,7 +87704,9 @@ var render = function() {
         ])
       : _vm._e(),
     _vm._v(" "),
-    !_vm.$gate.isAdminOrAuthor() ? _c("div", [_c("not-found")], 1) : _vm._e(),
+    !_vm.$gate.isAdminOrAuthorOrEditor()
+      ? _c("div", [_c("not-found")], 1)
+      : _vm._e(),
     _vm._v(" "),
     _c(
       "div",
@@ -88219,7 +88188,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this3 = this;
 
             this.$Progress.start();
-            if (this.$gate.isAdminOrAuthor()) {
+            if (this.$gate.isAdminOrAuthorOrEditor()) {
                 axios.get("api/admin-district").then(function (_ref) {
                     var data = _ref.data;
                     return _this3.districts = data;
@@ -88294,7 +88263,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _vm.$gate.isAdminOrAuthor()
+    _vm.$gate.isAdminOrAuthorOrEditor()
       ? _c("div", { staticClass: "row mt-5 justify-content-center" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
@@ -88345,18 +88314,20 @@ var render = function() {
                               [_c("i", { staticClass: "fa fa-edit blue" })]
                             ),
                             _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                attrs: { href: "javascript:void(0)" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.deleted(district.id)
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-trash red" })]
-                            )
+                            _vm.$gate.isAdminOrAuthor()
+                              ? _c(
+                                  "a",
+                                  {
+                                    attrs: { href: "javascript:void(0)" },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.deleted(district.id)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-trash red" })]
+                                )
+                              : _vm._e()
                           ])
                         ])
                       })
@@ -88382,7 +88353,9 @@ var render = function() {
         ])
       : _vm._e(),
     _vm._v(" "),
-    !_vm.$gate.isAdminOrAuthor() ? _c("div", [_c("not-found")], 1) : _vm._e(),
+    !_vm.$gate.isAdminOrAuthorOrEditor()
+      ? _c("div", [_c("not-found")], 1)
+      : _vm._e(),
     _vm._v(" "),
     _c(
       "div",
@@ -88791,7 +88764,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this3 = this;
 
             this.$Progress.start();
-            if (this.$gate.isAdminOrAuthor()) {
+            if (this.$gate.isAdminOrAuthorOrEditor()) {
                 axios.get("api/dashboard-room").then(function (_ref) {
                     var data = _ref.data;
                     return _this3.rooms = data;
@@ -88867,7 +88840,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _vm.$gate.isAdminOrAuthor()
+    _vm.$gate.isAdminOrAuthorOrEditor()
       ? _c("div", { staticClass: "row mt-5 justify-content-center" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
@@ -88920,18 +88893,20 @@ var render = function() {
                               [_c("i", { staticClass: "fa fa-edit blue" })]
                             ),
                             _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                attrs: { href: "javascript:void(0)" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.deleted(room.id)
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-trash red" })]
-                            )
+                            _vm.$gate.isAdminOrAuthor()
+                              ? _c(
+                                  "a",
+                                  {
+                                    attrs: { href: "javascript:void(0)" },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.deleted(room.id)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-trash red" })]
+                                )
+                              : _vm._e()
                           ])
                         ])
                       })
@@ -88957,7 +88932,9 @@ var render = function() {
         ])
       : _vm._e(),
     _vm._v(" "),
-    !_vm.$gate.isAdminOrAuthor() ? _c("div", [_c("not-found")], 1) : _vm._e(),
+    !_vm.$gate.isAdminOrAuthorOrEditor()
+      ? _c("div", [_c("not-found")], 1)
+      : _vm._e(),
     _vm._v(" "),
     _c(
       "div",
@@ -89434,7 +89411,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this3 = this;
 
             this.$Progress.start();
-            if (this.$gate.isAdminOrAuthor()) {
+            if (this.$gate.isAdminOrAuthorOrEditor()) {
                 axios.get("api/discuss").then(function (_ref) {
                     var data = _ref.data;
                     return _this3.discuss = data;
@@ -89510,7 +89487,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _vm.$gate.isAdminOrAuthor()
+    _vm.$gate.isAdminOrAuthorOrEditor()
       ? _c("div", { staticClass: "row mt-5 justify-content-center" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
@@ -89551,38 +89528,20 @@ var render = function() {
                               [_c("i", { staticClass: "fa fa-edit blue" })]
                             ),
                             _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                attrs: { href: "javascript:void(0)" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.deletediscuss(discuss.id)
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-trash red" })]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                attrs: {
-                                  href: "javascript:void(0)",
-                                  title: "Send Email to Questioner"
-                                },
-                                on: {
-                                  click: function($event) {
-                                    _vm.deletediscuss(discuss.id)
-                                  }
-                                }
-                              },
-                              [
-                                _c("i", {
-                                  staticClass: "fa fa-arrow-right green"
-                                })
-                              ]
-                            )
+                            _vm.$gate.isAdminOrAuthor()
+                              ? _c(
+                                  "a",
+                                  {
+                                    attrs: { href: "javascript:void(0)" },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.deletediscuss(discuss.id)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-trash red" })]
+                                )
+                              : _vm._e()
                           ])
                         ])
                       })
@@ -89608,7 +89567,9 @@ var render = function() {
         ])
       : _vm._e(),
     _vm._v(" "),
-    !_vm.$gate.isAdminOrAuthor() ? _c("div", [_c("not-found")], 1) : _vm._e(),
+    !_vm.$gate.isAdminOrAuthorOrEditor()
+      ? _c("div", [_c("not-found")], 1)
+      : _vm._e(),
     _vm._v(" "),
     _c(
       "div",
@@ -90063,7 +90024,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this3 = this;
 
             this.$Progress.start();
-            if (this.$gate.isAdminOrAuthor()) {
+            if (this.$gate.isAdminOrAuthorOrEditor()) {
                 axios.get("api/category").then(function (_ref) {
                     var data = _ref.data;
                     return _this3.categories = data;
@@ -90141,7 +90102,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _vm.$gate.isAdminOrAuthor()
+    _vm.$gate.isAdminOrAuthorOrEditor()
       ? _c("div", { staticClass: "row mt-5 justify-content-center" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
@@ -90196,18 +90157,20 @@ var render = function() {
                               [_c("i", { staticClass: "fa fa-edit blue" })]
                             ),
                             _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                attrs: { href: "javascript:void(0)" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.deleteCategory(category.id)
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-trash red" })]
-                            )
+                            _vm.$gate.isAdminOrAuthor()
+                              ? _c(
+                                  "a",
+                                  {
+                                    attrs: { href: "javascript:void(0)" },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.deleteCategory(category.id)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-trash red" })]
+                                )
+                              : _vm._e()
                           ])
                         ])
                       })
@@ -90233,7 +90196,9 @@ var render = function() {
         ])
       : _vm._e(),
     _vm._v(" "),
-    !_vm.$gate.isAdminOrAuthor() ? _c("div", [_c("not-found")], 1) : _vm._e(),
+    !_vm.$gate.isAdminOrAuthorOrEditor()
+      ? _c("div", [_c("not-found")], 1)
+      : _vm._e(),
     _vm._v(" "),
     _c(
       "div",

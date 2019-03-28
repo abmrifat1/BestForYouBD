@@ -27,7 +27,7 @@ class HotelController extends Controller
      */
     public function index()
     {
-        if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
+        if (\Gate::allows('isAdminOrAuthorOrEditor')) {
             return Hotel::with('rooms')->orderBy('name','asc')->paginate(10);
         }
     }

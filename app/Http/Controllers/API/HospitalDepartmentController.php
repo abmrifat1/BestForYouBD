@@ -24,7 +24,7 @@ class HospitalDepartmentController extends Controller
      */
     public function index()
     {
-        if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
+        if (\Gate::allows('isAdminOrAuthorOrEditor')) {
             return HospitalDepartment::orderby('name','asc')->paginate(8);
         }
 

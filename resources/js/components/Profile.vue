@@ -62,7 +62,7 @@
                 <div class="card">
                     <div class="card-header p-2">
                         <ul class="nav nav-pills">
-                            <<li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Status</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Status</a></li>
                             <li class="nav-item"><a class="nav-link active show" href="#settings" data-toggle="tab">Settings</a></li>
                         </ul>
                     </div><!-- /.card-header -->
@@ -108,6 +108,21 @@
                                         </div>
                                     </div>
 
+                                    <!--<div class="form-group">
+                                        <label for="pre_password" class="col-sm-12 control-label">Previous Password (Leave empty if do not want to change)</label>
+
+                                        <div class="col-sm-12">
+                                            <input type="password"
+                                                   v-model="form.pre_password"
+                                                   class="form-control"
+                                                   id="password"
+                                                   placeholder="Prevous Passport"
+                                                   :class="{ 'is-invalid': form.errors.has('pre_password') }"
+                                            >
+                                            <span>Password must be 6 character</span>
+                                            <has-error :form="form" field="pre_password"></has-error>
+                                        </div>
+                                    </div>-->
                                     <div class="form-group">
                                         <label for="password" class="col-sm-12 control-label">Password (Leave empty if do not want to change)</label>
 
@@ -116,7 +131,7 @@
                                                    v-model="form.password"
                                                    class="form-control"
                                                    id="password"
-                                                   placeholder="Passport"
+                                                   placeholder="New Password"
                                                    :class="{ 'is-invalid': form.errors.has('password') }"
                                             >
                                             <span>Password must be 6 character</span>
@@ -124,7 +139,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="password" class="col-sm-12 control-label">Re Password</label>
+                                        <label for="password_confirmation" class="col-sm-12 control-label">Re Password</label>
 
                                         <div class="col-sm-12">
                                             <input type="password"
@@ -134,7 +149,7 @@
                                                    placeholder="Re-Passport"
                                                    :class="{ 'is-invalid': form.errors.has('password_confirmation') }"
                                             >
-                                            <has-error :form="form" field="password"></has-error>
+                                            <has-error :form="form" field="password_confirmation"></has-error>
                                         </div>
                                     </div>
                                     
@@ -163,7 +178,6 @@
     export default {
         data(){
             return {
-                data:{},
                 form: new Form({
                     id:'',
                     name : '',
@@ -209,7 +223,7 @@
                         swal({
                             type: 'error',
                             title: 'Oops...',
-                            text: 'You are failed to update',
+                            text: 'Failed! Try Again',
                         })
                     });
             },

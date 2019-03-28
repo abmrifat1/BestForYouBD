@@ -29,7 +29,7 @@ class TourPlaceController extends Controller
      */
     public function index()
     {
-        if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
+        if (\Gate::allows('isAdminOrAuthorOrEditor')) {
             $tourPlaces = DB::table('tour_places')
             ->join('sub_districts','sub_districts.id','=','tour_places.sub_district_id')
             ->join('districts','districts.id','=','sub_districts.district_id')

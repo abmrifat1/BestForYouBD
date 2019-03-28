@@ -26,8 +26,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
-            return User::latest()->paginate(10);
+        if (\Gate::allows('isAuthor')) {
+            return User::whereNotNull('email_verified_at')->latest()->paginate(10);
         }
 
     }
@@ -40,21 +40,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-           'name'=>'required|string|max:191',
-           'email'=>'required|string|max:191|email|unique:users',
-           'password'=>'min:6|max:32|required_with:password_confirmation|same:password_confirmation',
-           'password_confirmation' => 'min:6',
-        ]);
-        return User::create([
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'type' => $request['type'],
-            'bio' => $request['bio'],
-            'verified' => $request['verified'],
-            'photo' => $request['photo'],
-            'password' => Hash::make($request['password']),
-        ]);
+        
     }
 
     /**
@@ -71,18 +57,12 @@ class UserController extends Controller
     public function updateProfile(Request $request)
     {
         $user = auth('api')->user();
-
-
         $this->validate($request,[
             'name' => 'required|string|max:191',
-            'email' => 'required|string|email|max:191|unique:users,email,'.$user->id,
             'password' => 'sometimes|required|min:6|confirmed',
         ]);
 
-
         $currentPhoto = $user->photo;
-
-
         if($request->photo != $currentPhoto){
             $name = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
 
@@ -94,25 +74,14 @@ class UserController extends Controller
                 @unlink($userPhoto);
             }
         }
-        /*if ($request->photo && $request->photo !== $user->photo) {
-            $ext = (explode('/', (explode(';', $request->photo))[0]))[1];
-            $name = time().'.'.$ext;
-            // create photo
-            $directory = storage_path('app/public/profiles/');
-            Storage::makeDirectory('public/profiles');
-            Image::make($request->photo)->save($directory.$name);
-            // delete old photo
-            Storage::delete('public/profiles/'.$user->photo);
-            // save DB
-            $user->photo = $name;
-        }﻿*/
-
-
-        if(!empty($request->password)){
+        /*if(!empty($request->new_password) && !empty($request->pre_password)){
+            $pre_password = Hash::make($request['pre_password']);
+            if($pre_password === $user->password){
+                $request->merge(['password' => Hash::make($request['new_password'])]);
+            }
+        }*/
+        if(!empty('password'))
             $request->merge(['password' => Hash::make($request['password'])]);
-        }
-
-
         $user->update($request->all());
         return ['message' => "Success"];
     }
@@ -131,11 +100,6 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
-        $this->validate($request,[
-            'name'=>'required|string|max:191',
-            'email'=>'required|string|max:191|email|unique:users,email,'.$user->id,
-            'password'=>'sometimes|required|string|min:6|max:40|confirmed',
-        ]);
         $user->update($request->all());
         return ['update' => "User information updated"];
     }

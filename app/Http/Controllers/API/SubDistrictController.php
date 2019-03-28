@@ -26,7 +26,7 @@ class SubDistrictController extends Controller
      */
     public function index()
     {
-        if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')) {
+        if (\Gate::allows('isAdminOrAuthorOrEditor')) {
             return DB::table('sub_districts')
             ->join('districts','districts.id','=','sub_districts.district_id')
             ->orderby('districts.name','asc')

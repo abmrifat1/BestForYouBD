@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="row mt-5 justify-content-center" v-if="$gate.isAdminOrAuthor()">
+        <div class="row mt-5 justify-content-center" v-if="$gate.isAuthor()">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
@@ -26,7 +26,7 @@
                                 <td>{{user.name}}</td>
                                 <td>{{user.email}}</td>
                                 <td>{{user.type | upText}}</td>
-                                <td>{{user.email_verified_at}}</td>
+                                <td>{{user.email_verified_at | myDate}}</td>
                                 <td>{{user.created_at | myDate}}</td>
 
                                 <td>
@@ -51,7 +51,7 @@
                 <!-- /.card -->
             </div>
         </div>
-        <div v-if="!$gate.isAdminOrAuthor()">
+        <div v-if="!$gate.isAuthor()">
             <not-found></not-found>
         </div>
         <!-- Modal -->
@@ -67,23 +67,11 @@
                     <form @submit.prevent="updateUser()">
                         <div class="modal-body">
                             <div class="form-group">
-                                <input v-model="form.name" type="text" name="name"
-                                       placeholder="Name"
-                                       class="form-control" :class="{ 'is-invalid': form.errors.has('name') }" required>
-                                <has-error :form="form" field="name"></has-error>
-                            </div>
-
-                            <div class="form-group">
-                                <input v-model="form.email" type="email" name="email"
-                                       placeholder="Email Address"
-                                       class="form-control" :class="{ 'is-invalid': form.errors.has('email') }" required>
-                                <has-error :form="form" field="email"></has-error>
-                            </div>
-                            <div class="form-group">
                                 <select name="type" v-model="form.type" id="type" class="form-control" :class="{ 'is-invalid': form.errors.has('type') }" required>
                                     <option value="">Select User Role</option>
                                     <option value="admin">Admin</option>
                                     <option value="editor">Editor</option>
+                                    <option value="user">Subscriber</option>
                                 </select>
                                 <has-error :form="form" field="type"></has-error>
                             </div>
@@ -110,12 +98,7 @@
                 users: {},
                 form: new Form({
                     id:'',
-                    name : '',
-                    email: '',
-                    email_verified_at: '',
                     type: '',
-                    bio: '',
-                    photo: ''
                 })
             }
         },
@@ -149,7 +132,7 @@
                 });
             },
             loadUsers(){
-                if(this.$gate.isAdminOrAuthor()){
+                if(this.$gate.isAuthor()){
                     axios.get("api/user").then(({ data }) => (this.users = data));
                 }
             },

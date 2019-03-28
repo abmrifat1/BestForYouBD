@@ -40,8 +40,8 @@ Route::post('/search-tour-place','front\WebsiteController@searchTourPlace');
 //Route::post('/filter-tour-places','front\WebsiteController@filterTourPlace');
 Route::get('/tour-place-compare','front\WebsiteController@tourPlaceCompare');
 
-Auth::routes(['verify' => true]);
 Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
 Route::get('/discuss', 'Forum\ForumController@index')->name('forum');
@@ -50,5 +50,5 @@ Route::resource('discuss/post','Forum\ForumController');
 Route::get('/discuss/category-post/{id}', 'Forum\ForumController@category_posts');
 Route::post('/discuss/comment', 'Forum\ForumController@storeComment');
 Route::post('/search-question','Forum\ForumController@searchQuestion');
-Route::get('{path}',"HomeController@index")->where( 'path', '([A-z\d-\/_.]+)?' );
+Route::get('{path}',"HomeController@index")->where( 'path', '([A-z\d-\/_.]+)?' )->middleware('verified');
 

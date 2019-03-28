@@ -72940,9 +72940,9 @@ var staticRenderFns = [
             _c("div", { staticClass: "card-header" }, [_vm._v("Dashboard")]),
             _vm._v(" "),
             _c("div", { staticClass: "card-body" }, [
-              _vm._v(
-                "\n                    Welcome to the Best In BD Dashboard.\n                "
-              )
+              _c("img", {
+                attrs: { src: "/img/besdinbdhome.png", alt: "", width: "100%" }
+              })
             ])
           ])
         ])

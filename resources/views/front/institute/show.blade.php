@@ -92,13 +92,7 @@
 							<div class="pglist-p-com-ti">
 								<h3><span>About</span> {{$institute->name}}</h3> </div>
 							<div class="list-pg-inn-sp">
-								<div class="share-btn">
-									<ul>
-										<li><a href="#"><i class="fa fa-facebook fb1"></i> Share On Facebook</a> </li>
-										<li><a href="#"><i class="fa fa-twitter tw1"></i> Share On Twitter</a> </li>
-										<li><a href="#"><i class="fa fa-google-plus gp1"></i> Share On Google Plus</a> </li>
-									</ul>
-								</div>
+							
 								<p>{{$institute->description}}</p>
 							</div>
 						</div>

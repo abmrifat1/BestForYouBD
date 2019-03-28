@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 27, 2019 at 06:31 PM
+-- Generation Time: Mar 28, 2019 at 05:42 AM
 -- Server version: 10.1.24-MariaDB
 -- PHP Version: 7.1.6
 
@@ -832,7 +832,7 @@ CREATE TABLE `tour_places` (
 
 INSERT INTO `tour_places` (`id`, `name`, `user_id`, `sub_district_id`, `star`, `rating`, `main_img`, `gallery_img_1`, `gallery_img_2`, `website_url`, `address`, `description`, `district_id`, `restaurant`, `cafe`, `car_parking`, `views`, `bangladesh_ranking`, `deleted_at`, `isActive`, `created_at`, `updated_at`) VALUES
 (4, 'Cox\'s Bazar Beach', 1, 6, '4.8', NULL, '15532001323516.png', '15532001331583.jpeg', '15532001333362.jpeg', 'http://www.tourtobangladesh.com/Coxs-Bazar.php', 'Cox\'s Bazar', 'Cox\'s Bazar Beach, located at Cox\'s Bazar, Bangladesh, is the second longest unbroken sea beach in the world, after Brazil\'s Praia do Cassino beach, running 120 kilometres. It is the top tourist destination of Bangladesh.', 9, 'Yes', 'Yes', 'Yes', 7, 1, NULL, 'Active', '2019-03-21 14:03:25', '2019-03-27 08:53:10'),
-(5, 'Jaflong Sea Beach', 1, 3, '4.4', NULL, '15532287464176.jpeg', '15532287464964.jpeg', '15532287464515.jpeg', 'http://www.tourtobangladesh.com/Jaflong.php', 'Sylhet-Shillong (India) road', 'during monsoon. Big boulders and stones from the Khashi-jayantia hills fill the valley. The valley is ringed by tea garden and orange and grapefruit plantation. Some tribal lived there. They are Khashi , Monipuri Chakma.', 2, 'Yes', 'Yes', 'Yes', 0, 4, NULL, 'Active', '2019-03-21 22:25:46', '2019-03-27 08:57:23'),
+(5, 'Jaflong Sea Beach', 1, 3, '4.4', NULL, '15532287464176.jpeg', '15532287464964.jpeg', '15532287464515.jpeg', 'http://www.tourtobangladesh.com/Jaflong.php', 'Sylhet-Shillong (India) road', 'during monsoon. Big boulders and stones from the Khashi-jayantia hills fill the valley. The valley is ringed by tea garden and orange and grapefruit plantation. Some tribal lived there. They are Khashi , Monipuri Chakma.', 2, 'Yes', 'Yes', 'Yes', 2, 4, NULL, 'Active', '2019-03-21 22:25:46', '2019-03-27 08:57:23'),
 (6, 'Bhawal National Park', 1, 7, '4.7', NULL, '15532296364704.jpeg', '15532296362320.jpeg', '15532296362647.jpeg', 'http://www.tourtobangladesh.com/Bhawal-National.php', 'Porajendrapur Bus Stop, Dhaka - Mymensingh Hwy,', 'One of the most attractive picnic spot in Gazipur. This National Park covers an interesting tourist destination. There is a playground for sports stars. \n\n\n\nThere is also a zoo here. Sal is the original plant in Bhawal. Also in the park is full of various tree. Here are several picnic spots. Like: Anondo, Kanchon, Sonalu, Abakash, Aboshor, Binodon. \n\nThere are 13 cottages and 6 rest house here. Like: Bakul, Maloncho, madhabi, cameli, Belly, jasmine etc Park entry fee per person 6 money. \n\nThis spot is not allowed to spend the night here. To use the picnic spot, you have to take advance booking from the forest department in Mohakhali Office (02-8814700) In the park once we see tiger, leopard, meghabagha, elephants, peacocks and Sambar deer. Nearly 1,500,000 local and foreign tourists visited here.', 11, 'Yes', 'Yes', 'Yes', 0, 12, NULL, 'Active', '2019-03-21 22:40:36', '2019-03-27 08:52:34'),
 (7, 'Fantasy Kingdom', 1, 17, '4.9', NULL, '15532301751573.jpeg', '15532301754587.jpeg', '15532301764902.jpeg', 'https://www.fantasy-kingdom.net.bd/', 'Ashulia Highway, Jamgora, Savar Union 1345', 'Theme park with rides for all ages, water features & live entertainment plus dining & shopping.', 1, 'Yes', 'Yes', 'Yes', 1, 3, NULL, 'Active', '2019-03-21 22:49:36', '2019-03-27 08:57:04'),
 (8, 'Mukti Juddha Museum', 1, 20, '4.3', NULL, '15532307683631.jpeg', '15532307693343.jpeg', '15532307691299.jpeg', 'http://www.tourtobangladesh.com/mukti-juddha-museum.php', '5 Segun Bagicha', 'Mukti Juddha Museum contains rare collection photographs of Liberation war and items used by the freedom fighters during that time', 1, 'Yes', 'Yes', 'Yes', 2, 18, NULL, 'Active', '2019-03-21 22:59:29', '2019-03-27 08:57:13'),
@@ -873,8 +873,6 @@ CREATE TABLE `users` (
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `verified` char(6) COLLATE utf8mb4_unicode_ci DEFAULT 'No',
-  `verification_code` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'user',
   `bio` mediumtext COLLATE utf8mb4_unicode_ci,
@@ -888,15 +886,10 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `verified`, `verification_code`, `password`, `type`, `bio`, `photo`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Mahbubul Alam', 'mahbubul@gmail.com', NULL, 'Yes', NULL, '$2y$10$p0e.iKMbJVuGqyyZAF1O5ed9g4egk/Qr9tMrVOMQaJp.M8kCR/lT.', 'admin', 'I have two years of experience in Hotel listing', '1553199264.jpeg', 'jpzLNipCySyzVOyI6Ayz3V63IabB44bn7i65XqRvYDFNKJKJlA5uT55I1as4', '2018-10-17 05:30:41', '2019-03-21 14:14:24'),
-(12, 'Mahbubul Alam', 'mitul@gmail.com', NULL, 'Yes', NULL, '$2y$10$3D5n0KH36Or0kRG3o8kbFusFS0nywvg8HN4MMK/pzghL3GpUcGnay', 'author', NULL, 'profile.png', 'Xvfvc3MxjO7LZwdTLghhITHIcHqvujMma71TmWxbgeEOqu3V67DLMhvywvMv', '2018-11-04 02:03:23', '2019-03-24 04:13:33'),
-(17, 'Shakib Hasan', 'shakibhasan@gmail.com', NULL, 'No', NULL, '$2y$10$.D8iwG3N/l7hWLkkrHsMG.hgkUMxx/9Rw5a0AWKIT3W2LXVPA9816', 'user', NULL, 'profile.png', 'Gr17CnOlENHkALAYzYzl0XW4h4bkQHI1FuGAkeIrwXVVp2CqiSDybSZ8gN7n', '2019-03-24 02:21:16', '2019-03-24 03:24:44'),
-(21, 'Khaled Ahmed', 'khaledahmed@gmail.com', NULL, 'Yes', NULL, '$2y$10$OqBrMc4fhQsuRke.8Ng5ie4d60ivzbu3IV/5/GrH//r9NkKbOvc7S', 'admin', NULL, 'profile.png', NULL, '2019-03-24 04:14:58', '2019-03-24 04:14:58'),
-(22, 'Abdullah', 'abdullah@gmail.com', NULL, 'Yes', NULL, '$2y$10$T8nx8GS9FRtXLVNhLW.1a.l9Q9LDe9GjXYTiAkN4FrDRIkehaORjy', 'admin', NULL, 'profile.png', 'UJcQTr5iHvXRwDEDz04wnqKmHo72CnwsFhkfji3MCNIj9wEwfM3FQlDwpCd3', '2019-03-24 04:23:33', '2019-03-24 04:24:33'),
-(23, 'Mohaimin Hossain', 'hossainmohaimin@gmail.com', NULL, 'No', NULL, '$2y$10$4bJUZd7oJ9ZnsZDs14TSieeZsOl.FLaincNINFytdmuWsC.WUiCUe', 'user', NULL, 'profile.png', 'KuxwcXEEVYZc4oHL200SLt37hu4Yhxykh6otN62TSR7aoPiKq3vJc2VLIGgs', '2019-03-25 04:46:53', '2019-03-25 04:46:53'),
-(24, 'Mahbubul Alam', 'dearmahbubul@gmail.com', NULL, 'Yes', NULL, '$2y$10$kdo6pD7M..axB28tdwrC7.QyVFapG/XgyDgy2p4P/wOGmtCypOguu', 'author', NULL, 'profile', 'OE7ayG04BMEYtCgRRCVD8XScAMqZlqbXaZmAvmTRwS7tTQRgtExQcWSvkKEp', '2019-03-27 05:46:33', '2019-03-27 05:46:33'),
-(25, 'Razu Ahmed', 'razuahmed5794@gmail.com', NULL, 'Yes', NULL, '$2y$10$0T7TFrrAJ4THUyru39J7Qenz06NAgph7KIPBUGO7Ol4Q8rij.iXzi', 'admin', NULL, 'profile', NULL, '2019-03-27 06:13:56', '2019-03-27 06:13:56');
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `type`, `bio`, `photo`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'Mahbubul Alam', 'dearmahbubul@gmail.com', '2019-03-27 14:27:13', '$2y$10$ox1F8GxGHq3sYperR074suEVni8w8jxFLVguu80mplxJ/AjUEUzbe', 'author', 'I have two years of experience in Hotel listing', '1553199264.jpeg', 'peWPCkGXB2KcIhiUoypi1qINZPh7C7nRolxPMzawKqrCVlzI1breICyv3SAc', '2018-10-17 05:30:41', '2019-03-27 17:03:42'),
+(36, 'Mahbub', 'mahbubrahman5676@gmail.com', '2019-03-27 14:19:32', '$2y$10$DLnp03roXGPFM/V6Tn98qeOpMJueRlTSqXy.Ahr2A5cGq3cZ7NDjK', 'editor', NULL, 'profile.png', 'bzS93L3FHazknPY21rOcLWOQ1U21wULgKhGrXqXfQL4ntvRlTZmdv4yyk8ku', '2019-03-27 14:09:21', '2019-03-27 17:05:11'),
+(37, 'Shakb Hasan', 'shakibhasan6113@gmail.com', NULL, '$2y$10$KRi93ctC3vsvGo3fK8IDrulqCAmGfKIIy67yGtBcLAGcy/IZqSyLm', 'user', NULL, 'profile.png', 'RCQrQ2oy5BgdL1aqIvLilcdtUw9c5Iu9NT3PKUuMOimOrDBnZAS1XM3EUkRG', '2019-03-27 17:08:24', '2019-03-27 17:08:24');
 
 --
 -- Indexes for dumped tables
@@ -1162,7 +1155,7 @@ ALTER TABLE `tour_places`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 --
 -- Constraints for dumped tables
 --

@@ -104,6 +104,9 @@
 									<option value="{{$department->id}}" id="ld{{$department->id}}">{{$department->name}}</option>
 								@endforeach
 							</select>
+							@if(Session::has('message'))
+								<p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
+							@endif
 						</div>
 						
 						<!--==========End Sub Category Filter============-->
@@ -121,6 +124,27 @@
 										<label for="Pharmacists">Pharmacists</label>
 									</li>
 								</ul>
+							</div>
+							@if(Session::has('message'))
+								<p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
+							@endif
+						</div>
+						<div class="dir-alp-l3 dir-alp-l-com" style="margin-top:10px;">
+							<h4>Ownership Type</h4>
+							<div class="dir-alp-l-com1 dir-alp-p3">
+								<ul>
+									<li>
+										<input class="with-gap" name="ownership_type" value="Public" type="radio" id="government" />
+										<label for="government">Public</label>
+									</li>
+									<li>
+										<input class="with-gap" name="ownership_type" value="Private" type="radio" id="private" />
+										<label for="private">Private</label>
+									</li>
+								</ul>
+								@if(Session::has('message'))
+									<p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
+								@endif
 							</div>
 						</div>
 						<div class="form-control">
@@ -166,7 +190,8 @@
 												</ul>
 											</div>
 											<div class="list-enqu-btn" align="right">
-												@if(!empty(session('error')))<span style="color:red"> {{ session('error') }} </span>@endif
+												@if(!empty(session('error')))<span class="alert-info" style="color:red"> {{ session('error') }} </span>
+												@else	<span style="color:green"> Compare </span>@endif
 												<input type="checkbox" name="id[]" class="filled-in" value="{{ $institute->id }}" id="filled-{{ $institute->id }}"/>
 												<label for="filled-{{ $institute->id }}"></label>
 												

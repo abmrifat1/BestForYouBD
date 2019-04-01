@@ -32,7 +32,13 @@
 						</div>
 					</div>
 					<div class="col-md-6 col-sm-6">
-						
+						<div class="dir-ho-tr">
+							<ul>
+								<li><a href="/register">Add Listing</a> </li>
+								<li><a href="/login">Sign In</a> </li>
+								<li><a href="/discuss" target="_blank">Discuss Forum <i class="fa fa-arrow-right" aria-hidden="true"></i></a> </li>
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>

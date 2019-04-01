@@ -103,6 +103,9 @@
 									<option value="{{$room->id}}" id="ld{{$room->id}}">{{$room->name}}</option>
 								@endforeach
 							</select>
+							@if(Session::has('message'))
+								<p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
+							@endif
 						</div>
 						
 						{{--<!--==========End Sub Category Filter============-->
@@ -151,6 +154,9 @@
 										</label>
 									</li>
 								</ul>
+								@if(Session::has('message'))
+									<p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
+								@endif
 							</div>
 						</div>
 						<div class="form-control">
@@ -180,7 +186,8 @@
 												</ul>
 											</div>
 											<div class="list-enqu-btn" align="right">
-													@if(!empty(session('error')))<span style="color:red"> {{ session('error') }} </span>@endif
+													@if(!empty(session('error')))<span class="alert-info" style="color:red"> {{ session('error') }} </span>
+													@else	<span style="color:green"> Compare </span>@endif
 												<input type="checkbox" name="id[]" class="filled-in" value="{{ $hotel->id }}" id="filled-{{ $hotel->id }}"/>
 												<label for="filled-{{ $hotel->id }}"></label>
 												

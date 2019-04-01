@@ -104,7 +104,9 @@
 									<option value="{{$department->id}}" id="ld{{$department->id}}">{{$department->name}}</option>
 								@endforeach
 							</select>
-							<span style="color:crimson">@php(if($selectError != '') echo $selectError) @endphp</span>
+							@if(Session::has('message'))
+								<p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
+							@endif
 						</div>
 						
 						<!--==========End Sub Category Filter============-->
@@ -122,7 +124,9 @@
 										<label for="private">Private</label>
 									</li>
 								</ul>
-								<span style="color:crimson">@php(if($selectError != '') echo $selectError) @endphp</span>
+								@if(Session::has('message'))
+									<p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
+								@endif
 							</div>
 						</div>
 						<div class="form-control">
@@ -169,7 +173,8 @@
 												</ul>
 											</div>
 											<div class="list-enqu-btn" align="right">
-												@if(!empty(session('error')))<span style="color:red"> {{ session('error') }} </span>@endif
+												@if(!empty(session('error')))<span class="alert-info" style="color:red"> {{ session('error') }} </span>
+												@else	<span style="color:green"> Compare </span>@endif
 												<input type="checkbox" name="id[]" class="filled-in" value="{{ $hospital->id }}" id="filled-{{ $hospital->id }}"/>
 												<label for="filled-{{ $hospital->id }}"></label>
 												

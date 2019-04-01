@@ -12,6 +12,7 @@ use App\Department;
 use App\HospitalDepartment;
 use App\InstituteDepartments;
 use DB;
+use Session;
 use Illuminate\Http\Request;
 use IlluminateSupportFacadesInput;
 use App\Http\Controllers\Controller;
@@ -160,18 +161,18 @@ class WebsiteController extends Controller
     }
     public function instituteCompare(Request $request)
     {
-        if(count($request->id) > 1){
+        if($request->id != '' && count($request->id) > 1){
 
             $institutes = Institute::with('institute_departments')->whereIn('institutes.id',$request->id)->orderBy('bangladesh_ranking','asc')->orderBy('world_ranking','asc')->orderBy('total_phd_teacher','desc')->get();
             $departments = Department::select('id','name as departmentName')->get();
             return view('front.institute.compare',['institutes'=>$institutes,'departments'=>$departments]);
         }else{
-            return redirect()->back()->with('error','Please select at lease 2 institutes');
+            return redirect()->back()->with('error','Please select at least 2 institutes');
         }
     }
     public function tourPlaceCompare(Request $request)
     {
-        if(count($request->id) > 1){
+        if($request->id != '' && count($request->id) > 1){
 
             $tour_places = TourPlace::with('hotels')->whereIn('tour_places.id',$request->id)
             ->leftJoin('districts','districts.id','=','tour_places.district_id')
@@ -181,12 +182,12 @@ class WebsiteController extends Controller
             ->get();
             return view('front.tourPlace.compare',['tour_places'=>$tour_places]);
         }else{
-            return redirect()->back()->with('error','Please select at lease 2 Tour Places');
+            return redirect()->back()->with('error','Please select at least 2 Tour Places');
         }
     }
     public function hospitalCompare(Request $request)
     {
-        if(count($request->id) > 1){
+        if($request->id != '' && count($request->id) > 1){
 
             $hospitals = Hospital::with('hotels')->with('hospital_departments')->whereIn('hospitals.id',$request->id)
             ->leftJoin('districts','districts.id','=','hospitals.district_id')
@@ -196,42 +197,60 @@ class WebsiteController extends Controller
             $departments = HospitalDepartment::select('id','name as departmentName')->get();
             return view('front.hospital.compare',['hospitals'=>$hospitals,'departments'=>$departments]);
         }else{
-            return redirect()->back()->with('error','Please select at lease 2 hospitals');
+            return redirect()->back()->with('error','Please select at least 2 hospitals');
         }
     }
     public function hotelCompare(Request $request)
     {
-        if(count($request->id) > 1){
+        if($request->id != '' && count($request->id) > 1){
 
             $hotels = Hotel::with('hotel_rooms')->whereIn('hotels.id',$request->id)->orderBy('bangladesh_ranking','asc')->get();
             $rooms = RoomType::select('id','name as RoomName')->get();
             return view('front.hotel.compare',['hotels'=>$hotels,'rooms'=>$rooms]);
         }else{
             //return redirect('/hotels')->with('error','Please select at lease 2 hotels');
-            return redirect()->back()->with('error','Please select at lease 2 hotels');
+            return redirect()->back()->with('error','Please select at least 2 hotels');
         }
     }
     public function filterInstitute(Request $request)
     {
         $departments = Department::where('isActive','Active')->get();
-        if(!empty($request->department_id) && empty($request->IEEB)){
+        if(!empty($request->department_id) && empty($request->IEEB)  && empty($request->ownership_type)){
             $institutes = DB::table('institutes')
             ->join('institute_departments','institute_departments.institute_id','=','institutes.id')
             ->where('institute_departments.department_id',$request->department_id)->paginate(20);
         }
             
-        elseif(empty($request->department_id) && !empty($request->IEEB)){
+        elseif(empty($request->department_id) && !empty($request->IEEB) && empty($request->ownership_type)){
             $institutes = DB::table('institutes')
             ->join('institute_departments','institute_departments.institute_id','=','institutes.id')
             ->where('institute_departments.IEEB',$request->IEEB)->paginate(20);
         }
-        elseif(!empty($request->department_id) && !empty($request->IEEB)){
+        elseif(empty($request->department_id) && empty($request->IEEB) && !empty($request->ownership_type)){
+            $institutes = DB::table('institutes')->where('ownership_type',$request->ownership_type)->paginate(20);
+        }
+        elseif(!empty($request->department_id) && !empty($request->IEEB) && empty($request->ownership_type)){
             $institutes = DB::table('institutes')
             ->join('institute_departments','institute_departments.institute_id','=','institutes.id')
             ->where('institute_departments.department_id',$request->department_id)
             ->where('institute_departments.IEEB',$request->IEEB)->paginate(20);
+        }
+        elseif(!empty($request->department_id) && empty($request->IEEB) && !empty($request->ownership_type)){
+            $institutes = DB::table('institutes')
+            ->join('institute_departments','institute_departments.institute_id','=','institutes.id')
+            ->where('institute_departments.IEEB',$request->IEEB)
+            ->where('institutes.ownership_type',$request->ownership_type)->paginate(20);
+        }
+        elseif(!empty($request->department_id) && !empty($request->IEEB) && !empty($request->ownership_type)){
+            $institutes = DB::table('institutes')
+            ->join('institute_departments','institute_departments.institute_id','=','institutes.id')
+            ->where('institute_departments.department_id',$request->department_id)
+            ->where('institute_departments.IEEB',$request->IEEB)
+            ->where('institutes.ownership_type',$request->ownership_type)->paginate(20);
         }else{
-            return redirect()->back()->with('selectError','Please Select at least one item');
+            Session::flash('message', 'Please select at least one item!'); 
+            Session::flash('alert-class', 'alert-danger'); 
+            return redirect()->back();
         }
         return view('front.institute.home',['institutes'=>$institutes,'departments'=>$departments])->with('message','Sorry! We have not uploaded data that you are looking for');
     }
@@ -255,7 +274,9 @@ class WebsiteController extends Controller
             ->where('hospital_department_relations.hospital_department_id',$request->department_id)
             ->where('hospitals.ownership_type',$request->ownership_type)->where('hospitals.isActive','Active')->paginate(20);
         }else{
-            return redirect()->back()->with('selectError','Please Select at least one item');
+            Session::flash('message', 'Please select at least one item!'); 
+            Session::flash('alert-class', 'alert-danger'); 
+            return redirect()->back();
         }
         return view('front.hospital.home',['hospitals'=>$hospitals,'departments'=>$departments])->with('message','Sorry! We have not uploaded data that you are looking for');
     }
@@ -278,7 +299,9 @@ class WebsiteController extends Controller
             ->whereIn('hotel_rooms.room_type_id',$request->room_type_id)
             ->whereIn('hotels.star',$request->star)->paginate(12);
         }else{
-            return redirect()->back()->with('selectError','Please Select at least one item');
+            Session::flash('message', 'Please select at least one item!'); 
+            Session::flash('alert-class', 'alert-danger');
+            return redirect()->back();
         }
         return view('front.hotel.home',['hotels'=>$hotels,'rooms'=>$rooms])->with('message','Sorry! We have not uploaded data that you are looking for');
     }

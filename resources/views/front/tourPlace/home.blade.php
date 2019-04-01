@@ -110,7 +110,8 @@
 												{{\Illuminate\Support\Str::words($tourPlace->description, $words = 50, $end = '...')}}
 											</div>
 											<div class="list-enqu-btn" align="right">
-												@if(!empty(session('error')))<span style="color:red"> {{ session('error') }} </span>@endif
+												@if(!empty(session('error')))<span class="alert-info" style="color:red"> {{ session('error') }} </span>
+												@else	<span style="color:green"> Compare </span>@endif
 												<input type="checkbox" name="id[]" class="filled-in" value="{{ $tourPlace->id }}" id="filled-{{ $tourPlace->id }}"/>
 												<label for="filled-{{ $tourPlace->id }}"></label>
 												

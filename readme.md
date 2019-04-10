@@ -9,3 +9,8 @@ Languages:
 
 Whole website designed using Vue.js that looks like a One page single website, very fast, secure and authenticated. 
 We used relational database, complex query, and much more new features.
+
+Visit Website <a href="http://bestinbd.info">Best In BD</a> <br/>
+To Access admin panel: <a href="http://bestinbd.info/login">Login</a><br/>
+email: mahbubulalam973@gmail.com
+password: 123456
